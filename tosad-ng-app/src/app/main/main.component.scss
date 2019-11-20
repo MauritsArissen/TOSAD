@@ -1,0 +1,16 @@
+.modal {
+    display: block;
+
+    .modal-dialog {
+        max-width: 750px;
+        margin: 0 auto;
+
+        .modal-content {
+            margin: 0 10px;
+            border: none;
+            -webkit-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.21);
+            -moz-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.21);
+            box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.21);
+        }
+    }
+}
