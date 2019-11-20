@@ -1,0 +1,40 @@
+@import '~hamburgers/_sass/hamburgers/hamburgers.scss';
+
+.hamburger {
+    padding: 0;
+    padding-top: 10px;
+
+    .hamburger-inner,
+    .hamburger-inner::before,
+    .hamburger-inner::after {
+        background-color: white !important;
+    }
+}
+
+.navbar-brand {
+    color: white;
+}
+
+.nav-pills {
+    .nav-link {
+        color: white;
+    }
+    .nav-link:hover,
+    .nav-link:focus {
+        color: #cfcfcf;
+    }
+    .nav-link.active {
+        color: black;
+        background-color: white;
+    }
+}
+
+@media only screen and (min-width: 992px)  {
+    .hamburger {
+        display: none;
+    }
+    
+    .navbar-expand-lg .navbar-collapse {
+        display: block !important;
+    }
+}

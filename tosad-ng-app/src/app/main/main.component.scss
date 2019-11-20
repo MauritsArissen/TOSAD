@@ -1,8 +1,9 @@
 .modal {
     display: block;
+    z-index: -1;
 
     .modal-dialog {
-        max-width: 750px;
+        max-width: 950px;
         margin: 0 auto;
 
         .modal-content {
