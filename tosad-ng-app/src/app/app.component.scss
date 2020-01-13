@@ -1,0 +1,21 @@
+.tool {
+    height: 30px;
+    overflow: hidden;
+}
+
+.col-md-2 {
+    padding: 0;
+    height: 100%;
+}
+
+.col-md-10 {
+    padding: 0;
+    height: 100%;
+}
+
+.row {
+    height: calc(100% - 30px);
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
