@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, ipcMain } = require('electron')
 
 let win
 
@@ -8,10 +8,13 @@ function createWindow () {
     height: 600,
     webPreferences: {
       nodeIntegration: true
-    }
+    },
+    frame: false
   })
 
-  win.loadFile('index.html')
+  win.maximize()
+
+  win.loadFile('release/index.html')
 
   win.on('closed', () => {
     win = null
@@ -30,4 +33,12 @@ app.on('activate', () => {
   if (win === null) {
     createWindow()
   }
+})
+
+ipcMain.on('close-app', (event, arg) => {
+  app.quit()
+})
+
+ipcMain.on('min-app', (event, arg) => {
+  win.minimize()
 })
