@@ -16,6 +16,38 @@
         }
     }
 
+    .middle {
+        width: 75%;
+        text-align: center;
+        display: inline-block;
+        height: 30px;
+        margin: 0;
+        padding: 0;
+
+        a {
+            height: 100%;
+            border-radius: 5px;
+            width: 90px;
+            padding: 6px;
+            display: inline-block;
+            text-decoration: none;
+            color: rgb(226, 225, 225);
+            transition: 0.2s;
+
+            &:hover {
+                background-color: rgb(56, 56, 56);
+            }
+        }
+
+        .active {
+            background-color: rgb(46, 46, 46);
+
+            &:hover {
+                background-color: rgb(107, 107, 107);
+            }
+        }
+    }
+
     .right {
         float: right;
     
