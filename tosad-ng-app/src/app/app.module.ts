@@ -6,12 +6,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { MainComponent } from './main/main.component';
+import { ManageComponent } from './manage/manage.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ToolbarComponent,
-    MainComponent
+    MainComponent,
+    ManageComponent
   ],
   imports: [
     BrowserModule,
