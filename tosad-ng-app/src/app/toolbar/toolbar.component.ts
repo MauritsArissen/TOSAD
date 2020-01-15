@@ -12,6 +12,7 @@ export class ToolbarComponent implements OnInit {
 
   private ipc_info: string;
   private remote_info: string;
+  public define: boolean = true;
 
   constructor(zone: NgZone) {}
 
@@ -24,6 +25,10 @@ export class ToolbarComponent implements OnInit {
 
   quitApp() {
     ipcRenderer.send("close-app")
+  }
+
+  setDefine(bool: boolean) {
+    this.define = bool;
   }
 
 }
