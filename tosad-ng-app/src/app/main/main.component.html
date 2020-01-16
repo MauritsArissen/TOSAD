@@ -1,3 +1,59 @@
 <div class="container">
     <h1>Define</h1>
+    <div class="row">
+        <div class="input-field col s6">
+            <select [(ngModel)]="table" (change)='tableChange()'>
+                <option *ngFor="let table of tables" [value]="table">{{table}}</option>
+            </select>
+            <label>Table</label>
+        </div>
+        <div class="input-field col s6">
+            <select [(ngModel)]="attribute">
+                <option *ngIf="attributes.length == 0" value="none" disabled selected>Choose your table first</option>
+                <option *ngFor="let attribute of attributes" [value]="attribute">{{attribute}}</option>
+            </select>
+            <label>Atribute</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="input-field col s12">
+            <select [(ngModel)]="category" (change)='categoryChange()'>
+                <option *ngFor="let category of categories" [value]="category">{{category}}</option>
+            </select>
+            <label>category</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="input-field col s6">
+            <select [(ngModel)]="ruletype" (change)='businessRuleTypeChange()'>
+                <option *ngIf="businessRuleTypes.length == 0" value="none" disabled selected>Select a category first</option>
+                <option *ngFor="let ruletype of businessRuleTypes" [value]="ruletype">{{ruletype}}</option>
+            </select>
+            <label>BusinessRuleType</label>
+        </div>
+        <div class="input-field col s6">
+            <select [(ngModel)]="operator">
+                <option *ngIf="operators.length == 0" value="none" disabled selected>Select a business rule type first</option>
+                <option *ngFor="let operator of operators" [value]="operator">{{operator}}</option>
+            </select>
+            <label>Operator</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="input-field col s6">
+            <input id="firstParam" type="number" class="validate" [(ngModel)]="firstParam">
+            <label for="firstParam">Minimum value</label>
+        </div>
+        <div class="input-field col s6">
+            <input id="secondParam" type="number" class="validate" [(ngModel)]="secondParam">
+            <label for="secondParam">Maximum value</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="input-field col s6">
+            <input id="failureMessageText" type="text" class="validate" [(ngModel)]="failureMessageText">
+            <label for="failureMessageText">Failure message</label>
+        </div>
+    </div>
+    <h4 *ngFor="let attribute of attributes">{{attribute}}</h4>
 </div>
