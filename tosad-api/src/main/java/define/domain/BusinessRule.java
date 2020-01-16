@@ -3,11 +3,22 @@ package define.domain;
 import java.util.ArrayList;
 
 public class BusinessRule {
-    private String name;
-    private Trigger trigger;
-    private ArrayList<Parameter> parameters;
-    private BusinessruleType businessruletype;
-    private Table table;
+    private final String name;
+    private final BusinessruleType businessruletype;
+    private final Operator operator;
+    private final Trigger trigger;
+    private final ArrayList<Parameter> parameters;
+    private final Table table;
 
-    public BusinessRule() {}
+
+    public BusinessRule(String name, BusinessruleType businessruleType,
+                        Operator operator, Trigger trigger,
+                        ArrayList<Parameter> parameters, Table table) {
+        this.name = name;
+        this.businessruletype = businessruleType;
+        this.operator = operator;
+        this.trigger = trigger;
+        this.parameters = parameters;
+        this.table = table;
+    }
 }
