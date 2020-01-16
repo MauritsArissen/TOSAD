@@ -1,5 +1,16 @@
 package define.persistence;
 
-public class TargetDatabaseDao implements TargetDao {
+import java.sql.Connection;
 
+public class TargetDatabaseDao extends OracleBaseDao implements TargetDao {
+
+    @Override
+    public Connection getConnection() {
+        return null;
+    }
+
+    @Override
+    public void closeConnection() {
+
+    }
 }
