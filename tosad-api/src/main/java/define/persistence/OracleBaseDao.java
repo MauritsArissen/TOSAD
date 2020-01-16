@@ -6,9 +6,9 @@ import java.sql.Statement;
 
 public class OracleBaseDao implements BaseDao {
 
-    private String url = "jdbc:oracle:thin:@localhost:1521:xe";
-    private String user = "REDOUANOV";
-    private String pass = "Utrecht030";
+    private String url =  "jdbc:oracle:thin:@//ondora04.hu.nl:1521/EDUC11";
+    private String user = "cursist";
+    private String pass = "cursist8101";
     protected Connection myConn;
     protected Statement myStmt;
 
