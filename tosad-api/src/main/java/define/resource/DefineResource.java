@@ -1,7 +1,5 @@
 package define.resource;
 
-import com.sun.research.ws.wadl.Response;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -11,12 +9,13 @@ public class DefineResource {
 
     @GET
     @Produces("application/json")
-    public Response getBasicInfo() {
-
-
-
+    public String getBasicInfo() {
+        try {
+            String output = "Hello world!";
+            return output;
+        } catch (Exception e) {
+            return null;
+        }
     }
-
-
 
 }
