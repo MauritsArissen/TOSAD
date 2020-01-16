@@ -10,10 +10,13 @@ public class DefineResource {
     @GET
     @Produces("application/json")
     public String getBasicInfo() {
+        System.out.println("test");
         try {
             String output = "Hello world!";
+            System.out.println(output);
             return output;
         } catch (Exception e) {
+            System.out.println("test2");
             return null;
         }
     }
