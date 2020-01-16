@@ -7,7 +7,17 @@ public class BusinessRuleType {
     private String name;
     private String description;
     private Operator selectedOperator;
-    private ArrayList<Operator> operators;
+    private ArrayList<Operator> operators = new ArrayList<Operator>();
+
+    public BusinessRuleType(String code, String name, String description) {
+        this.code = code;
+        this.name = name;
+        this.description = description;
+    }
+    
+    public ArrayList<Operator> getAllOperators() {
+    	return operators;
+    }
 
     public BusinessRuleType() {}
 
@@ -17,6 +27,10 @@ public class BusinessRuleType {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCode() {
+        return code;
     }
 
     public void setDescription(String description) {
@@ -29,9 +43,7 @@ public class BusinessRuleType {
 
     public Operator getSelectedOperator() { return selectedOperator; }
 
-    public void setOperators(ArrayList<String> names) {
-        for(String name : names) {
-            operators.add(new Operator(name));
-        }
+    public void setOperator(Operator operator) {
+        operators.add(operator);
     }
 }

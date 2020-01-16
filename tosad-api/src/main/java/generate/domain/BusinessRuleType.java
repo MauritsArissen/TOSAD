@@ -1,5 +1,7 @@
 package generate.domain;
 
+import generate.domain.Operator;
+
 import java.util.ArrayList;
 
 public class BusinessRuleType {
@@ -10,4 +12,5 @@ public class BusinessRuleType {
     private ArrayList<Operator> operators;
 
     public BusinessRuleType() {}
+
 }

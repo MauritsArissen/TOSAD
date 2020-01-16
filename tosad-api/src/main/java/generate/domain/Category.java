@@ -7,4 +7,8 @@ public class Category {
     private ArrayList<BusinessRuleType> businessruletypes;
 
     public Category() {}
+
+    public Category(String name) {
+        this.name = name;
+    }
 }
