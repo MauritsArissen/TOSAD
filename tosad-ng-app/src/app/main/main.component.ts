@@ -19,6 +19,7 @@ export class MainComponent implements OnInit, AfterViewInit {
   operator: string = "";
   firstParam: number;
   secondParam: number;
+  failureMessageText: string = "";
 
   /////////////////////////////////////////// EXAMPLE DATA
   data = {
@@ -54,6 +55,22 @@ export class MainComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.refresh()
+  }
+
+  sendDefine() {
+    let sendData = {
+      "table": this.table,
+      "attribute": this.attribute,
+      "category": this.category,
+      "ruletype": this.ruletype,
+      "operator": this.operator,
+      "firstParam": this.firstParam,
+      "secondParam": this.secondParam,
+      "failureMessage": this.failureMessageText
+    }
+    this._http.postRequest("http://localhost:8080/tosad-api/restservices/define/savedefined", sendData, null).subscribe(data => {
+      console.log(data);
+    })
   }
 
   tableChange() {
