@@ -12,6 +12,14 @@ public class BusinessRuleBuilder implements Builder {
     private ArrayList<Parameter> parameters;
     private Table table;
 
+    public BusinessRuleBuilder() {
+    }
+
+    @Override
+    public void reset() {
+        this.reset();
+    }
+
     @Override
     public void setName(String name) {
         this.name = name;
@@ -43,7 +51,8 @@ public class BusinessRuleBuilder implements Builder {
     }
 
     public BusinessRule build() {
-        return new BusinessRule(name, businessRuleType, operator,
-                trigger, parameters, table);
+        BusinessRule br = new BusinessRule(name, businessRuleType, operator, trigger, parameters, table);
+        this.reset();
+        return br;
     }
 }

@@ -5,6 +5,7 @@ import define.domain.*;
 import java.util.ArrayList;
 
 public interface Builder {
+    void reset();
     void setName(String name);
     void setType(BusinessRuleType businessRuleType);
     void setOperator(Operator operator);
