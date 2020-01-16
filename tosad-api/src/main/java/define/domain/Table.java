@@ -7,5 +7,10 @@ public class Table {
     private TableAttribute selectedTableAttribute;
     private ArrayList<TableAttribute> attributes;
 
-    public Table() {}
+    public Table(String name, TableAttribute selectedTableAttribute,
+                 ArrayList<TableAttribute> attributes) {
+        this.name = name;
+        this.selectedTableAttribute = selectedTableAttribute;
+        this.attributes = attributes;
+    }
 }

@@ -6,7 +6,7 @@ public class BusinessRule {
     private String name;
     private Trigger trigger;
     private ArrayList<Parameter> parameters;
-    private BusinessruleType businessruletype;
+    private BusinessRuleType businessruletype;
     private Table table;
 
     public BusinessRule() {}

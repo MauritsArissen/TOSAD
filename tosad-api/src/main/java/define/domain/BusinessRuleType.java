@@ -2,14 +2,14 @@ package define.domain;
 
 import java.util.ArrayList;
 
-public class BusinessruleType {
+public class BusinessRuleType {
     private String code;
     private String name;
     private String description;
     private Operator selectedOperator;
     private ArrayList<Operator> operators;
 
-    public BusinessruleType() {}
+    public BusinessRuleType() {}
 
     public void setCode(String code) {
         this.code = code;
@@ -26,6 +26,8 @@ public class BusinessruleType {
     public void setSelectedOperator(String name) {
         selectedOperator = new Operator(name);
     }
+
+    public Operator getSelectedOperator() { return selectedOperator; }
 
     public void setOperators(ArrayList<String> names) {
         for(String name : names) {

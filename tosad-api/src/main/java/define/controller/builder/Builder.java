@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public interface Builder {
     void setName(String name);
-    void setType(BusinessruleType businessruleType);
+    void setType(BusinessRuleType businessRuleType);
     void setOperator(Operator operator);
     void setTrigger(Trigger trigger);
     void setParameters(ArrayList<Parameter> parameters);

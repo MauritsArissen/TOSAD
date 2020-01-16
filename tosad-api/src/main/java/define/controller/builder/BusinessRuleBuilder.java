@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class BusinessRuleBuilder implements Builder {
     private String name;
-    private BusinessruleType businessruletype;
+    private BusinessRuleType businessRuleType;
     private Operator operator;
     private Trigger trigger;
     private ArrayList<Parameter> parameters;
@@ -18,8 +18,8 @@ public class BusinessRuleBuilder implements Builder {
     }
 
     @Override
-    public void setType(BusinessruleType businessruleType) {
-        this.businessruletype = businessruleType;
+    public void setType(BusinessRuleType businessRuleType) {
+        this.businessRuleType = businessRuleType;
     }
 
     @Override
@@ -43,7 +43,7 @@ public class BusinessRuleBuilder implements Builder {
     }
 
     public BusinessRule build() {
-        return new BusinessRule(name, businessruletype, operator,
+        return new BusinessRule(name, businessRuleType, operator,
                 trigger, parameters, table);
     }
 }
