@@ -98,7 +98,7 @@ public class DefineOracleDao extends OracleBaseDao implements DefineDao {
 //        return categories;
 //    }
 
-    public ArrayList<Category> getDefineInfo() {
+    public String getDefineInfo() {
         String categoryquery = "select * from category";
         String ruletypequery = "select code, name, description, (SELECT name FROM category WHERE businessruletype.categoryid = category.id) AS categoryname from businessruletype";
         String operatorquery = "select operator.name, businessruletype.code from operator, operatorrule, businessruletype where operator.id = operatorrule.id and businessruletype.code = operatorrule.code";
@@ -118,7 +118,12 @@ public class DefineOracleDao extends OracleBaseDao implements DefineDao {
             }
             categorymyRs.close();
             categorypstmt.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
+        super.closeConnection();
+        try (Connection conn = super.getConnection()) {
             // Businessruletypes
             PreparedStatement ruletypepstmt = conn.prepareStatement(ruletypequery);
             ResultSet ruletypemyRs = ruletypepstmt.executeQuery();
@@ -140,7 +145,12 @@ public class DefineOracleDao extends OracleBaseDao implements DefineDao {
             ruletypemyRs.close();
             ruletypepstmt.close();
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
+        super.closeConnection();
+        try (Connection conn = super.getConnection()) {
             // Operators
             PreparedStatement operatorpstmt = conn.prepareStatement(operatorquery);
             ResultSet operatormyRs = operatorpstmt.executeQuery();
@@ -166,7 +176,49 @@ public class DefineOracleDao extends OracleBaseDao implements DefineDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return categories;
+        
+    	String jsonString = "{'categories': {";
+    	jsonString += "";
+    	boolean firstCategory = true;
+    	boolean first = true;
+    	boolean firstOperator = true;
+    	
+    	for(Category c : categories) {
+    		if(firstCategory) {
+    			jsonString += "'" + c.getName() + "': {";
+    			firstCategory = false;
+    		} else {
+    			jsonString += ", '" + c.getName() + "': {";
+    		}
+    		
+    		first = true;
+        	for(BusinessRuleType brt: c.getRuleTypes()) {
+        		if (first) {
+        			jsonString += "'" + brt.getName() + "': { operators : [";
+        			first = false;
+        		} else {
+        			jsonString += ", '" + brt.getName() + "': { operators : [";
+        		}
+        		firstOperator = true;
+        		for(Operator o : brt.getAllOperators()) {
+        			if(firstOperator) {
+        				jsonString += "'" + o.getName() + "'";
+        				firstOperator = false;
+        			} else {
+        				jsonString += ", '" + o.getName() + "'";
+        			}
+        		}
+        		jsonString += "]}";
+        	}
+        	jsonString += "}";
+        }
+    	jsonString += "}}";
+    	
+    	System.out.println(jsonString.getClass().getName());
+    	
+        return jsonString;
+
+       
     }
 
 
