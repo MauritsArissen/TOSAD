@@ -60,4 +60,8 @@
             <a class="waves-effect waves-light btn" (click)="sendDefine()">Submit</a>
         </div>
     </div>
+    <div *ngIf="query.length > 0" class="row">
+        <h3>Generated trigger</h3>
+        <p>{{query}}</p>
+    </div>
 </div>
