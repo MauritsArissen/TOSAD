@@ -9,13 +9,17 @@ export class HttpService {
   constructor(private http: HttpClient) { }
 
   getRequest(url) {
+    let httpHeaders = new HttpHeaders({
+      'Content-Type' : 'application/json',
+      'Cache-Control': 'no-cache',
+    });   
     return this.http.get(url);
   }
 
   postRequest(url, body, options) {
     let httpHeaders = new HttpHeaders({
       'Content-Type' : 'application/json',
-      'Cache-Control': 'no-cache'
+      'Cache-Control': 'no-cache',
     });   
     return this.http.post(url, body, { headers: httpHeaders })
   }

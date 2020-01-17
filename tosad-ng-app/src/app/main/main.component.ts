@@ -49,12 +49,12 @@ export class MainComponent implements OnInit, AfterViewInit {
   ////////////////////////////////////////////////////////
 
   ngOnInit() {
-    this._http.getRequest("http://localhost:8080/tosad-api/restservices/define/").subscribe(data => {
-      console.log(data);
-    })
   }  
 
   ngAfterViewInit() {
+    this._http.getRequest("http://localhost:8080/tosad-api/restservices/define/").subscribe(rdata => {
+      console.log(rdata)
+    }) 
     this.refresh()
   }
 

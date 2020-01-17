@@ -1,21 +1,22 @@
 package define.resource;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-
-import define.persistence.DefineOracleDao;
-import javax.annotation.PostConstruct;
-import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
+
+import define.persistence.DefineOracleDao;
 
 @Path("/define")
 public class DefineResource {
 	
 	@GET
     @Produces("application/json")
-    public String getBasicInfo() {
+    public Response getBasicInfo() {
 		
 		System.out.println("Main class works");
 
@@ -23,7 +24,16 @@ public class DefineResource {
 
         String result = dao.getDefineInfo();
         
-        return result;
+        ResponseBuilder builder = Response.ok(result);
+        
+        builder.header("Access-Control-Allow-Origin", "*");
+        builder.header("Access-Control-Allow-Headers",
+                "origin, content-type, accept, authorization");
+        builder.header("Access-Control-Allow-Credentials", "true");
+        builder.header("Access-Control-Allow-Methods",
+                "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+        
+        return builder.build();
 //        try {
 //        	
 //        	DefineOracleDao dao = new DefineOracleDao();
