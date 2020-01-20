@@ -1,7 +1,8 @@
 package generate.business.controller.factory;
 
 import generate.business.domain.*;
+import generate.business.domain.businessrules.RangeRule;
 
 public interface BusinessRuleFactory {
-    BusinessRule createRule(String name, BusinessRuleType ruletype, Operator operator, Trigger trigger, Parameter parameters, Table table);
+    RangeRule createRule(String name, Operator operator, Trigger trigger, Parameter parameters, Table table);
 }

@@ -1,8 +1,8 @@
 package define.persistence.adapter;
 
-import define.business.domain.BusinessRule;
+import define.business.domain.businessrules.RangeRule;
 
 public interface GenerateSerializer {
 
-    public String serialize(BusinessRule businessrule);
+    public String serialize(RangeRule businessrule);
 }

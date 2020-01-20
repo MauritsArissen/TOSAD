@@ -1,6 +1,7 @@
 package generate.business.controller.factory;
 
 import generate.business.domain.*;
+import generate.business.domain.businessrules.RangeRule;
 
 public class TypeBasedBusinessRuleFactory implements BusinessRuleFactory {
     String type;
@@ -10,7 +11,8 @@ public class TypeBasedBusinessRuleFactory implements BusinessRuleFactory {
     };
 
     @Override
-    public BusinessRule createRule(String name, BusinessRuleType ruletype, Operator operator, Trigger trigger, Parameter parameters, Table table) {
+    public RangeRule createRule(String name, Operator operator, Trigger trigger, Parameter parameters, Table table) {
+        // allemaal if-statements per type, dan maak je de juiste businessrule
         return null;
     }
 }
