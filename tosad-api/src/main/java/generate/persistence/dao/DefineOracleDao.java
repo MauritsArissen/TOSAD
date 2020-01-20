@@ -1,9 +1,8 @@
-package generate.persistence;
+package generate.persistence.dao;
 
 import java.sql.Connection;
 
-public class TargetDatabaseDao extends OracleBaseDao implements TargetDao {
-
+public class DefineOracleDao extends OracleBaseDao implements DefineDao {
     @Override
     public Connection getConnection() {
         return null;
