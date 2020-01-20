@@ -1,4 +1,4 @@
-package generate.persistence;
+package generate.persistence.dao;
 
 import java.sql.Connection;
 

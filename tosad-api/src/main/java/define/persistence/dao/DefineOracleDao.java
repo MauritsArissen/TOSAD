@@ -1,4 +1,4 @@
-package define.persistence;
+package define.persistence.dao;
 
 import define.business.domain.*;
 

@@ -1,6 +1,6 @@
 package define;
 
-import define.persistence.DefineOracleDao;
+import define.persistence.dao.DefineOracleDao;
 
 public class Main {
 
