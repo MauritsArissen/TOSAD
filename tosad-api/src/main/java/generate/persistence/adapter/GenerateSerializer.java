@@ -1,6 +1,6 @@
 package generate.persistence.adapter;
 
-import define.domain.BusinessRule;
+import generate.business.domain.BusinessRule;
 
 public interface GenerateSerializer {
 

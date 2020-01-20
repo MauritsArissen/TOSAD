@@ -1,6 +1,6 @@
 package define.persistence;
 
-import define.domain.*;
+import define.business.domain.*;
 
 import java.sql.*;
 import java.util.ArrayList;

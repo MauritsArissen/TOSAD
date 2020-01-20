@@ -1,6 +1,6 @@
 package generate.persistence.adapter;
 
-import define.domain.BusinessRule;
+import generate.business.domain.BusinessRule;
 
 public class GenerateOracleDao implements GenerateSerializer {
 
@@ -8,5 +8,4 @@ public class GenerateOracleDao implements GenerateSerializer {
     public String serialize(BusinessRule businessrule) {
         return null;
     }
-
 }

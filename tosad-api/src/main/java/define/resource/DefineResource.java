@@ -18,7 +18,7 @@ public class DefineResource {
     @Produces("application/json")
     public Response getBasicInfo() {
 		
-		System.out.println("Main class works");
+		System.out.println("define.Main class works");
 
         DefineOracleDao dao = new DefineOracleDao();
 
