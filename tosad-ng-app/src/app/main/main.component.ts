@@ -20,6 +20,7 @@ export class MainComponent implements OnInit, AfterViewInit {
   firstParam: number;
   secondParam: number;
   failureMessageText: string = "";
+  query: string = "";
 
   /////////////////////////////////////////// EXAMPLE DATA
   data = {
@@ -48,12 +49,12 @@ export class MainComponent implements OnInit, AfterViewInit {
   ////////////////////////////////////////////////////////
 
   ngOnInit() {
-    this._http.getRequest("http://localhost:8080/tosad-api/restservices/define/").subscribe(data => {
-      console.log(data);
-    })
   }  
 
   ngAfterViewInit() {
+    this._http.getRequest("http://localhost:8080/tosad-api/restservices/define/").subscribe(rdata => {
+      console.log(rdata)
+    }) 
     this.refresh()
   }
 
@@ -68,9 +69,10 @@ export class MainComponent implements OnInit, AfterViewInit {
       "secondParam": this.secondParam,
       "failureMessage": this.failureMessageText
     }
-    this._http.postRequest("http://localhost:8080/tosad-api/restservices/define/savedefined", sendData, null).subscribe(data => {
-      console.log(data);
-    })
+    // this._http.postRequest("http://localhost:8080/tosad-api/restservices/define/savedefined", sendData, null).subscribe(data => {
+    //   console.log(data);
+    // })
+    this.generateCode(sendData)
   }
 
   tableChange() {
@@ -101,6 +103,10 @@ export class MainComponent implements OnInit, AfterViewInit {
 
   refresh() {
     M.AutoInit()
+  }
+
+  generateCode(data) {
+    this.query = `CREATE OR REPLACE TRIGGER generated_name BEFORE INSERT ON ${data.table} FOR EACH ROW DECLARE l_passed boolean; BEGIN l_passed := ${data.attribute} ${data.operator} ${data.firstParam} AND ${data.secondParam}; IF NOT l_passed THEN raise_application_error(-20000, '${data.failureMessage}'); END IF; END generated_name;`
   }
 
 }

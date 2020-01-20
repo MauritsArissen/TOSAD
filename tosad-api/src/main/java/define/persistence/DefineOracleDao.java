@@ -177,7 +177,7 @@ public class DefineOracleDao extends OracleBaseDao implements DefineDao {
             e.printStackTrace();
         }
         
-    	String jsonString = "{'categories': {";
+    	String jsonString = "{\"categories\": {";
     	jsonString += "";
     	boolean firstCategory = true;
     	boolean first = true;
@@ -185,27 +185,27 @@ public class DefineOracleDao extends OracleBaseDao implements DefineDao {
     	
     	for(Category c : categories) {
     		if(firstCategory) {
-    			jsonString += "'" + c.getName() + "': {";
+    			jsonString += "\"" + c.getName() + "\": {";
     			firstCategory = false;
     		} else {
-    			jsonString += ", '" + c.getName() + "': {";
+    			jsonString += ", \"" + c.getName() + "\": {";
     		}
     		
     		first = true;
         	for(BusinessRuleType brt: c.getRuleTypes()) {
         		if (first) {
-        			jsonString += "'" + brt.getName() + "': { operators : [";
+        			jsonString += "\"" + brt.getName() + "\": { \"operators\" : [";
         			first = false;
         		} else {
-        			jsonString += ", '" + brt.getName() + "': { operators : [";
+        			jsonString += ", \"" + brt.getName() + "\": { \"operators\" : [";
         		}
         		firstOperator = true;
         		for(Operator o : brt.getAllOperators()) {
         			if(firstOperator) {
-        				jsonString += "'" + o.getName() + "'";
+        				jsonString += "\"" + o.getName() + "\"";
         				firstOperator = false;
         			} else {
-        				jsonString += ", '" + o.getName() + "'";
+        				jsonString += ", \"" + o.getName() + "\"";
         			}
         		}
         		jsonString += "]}";
