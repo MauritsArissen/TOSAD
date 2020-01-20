@@ -11,7 +11,6 @@ public class RangeRule implements BusinessRule {
     private final ArrayList<Parameter> parameters;
     private final Table table;
 
-
     public RangeRule(String name,
                      Operator operator, Trigger trigger,
                      ArrayList<Parameter> parameters, Table table) {
