@@ -1,6 +1,7 @@
 <div class="container">
     <h1>Define</h1>
     <div class="row">
+        <h4 class="col s12">Table data</h4>
         <div class="input-field col s6">
             <select [(ngModel)]="table" (change)='tableChange()'>
                 <option *ngFor="let table of tables" [value]="table">{{table}}</option>
@@ -14,34 +15,66 @@
             </select>
             <label>Atribute</label>
         </div>
-        <div class="input-field col s12">
+        <h4 class="col s12">Business rule</h4>
+        <div class="input-field col s4">
             <select [(ngModel)]="category" (change)='categoryChange()'>
                 <option *ngFor="let category of categories" [value]="category">{{category}}</option>
             </select>
             <label>category</label>
         </div>
-        <div class="input-field col s6">
+        <div class="input-field col s4">
             <select [(ngModel)]="ruletype" (change)='businessRuleTypeChange()'>
                 <option *ngIf="businessRuleTypes.length == 0" value="none" disabled selected>Select a category first</option>
                 <option *ngFor="let ruletype of businessRuleTypes" [value]="ruletype">{{ruletype}}</option>
             </select>
             <label>BusinessRuleType</label>
         </div>
-        <div class="input-field col s6">
+        <div class="input-field col s4">
             <select [(ngModel)]="operator">
                 <option *ngIf="operators.length == 0" value="none" disabled selected>Select a business rule type first</option>
                 <option *ngFor="let operator of operators" [value]="operator">{{operator}}</option>
             </select>
             <label>Operator</label>
         </div>
-        <div class="input-field col s6">
-            <input id="firstParam" type="number" class="validate" [(ngModel)]="firstParam">
-            <label for="firstParam">Minimum value</label>
+        <!-- ONLY SHOWN WHEN YOU SELECTED A BUSINESSRULETYPE -->
+        <div *ngIf="ruletype.length > 0">
+            <!-- Attribute Range rule -->
+            <div *ngIf="ruletype == 'Attribute Range rule'">
+                <div class="input-field col s6">
+                    <input id="firstParam" type="number" class="validate" [(ngModel)]="values[0]">
+                    <label for="firstParam">Minimum value</label>
+                </div>
+                <div class="input-field col s6">
+                    <input id="secondParam" type="number" class="validate" [(ngModel)]="values[1]">
+                    <label for="secondParam">Maximum value</label>
+                </div>
+            </div>
+            <!-- Attribute Compare rule -->
+            <div *ngIf="ruletype == 'Attribute Compare rule'">
+                <div class="input-field col s12">
+                    <input id="firstParam" type="text" class="validate" [(ngModel)]="values[0]">
+                    <label for="firstParam">Compared value</label>
+                </div>
+            </div>
+            <!-- Attribute List rule -->
+            <div *ngIf="ruletype == 'Attribute List rule'">
+                <div *ngFor="let i of arrayOne()" class="col s3">
+                    <div class="input-field">
+                        <input id="firstParam{{i}}" type="text" class="validate" [(ngModel)]="values[i]">
+                        <label for="firstParam{{i}}">Value</label>
+                    </div>
+                </div>
+            </div>
+            <!-- Tuple Compare rule -->
+            <div *ngIf="ruletype == 'Tuple Compare rule'" class="input-field col s12">
+                <select [(ngModel)]="selectedAttribute">
+                    <option *ngIf="attributes.length == 0" value="none" disabled selected>Choose your table first</option>
+                    <option *ngFor="let attribute of attributes" [value]="attribute">{{attribute}}</option>
+                </select>
+                <label>Attribute</label>
+            </div>
         </div>
-        <div class="input-field col s6">
-            <input id="secondParam" type="number" class="validate" [(ngModel)]="secondParam">
-            <label for="secondParam">Maximum value</label>
-        </div>
+        <h4 class="col s12">Failure</h4>
         <div class="input-field col s12">
             <input id="failureMessageText" type="text" class="validate" [(ngModel)]="failureMessageText">
             <label for="failureMessageText">Failure message</label>

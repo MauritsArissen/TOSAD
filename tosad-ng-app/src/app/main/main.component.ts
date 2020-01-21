@@ -17,16 +17,34 @@ export class MainComponent implements OnInit, AfterViewInit {
   category: string = "";
   ruletype: string = "";
   operator: string = "";
-  firstParam: number;
-  secondParam: number;
+  values = [];
   failureMessageText: string = "";
   query: string = "";
+  listLength: number = 6;
+  selectedAttribute: string = "";
 
   /////////////////////////////////////////// EXAMPLE DATA
   data = {}
   datatable = {
-    lessons: ["name", "length", "teacher"],
-    food: ["name", "calories"]
+    lessons: {
+      name: {
+        type: 'string'
+      },
+      length: {
+        type: 'number'
+      },
+      teacherid: {
+        type: 'number'
+      }
+    },
+    food: {
+      name: {
+        type: 'string'
+      },
+      calories: {
+        type: 'number'
+      }
+    }
   }
   tables = [];
   attributes = [];
@@ -55,8 +73,6 @@ export class MainComponent implements OnInit, AfterViewInit {
       "category": this.category,
       "ruletype": this.ruletype,
       "operator": this.operator,
-      "firstParam": this.firstParam,
-      "secondParam": this.secondParam,
       "failureMessage": this.failureMessageText
     }
     // this._http.postRequest("http://localhost:8080/tosad-api/restservices/define/savedefined", sendData, null).subscribe(data => {
@@ -66,7 +82,7 @@ export class MainComponent implements OnInit, AfterViewInit {
   }
 
   tableChange() {
-    this.attributes = this.datatable[this.table]
+    this.attributes = Object.keys(this.datatable[this.table]);
     this.attribute = ""
     this.refresh()
   }
@@ -82,17 +98,23 @@ export class MainComponent implements OnInit, AfterViewInit {
   businessRuleTypeChange() {
     this.operators = this.data['categories'][this.category][this.ruletype].operators
     this.operator = ""
+    this.values = []
     this.refresh()
   } 
 
   refresh() {
     setTimeout(() => {
       M.AutoInit()
+      console.log(this.values);
     }, 10)
   }
 
   generateCode(data) {
     this.query = `CREATE OR REPLACE TRIGGER generated_name BEFORE INSERT ON ${data.table} FOR EACH ROW DECLARE l_passed boolean; BEGIN l_passed := ${data.attribute} ${data.operator} ${data.firstParam} AND ${data.secondParam}; IF NOT l_passed THEN raise_application_error(-20000, '${data.failureMessage}'); END IF; END generated_name;`
+  }
+
+  arrayOne(): any[] {
+    return [...Array(this.listLength).keys()]
   }
 
 }
