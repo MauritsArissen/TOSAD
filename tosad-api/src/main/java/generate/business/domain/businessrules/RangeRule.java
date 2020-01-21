@@ -7,13 +7,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class RangeRule implements BusinessRule {
-    private final String name;
-    private final Operator operator;
-    private final Trigger trigger;
-    private final ArrayList<Parameter> parameters;
-    private final Table table;
-    private int minimumValue = 0;
-    private int maximumValue = 0;
+    private String name;
+    private Operator operator;
+    private Trigger trigger;
+    private ArrayList<Parameter> parameters;
+    private Table table;
+    private String triggerCode;
+    private String template;
+    private ArrayList<BusinessRule> businessRules;
 
     public RangeRule(String name,
                      Operator operator, Trigger trigger,
@@ -25,32 +26,26 @@ public class RangeRule implements BusinessRule {
         this.table = table;
     }
 
-    public String generateRangeRule() {
-        trigger = "create or replace TRIGGER " + this.name + "\n" +
-                "    BEFORE INSERT ON " + this.table + "\n" +
-                "    FOR EACH ROW\n" +
-                "DECLARE\n" +
-                "    l_passed boolean;\n" +
-                "BEGIN\n" +
-                "    l_passed := " + attribute + " " + this.operator + " " + value1 + " and " + value2 + ";\n" +
-                "    IF not l_passed \n" +
-                "        THEN    \n" +
-                "            raise_application_error(-20000, '" + failureMessage + "');\n" +
-                "    END IF;\n" +
-                "END generated_name;";
-    }
+    public String generate() {
+        template = "create or replace trigger " + trigger.getTriggercode() + "\n" +
+                "  before " + trigger.getTriggerevent() + "\n" +
+                "  on " + table.getName() + "\n" +
+                "  for each row\n" +
+                "declare\n" +
+                "  l_passed boolean := true;\n" +
+                "  l_error_stack varchar2(4000);\n" +
+                "begin\n";
+        businessRules = trigger.getBusinessRules();
+        for (BusinessRule b : businessRules) {
+            //b.
+        }
+        /*
+        triggerCode = triggerCode.replace("[CONSTRAINT_STATEMENT]", );
+        triggerCode = triggerCode.replace("[TRIGGER_CODE]", );
+        triggerCode = triggerCode.replace("[FAILURE_MESSAGE]", )
+        */
 
-    public int getMinimumValue() {
-        return minimumValue;
-    }
-
-    public int getMaximumValue() {
-        return maximumValue;
-    }
-
-    public int defineMinMaxValues() {
-        maximumValue = Collections.max(parameters);
-        minimumValue = Collections.min(parameters);
+        return triggerCode;
     }
 
 }
