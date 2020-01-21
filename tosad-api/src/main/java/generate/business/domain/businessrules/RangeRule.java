@@ -4,30 +4,26 @@ import generate.business.domain.*;
 
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class RangeRule implements BusinessRule {
-    private String name;
     private Operator operator;
     private Trigger trigger;
-    private ArrayList<Parameter> parameters;
+    private ArrayList<LiteralValue> values;
     private Table table;
-    private String triggerCode;
-    private String template;
     private ArrayList<BusinessRule> businessRules;
 
-    public RangeRule(String name,
-                     Operator operator, Trigger trigger,
-                     ArrayList<Parameter> parameters, Table table) {
-        this.name = name;
+    public RangeRule(Operator operator, Trigger trigger,
+                     ArrayList<LiteralValue> values, Table table,
+                     ArrayList<BusinessRule> businessRules) {
         this.operator = operator;
         this.trigger = trigger;
-        this.parameters = parameters;
+        this.values = values;
         this.table = table;
+        this.businessRules = businessRules;
     }
 
     public String generate() {
-        template = "create or replace trigger " + trigger.getTriggercode() + "\n" +
+        String template = "create or replace trigger " + trigger.getTriggercode() + "\n" +
                 "  before " + trigger.getTriggerevent() + "\n" +
                 "  on " + table.getName() + "\n" +
                 "  for each row\n" +
@@ -36,16 +32,24 @@ public class RangeRule implements BusinessRule {
                 "  l_error_stack varchar2(4000);\n" +
                 "begin\n";
         businessRules = trigger.getBusinessRules();
-        for (BusinessRule b : businessRules) {
-            //b.
-        }
-        /*
-        triggerCode = triggerCode.replace("[CONSTRAINT_STATEMENT]", );
-        triggerCode = triggerCode.replace("[TRIGGER_CODE]", );
-        triggerCode = triggerCode.replace("[FAILURE_MESSAGE]", )
-        */
 
-        return triggerCode;
+        for (BusinessRule b : businessRules) {
+            template += b.generateDynamicPart() + "\n";
+        }
+
+        template += "end " + trigger.getTriggercode() + ";";
+
+        return template;
+    }
+
+    public String generateDynamicPart() {
+        return "l_passed := :new." + table.getSelectedTableAttribute() + " " + operator.getName() + " " +
+                values.get(0).getValue() + " and " + values.get(1).getValue() + ";\n" +
+                "  if not l_passed\n" +
+                "  then\n" +
+                "    l_error_stack := '" + trigger.getFailuremessage() + "';\n" +
+                "    raise_application_error( -20800, l_error_stack );\n" +
+                "  end if;\n";
     }
 
 }

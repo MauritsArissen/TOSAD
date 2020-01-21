@@ -1,6 +1,6 @@
 package define.business.domain;
 
-public class LiteralValue implements Parameter {
+public class LiteralValue {
     private String value;
     private String datatype;
     private int length;

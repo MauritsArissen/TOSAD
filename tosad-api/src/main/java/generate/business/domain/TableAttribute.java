@@ -1,6 +1,6 @@
 package generate.business.domain;
 
-public class TableAttribute implements Parameter {
+public class TableAttribute {
     private String name;
     private String datatype;
     private int length;
