@@ -4,6 +4,8 @@ import generate.business.domain.*;
 import generate.business.domain.businessrules.BusinessRule;
 import generate.business.domain.businessrules.RangeRule;
 
+import java.util.ArrayList;
+
 public interface BusinessRuleFactory {
-    String createRule(String name, Operator operator, Trigger trigger, Parameter parameters, Table table);
+    String createRule(String name, Operator operator, Trigger trigger, ArrayList<Parameter> parameters, Table table);
 }
