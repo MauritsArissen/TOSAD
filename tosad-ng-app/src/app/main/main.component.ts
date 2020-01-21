@@ -23,27 +23,14 @@ export class MainComponent implements OnInit, AfterViewInit {
   query: string = "";
 
   /////////////////////////////////////////// EXAMPLE DATA
-  data = {
-    categories: {
-      "Static data constraint rules": {
-        rangerule: {
-          operators: ["between", "not between"]
-        },
-        comparerule: {
-          operators: ["=", ">=", "<=", "<", ">"]
-        },
-      },
-      "Dynamic data constraint rules": {}
-    },
-    table: {
-      lessons: ["name", "length", "teacher"],
-      food: ["name", "calories"]
-    }
+  data = {}
+  datatable = {
+    lessons: ["name", "length", "teacher"],
+    food: ["name", "calories"]
   }
-
-  tables = Object.keys(this.data.table);
+  tables = [];
   attributes = [];
-  categories = Object.keys(this.data.categories);
+  categories = [];
   businessRuleTypes = [];
   operators = [];
   ////////////////////////////////////////////////////////
@@ -53,8 +40,11 @@ export class MainComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this._http.getRequest("http://localhost:8080/tosad-api/restservices/define/").subscribe(rdata => {
-      console.log(rdata)
-    }) 
+      this.data = rdata
+      this.tables = Object.keys(this.datatable);
+      this.categories = Object.keys(this.data['categories']); 
+      this.refresh()
+    })
     this.refresh()
   }
 
@@ -76,33 +66,29 @@ export class MainComponent implements OnInit, AfterViewInit {
   }
 
   tableChange() {
-    this.attributes = this.data.table[this.table]
+    this.attributes = this.datatable[this.table]
     this.attribute = ""
-    setTimeout(() => {
-      this.refresh()
-    }, 10)
+    this.refresh()
   }
 
   categoryChange() {
-    this.businessRuleTypes = Object.keys(this.data.categories[this.category]);
+    this.businessRuleTypes = Object.keys(this.data['categories'][this.category]);
     this.ruletype = ""
     this.operator = ""
     this.operators = []
-    setTimeout(() => {
-      this.refresh()
-    }, 10)
+    this.refresh()
   }
 
   businessRuleTypeChange() {
-    this.operators = this.data.categories[this.category][this.ruletype].operators
+    this.operators = this.data['categories'][this.category][this.ruletype].operators
     this.operator = ""
-    setTimeout(() => {
-      this.refresh()
-    }, 10)
+    this.refresh()
   } 
 
   refresh() {
-    M.AutoInit()
+    setTimeout(() => {
+      M.AutoInit()
+    }, 10)
   }
 
   generateCode(data) {
