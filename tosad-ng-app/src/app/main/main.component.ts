@@ -43,10 +43,9 @@ export class MainComponent implements OnInit, AfterViewInit {
       this.data = rdata
       this.tables = Object.keys(this.datatable);
       this.categories = Object.keys(this.data['categories']); 
-      setTimeout(() => {
-        this.refresh()
-      }, 10)
+      this.refresh()
     })
+    this.refresh()
   }
 
   sendDefine() {
@@ -69,9 +68,7 @@ export class MainComponent implements OnInit, AfterViewInit {
   tableChange() {
     this.attributes = this.datatable[this.table]
     this.attribute = ""
-    setTimeout(() => {
-      this.refresh()
-    }, 10)
+    this.refresh()
   }
 
   categoryChange() {
@@ -79,21 +76,19 @@ export class MainComponent implements OnInit, AfterViewInit {
     this.ruletype = ""
     this.operator = ""
     this.operators = []
-    setTimeout(() => {
-      this.refresh()
-    }, 10)
+    this.refresh()
   }
 
   businessRuleTypeChange() {
     this.operators = this.data['categories'][this.category][this.ruletype].operators
     this.operator = ""
-    setTimeout(() => {
-      this.refresh()
-    }, 10)
+    this.refresh()
   } 
 
   refresh() {
-    M.AutoInit()
+    setTimeout(() => {
+      M.AutoInit()
+    }, 10)
   }
 
   generateCode(data) {

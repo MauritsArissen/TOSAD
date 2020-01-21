@@ -14,16 +14,12 @@
             </select>
             <label>Atribute</label>
         </div>
-    </div>
-    <div class="row">
         <div class="input-field col s12">
             <select [(ngModel)]="category" (change)='categoryChange()'>
                 <option *ngFor="let category of categories" [value]="category">{{category}}</option>
             </select>
             <label>category</label>
         </div>
-    </div>
-    <div class="row">
         <div class="input-field col s6">
             <select [(ngModel)]="ruletype" (change)='businessRuleTypeChange()'>
                 <option *ngIf="businessRuleTypes.length == 0" value="none" disabled selected>Select a category first</option>
@@ -38,8 +34,6 @@
             </select>
             <label>Operator</label>
         </div>
-    </div>
-    <div class="row">
         <div class="input-field col s6">
             <input id="firstParam" type="number" class="validate" [(ngModel)]="firstParam">
             <label for="firstParam">Minimum value</label>
@@ -48,15 +42,11 @@
             <input id="secondParam" type="number" class="validate" [(ngModel)]="secondParam">
             <label for="secondParam">Maximum value</label>
         </div>
-    </div>
-    <div class="row">
         <div class="input-field col s12">
             <input id="failureMessageText" type="text" class="validate" [(ngModel)]="failureMessageText">
             <label for="failureMessageText">Failure message</label>
         </div>
-    </div>
-    <div class="row">
-        <div class="input-field col s6">
+        <div class="input-field col s12">
             <a class="waves-effect waves-light btn" (click)="sendDefine()">Submit</a>
         </div>
     </div>
