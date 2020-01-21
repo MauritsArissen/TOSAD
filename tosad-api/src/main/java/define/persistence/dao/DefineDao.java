@@ -1,5 +1,7 @@
 package define.persistence.dao;
 
+import java.util.HashMap;
+
 public interface DefineDao {
-	public String getDefineInfo();
+	public HashMap<String, String> getAvailableInput();
 }

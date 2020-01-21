@@ -1,5 +1,7 @@
 package define.business.controller;
 
+import java.util.ArrayList;
+
 import define.persistence.dao.DefineOracleDao;
 
 public class DefineController {
@@ -8,6 +10,7 @@ public class DefineController {
 
     private DefineController() {}
 
+    // Singelton pattern
     public static DefineController getInstance(){
         if (myInstance == null) {
             myInstance = new DefineController();
@@ -15,9 +18,10 @@ public class DefineController {
         return myInstance;
     }
 
-    public String getDBData() {
+    public ArrayList<String> getBusinessRuleData() {
         try {
-            return new DefineOracleDao().getDefineInfo();
+        	// returns all available user from the database as a string
+            return new DefineOracleDao().getAvailableInput();
         } catch (Exception e) {
             System.out.println(e);
         }

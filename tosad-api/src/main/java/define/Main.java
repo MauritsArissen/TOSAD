@@ -9,7 +9,7 @@ public class Main {
 
         DefineOracleDao dao = new DefineOracleDao();
 
-        System.out.println(dao.getDefineInfo());
+        System.out.println(dao.getAvailableInput());
     	
     
         }
