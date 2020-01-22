@@ -21,7 +21,7 @@ public class AttributeRangeRule implements BusinessRule {
 
     public String generateDynamicPart() {
         return  "begin\n" +
-                "l_passed := :new." + table.getSelectedTableAttributes() + " " + operator.getName() + " " +
+                "l_passed := :new." + table.getSelectedTableAttribute() + " " + operator.getName() + " " +
                 values.get(0).getValue() + " and " + values.get(1).getValue() + ";\n" +
                 "  if not l_passed\n" +
                 "  then\n" +
