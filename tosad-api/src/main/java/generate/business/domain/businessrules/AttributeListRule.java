@@ -11,10 +11,10 @@ public class AttributeListRule implements BusinessRule {
     private Operator operator;
     private Trigger trigger;
     private ArrayList<LiteralValue> values;
-    private Table table;
+    private ArrayList<Table> table;
 
     public AttributeListRule(Operator operator, Trigger trigger,
-                                ArrayList<LiteralValue> values, Table table) {
+                                ArrayList<LiteralValue> values, ArrayList<Table> table) {
         this.operator = operator;
         this.trigger = trigger;
         this.values = values;
@@ -22,7 +22,7 @@ public class AttributeListRule implements BusinessRule {
     }
 
     public String generateDynamicPart() {
-        return "l_passed := :new." + table.getSelectedTableAttribute() + " " + operator.getName() + " " +
+        return "l_passed := :new." + table.get(0).getSelectedTableAttribute().get(0) + " " + operator.getName() + " " +
                 "(" + generateList() + ")" +
                 "  if not l_passed\n" +
                 "  then\n" +
