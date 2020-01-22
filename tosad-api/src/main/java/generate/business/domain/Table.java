@@ -4,24 +4,19 @@ import java.util.ArrayList;
 
 public class Table {
     private String name;
-    private TableAttribute selectedTableAttribute;
-    private ArrayList<TableAttribute> attributes;
+    private ArrayList<TableAttribute> selectedTableAttributes;
 
-    public Table(String name, TableAttribute selectedTableAttribute, ArrayList<TableAttribute> attributes) {
+    public Table(String name, ArrayList<TableAttribute> selectedTableAttributes) {
         this.name = name;
-        this.selectedTableAttribute = selectedTableAttribute;
-        this.attributes = attributes;
+        this.selectedTableAttributes = selectedTableAttributes;
     }
 
     public String getName() {
         return name;
     }
 
-    public TableAttribute getSelectedTableAttribute() {
-        return selectedTableAttribute;
+    public ArrayList<TableAttribute> getSelectedTableAttributes() {
+        return selectedTableAttributes;
     }
 
-    public ArrayList<TableAttribute> getAttributes() {
-        return attributes;
-    }
 }
