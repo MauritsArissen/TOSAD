@@ -16,10 +16,15 @@ export class ManageComponent implements OnInit {
   // Example data
   triggers: { [key: string]: Object } = {
     "trigger t1": {
-      "rules": "attribute a1"
+      "rules": [
+        "attribute a1",
+        "attribute a2"
+      ]
     },
     "trigger t2": {
-      "rules": "attribute a2"
+      "rules": [
+        "attribute b2"
+      ]
     }
   }
 
@@ -27,11 +32,11 @@ export class ManageComponent implements OnInit {
   properties = []
 
   getRules(triggerName) {
-    this.rules = [
-      {
-        "name": this.triggers[triggerName]["rules"]
-      }
-    ]
+    this.rules = []
+    for (const item in this.triggers[triggerName]["rules"]) {
+      let rule = {"name": this.triggers[triggerName]["rules"][item]}
+      this.rules.push(rule)
+    }
   }
 
   getProperties(ruleName) {
