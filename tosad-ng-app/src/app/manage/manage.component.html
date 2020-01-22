@@ -9,10 +9,11 @@
         </div>
         <div class="col s4">
             <h3>Rules</h3>
-            <div *ngFor="let item of rules" class="rules-content">{{ item.name }}</div>
+            <div *ngFor="let item of rules" class="rules-content" (click)="getProperties(item.name)">{{ item.name }}</div>
         </div>
         <div class="col s4">
             <h3>Properties</h3>
+            <div *ngFor="let item of properties" class="rules-content">{{ item.name }}</div>
         </div>
     </div>
 </div>

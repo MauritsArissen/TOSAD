@@ -24,11 +24,20 @@ export class ManageComponent implements OnInit {
   }
 
   rules = []
+  properties = []
 
   getRules(triggerName) {
     this.rules = [
       {
         "name": this.triggers[triggerName]["rules"]
+      }
+    ]
+  }
+
+  getProperties(ruleName) {
+    this.properties = [
+      {
+        "name": ruleName
       }
     ]
   }
