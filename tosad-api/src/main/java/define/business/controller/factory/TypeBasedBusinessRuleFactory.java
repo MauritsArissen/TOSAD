@@ -11,7 +11,7 @@ public class TypeBasedBusinessRuleFactory implements BusinessRuleFactory {
     };
 
     @Override
-    public RangeRule createRule(String name, Operator operator, Trigger trigger, Parameter parameters, Table table) {
+    public RangeRule createRule(String name, Operator operator, Trigger trigger, Table table) {
         // allemaal if-statements per type, dan maak je de juiste businessrule
         return null;
     }
