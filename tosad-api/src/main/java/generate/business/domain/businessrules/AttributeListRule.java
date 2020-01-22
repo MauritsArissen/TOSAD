@@ -22,14 +22,15 @@ public class AttributeListRule implements BusinessRule {
     }
 
     public String generateDynamicPart() {
-        return  "begin\n" +
-                "l_passed := :new." + table.getSelectedTableAttribute() + " " + operator.getName() + " " +
+        String template =  "begin\n" +
+                "l_passed := :new." + table.getSelectedTableAttributes() + " " + operator.getName() + " " +
                 "(" + generateList() + ")" +
                 "  if not l_passed\n" +
                 "  then\n" +
                 "    l_error_stack := '" + trigger.getFailuremessage() + "';\n" +
                 "    raise_application_error( -20800, l_error_stack );\n" +
                 "  end if;\n";
+        return template;
     }
 
     public String generateList() {
