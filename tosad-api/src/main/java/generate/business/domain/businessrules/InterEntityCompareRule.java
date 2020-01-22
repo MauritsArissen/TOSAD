@@ -25,15 +25,22 @@ public class InterEntityCompareRule implements BusinessRule {
         //Checks of het vergelijkbare data types zijn, front-end check?
         //Checks of het verschillende tabellen zijn, front-end check?
 
-        //Er is nog geen onderscheid in de getSelectedTableAttribute(). Het heeft nog geen weet van de twee verschillende attributen
-        return  "begin\n" +
-                "l_passed := :new." + table.getSelectedTableAttributes() + " " + operator.getName() + " :new." +
-                table.getSelectedTableAttributes() + ";\n" +
+        //geen idee of dit klopt
+        String template = "cursor lc_first is\n" +
+                "select " + table.getName() + "." + table.getSelectedTableAttributes() + "\n" +
+                "from " + table.getName() + "\n" +
+                "l_targetValue " + values.get(0).getValue() + "." + values.get(1).getValue() + "%type;\n" +
+                "begin\n" +
+                "open lc_first;\n" +
+                "fetch lc_first into l_targetValue;\n" +
+                "close lc_first;\n" +
+                "l_passed := :new." + table.getSelectedTableAttributes() + " " + operator.getName() + " l_targetValue;\n" +
                 "  if not l_passed\n" +
                 "  then\n" +
                 "    l_error_stack := '" + trigger.getFailuremessage() + "';\n" +
                 "    raise_application_error( -20800, l_error_stack );\n" +
                 "  end if;\n";
+        return template;
     }
 
 }

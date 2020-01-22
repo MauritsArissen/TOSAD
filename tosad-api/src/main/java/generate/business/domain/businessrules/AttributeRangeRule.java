@@ -20,7 +20,7 @@ public class AttributeRangeRule implements BusinessRule {
     }
 
     public String generateDynamicPart() {
-        return  "begin\n" +
+        String template =  "begin\n" +
                 "l_passed := :new." + table.getSelectedTableAttributes() + " " + operator.getName() + " " +
                 values.get(0).getValue() + " and " + values.get(1).getValue() + ";\n" +
                 "  if not l_passed\n" +
@@ -28,6 +28,7 @@ public class AttributeRangeRule implements BusinessRule {
                 "    l_error_stack := '" + trigger.getFailuremessage() + "';\n" +
                 "    raise_application_error( -20800, l_error_stack );\n" +
                 "  end if;\n";
+        return template;
     }
 
 }

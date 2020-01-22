@@ -22,13 +22,14 @@ public class TupleOtherRule implements BusinessRule {
     }
 
     public String generateDynamicPart() {
-        return  "begin\n" +
+        String template =  "begin\n" +
                 "l_passed := " + values.get(0).getValue() + ";\n" +
                 "  if not l_passed\n" +
                 "  then\n" +
                 "    l_error_stack := '" + trigger.getFailuremessage() + "';\n" +
                 "    raise_application_error( -20800, l_error_stack );\n" +
                 "  end if;\n";
+        return template;
     }
 
 }
