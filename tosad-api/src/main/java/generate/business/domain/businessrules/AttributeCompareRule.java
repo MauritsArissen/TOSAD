@@ -18,7 +18,7 @@ public class AttributeCompareRule implements BusinessRule {
         this.operator = operator;
         this.trigger = trigger;
         this.values = values;
-        this.table = table;;
+        this.table = table;
     }
 
     public String generateDynamicPart() {
