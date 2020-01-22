@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 public class Table {
     private String name;
-    private ArrayList<TableAttribute> selectedTableAttributes;
+    private TableAttribute selectedTableAttributes;
 
-    public Table(String name, ArrayList<TableAttribute> selectedTableAttributes) {
+    public Table(String name, TableAttribute selectedTableAttributes) {
         this.name = name;
         this.selectedTableAttributes = selectedTableAttributes;
     }
@@ -15,7 +15,7 @@ public class Table {
         return name;
     }
 
-    public ArrayList<TableAttribute> getSelectedTableAttributes() {
+    public TableAttribute getSelectedTableAttributes() {
         return selectedTableAttributes;
     }
 

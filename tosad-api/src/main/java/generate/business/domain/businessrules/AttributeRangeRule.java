@@ -9,10 +9,10 @@ public class AttributeRangeRule implements BusinessRule {
     private Operator operator;
     private Trigger trigger;
     private ArrayList<LiteralValue> values;
-    private ArrayList<Table> table;
+    private Table table;
 
     public AttributeRangeRule(Operator operator, Trigger trigger,
-                                ArrayList<LiteralValue> values, ArrayList<Table> table) {
+                              ArrayList<LiteralValue> values, Table table) {
         this.operator = operator;
         this.trigger = trigger;
         this.values = values;
@@ -20,7 +20,8 @@ public class AttributeRangeRule implements BusinessRule {
     }
 
     public String generateDynamicPart() {
-        return "l_passed := :new." + table.get(0).getSelectedTableAttributes().get(0) + " " + operator.getName() + " " +
+        return  "begin\n" +
+                "l_passed := :new." + table.getSelectedTableAttributes() + " " + operator.getName() + " " +
                 values.get(0).getValue() + " and " + values.get(1).getValue() + ";\n" +
                 "  if not l_passed\n" +
                 "  then\n" +
