@@ -48,7 +48,10 @@ public class DefineController {
 		BusinessRuleFactory factory = new TypeBasedBusinessRuleFactory(ruletype);
 		BusinessRule rule = factory.createRule(jsondata);
 		
-		System.out.println(rule);
+		// In de dao een methode waarin je een BusinessRule gaat meegeven,
+		// dan die methode in dao een string returnen waarin staat of t is gelukt of niet,
+		// dan return je die string hierzo en geef je m mee in de resource response
+		
 		return null;
 	}
 	
