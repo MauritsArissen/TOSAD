@@ -26,8 +26,8 @@ public class InterEntityCompareRule implements BusinessRule {
         //Checks of het verschillende tabellen zijn, front-end check?
 
         //Er is nog geen onderscheid in de getSelectedTableAttribute(). Het heeft nog geen weet van de twee verschillende attributen
-        return "l_passed := :new." + table.get(0).getSelectedTableAttribute().get(0) + " " + operator.getName() + " :new." +
-                table.get(1).getSelectedTableAttribute().get(0) + ";\n" +
+        return "l_passed := :new." + table.get(0).getSelectedTableAttributes().get(0) + " " + operator.getName() + " :new." +
+                table.get(1).getSelectedTableAttributes().get(0) + ";\n" +
                 "  if not l_passed\n" +
                 "  then\n" +
                 "    l_error_stack := '" + trigger.getFailuremessage() + "';\n" +
