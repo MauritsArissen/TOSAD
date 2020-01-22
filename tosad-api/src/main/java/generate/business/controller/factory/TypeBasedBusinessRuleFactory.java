@@ -14,13 +14,16 @@ public class TypeBasedBusinessRuleFactory implements BusinessRuleFactory {
     };
 
     @Override
-    public String createRule(String name, Operator operator, Trigger trigger, ArrayList<Parameter> parameters, Table table) {
+    public String createRule(String name, Operator operator, Trigger trigger, Table table) {
         // allemaal if-statements per type, dan maak je de juiste businessrule
         // Try-catch schrijven om een verkeerde input te vangen? In principe is een verkeerde input niet mogelijk.
         String generatedRule = null;
         if (type.equals("ARNG")) {
             //parameters is nu een Parameter object, niet een list.
+            /*
             generatedRule = new RangeRule(name, operator, trigger, parameters, table).generate();
+
+             */
 
 
         } else if (type.equals("ACMP")) {
