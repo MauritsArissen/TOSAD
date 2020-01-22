@@ -4,6 +4,8 @@ import generate.business.domain.businessrules.BusinessRule;
 import generate.business.domain.businessrules.RangeRule;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -11,11 +13,17 @@ public class DefineOracleDao extends OracleBaseDao implements DefineDao {
    public void getGenerateInfo() {
        ArrayList<BusinessRule> businessRules = null;
        try(Connection con = super.getConnection()) {
-    /*
-           if (type = "ARNG") {
-               businessRules.add(new RangeRule(operator, trigger, values, table, ));
+           PreparedStatement pstmt = con.prepareStatement("");
+           ResultSet rs = pstmt.executeQuery();
+           while(rs.next()) {
+               String type = "";
+               /*
+               if (type == "ARNG") {
+                   businessRules.add(new RangeRule(operator, trigger, values, table, ));
+               }
+
+                */
            }
-           */
        } catch (SQLException sqle) {sqle.printStackTrace();}
    }
 /*
