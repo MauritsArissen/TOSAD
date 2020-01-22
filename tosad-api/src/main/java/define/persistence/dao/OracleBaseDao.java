@@ -6,11 +6,17 @@ import java.sql.Statement;
 
 public class OracleBaseDao implements BaseDao {
 
-    private String url =  "jdbc:oracle:thin:@//ondora04.hu.nl:1521/EDUC11";
-    private String user = "cursist";
-    private String pass = "cursist8101";
+    private String url;
+    private String user;
+    private String pass;
     protected Connection myConn;
     protected Statement myStmt;
+    
+    public OracleBaseDao(String url, String user, String pass) {
+    	this.url = url;
+    	this.user = user;
+    	this.pass = pass;
+    }
 
     public Connection getConnection() {
         try {
@@ -29,6 +35,5 @@ public class OracleBaseDao implements BaseDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
-//        System.out.println("Connection to database closed successfully.");
     }
 }

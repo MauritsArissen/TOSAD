@@ -1,6 +1,5 @@
 package define.resource;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.ws.rs.Consumes;
@@ -13,22 +12,17 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
-import org.json.JSONObject;
-
 import define.business.controller.DefineController;
 
 @Path("/define")
 public class DefineResource {
+	private DefineController controller = new DefineController();
 	
 	@GET
     @Produces("application/json")
     public Response getBasicInfo() {
-		
-		System.out.println("define.Main class works");
 
-        DefineController controller = new DefineController();
-
-        HashMap<String, HashMap<String, HashMap<String, HashMap<String, ArrayList<String>>>>> hashedresult = controller.getBusinessRuleData();
+		HashMap<String, HashMap> hashedresult = controller.getDefineData();
         
         ResponseBuilder builder = Response.ok(hashedresult);
         

@@ -9,7 +9,7 @@ public class Main {
 
         DefineController dao = new DefineController();
 
-        System.out.println(dao.getBusinessRuleData());
+        System.out.println(dao.getDefineData());
     	
     
         }

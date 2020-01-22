@@ -6,16 +6,23 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class DefineOracleDao extends OracleBaseDao implements DefineDao {
+public class DefineOracleDao implements DefineDao {
+	private BaseDao dbconnection;
+	
+	public DefineOracleDao(BaseDao dbconnection) {
+		this.dbconnection = dbconnection;
+	}
 
-    public HashMap<String, HashMap<String, HashMap<String, HashMap<String, ArrayList<String>>>>> getAvailableInput() {
-        String query = "select operator.name as \"operator\", businessruletype.code as \"businessrulecode\", businessruletype.name as \"businessrulename\", businessruletype.description as \"businessruledescription\", category.name as \"categoryname\" from operator, businessruletype, category, operatorrule where operator.id = operatorrule.id and operatorrule.code = businessruletype.code and businessruletype.categoryid = category.id";
+	@Override
+	public HashMap<String, HashMap<String, HashMap<String, HashMap<String, ArrayList<String>>>>> getAvailableInput() {
+        String query = "select operator.name as \"operator\", businessruletype.code as \"businessrulecode\", businessruletype.name as \"businessrulename\", businessruletype.description as \"businessruledescription\", category.name as \"categoryname\" from operator, businessruletype, category, operatorrule where operator.id = operatorrule.id and operatorrule.code = businessruletype.code and businessruletype.categoryid = category.id order by businessruletype.name asc";
         HashMap<String, HashMap<String, HashMap<String, HashMap<String, ArrayList<String>>>>> data = new HashMap<>();        
         
-        try (Connection conn = super.getConnection()) {
+        try (Connection conn = dbconnection.getConnection()) {
 
             PreparedStatement statement = conn.prepareStatement(query);
             ResultSet resultset = statement.executeQuery();
+            
             data.put("categories", new HashMap<String, HashMap<String, HashMap<String, ArrayList<String>>>>());
             while(resultset.next()) {
             	if(data.get("categories").containsKey(resultset.getString("categoryname"))) {
@@ -26,7 +33,7 @@ public class DefineOracleDao extends OracleBaseDao implements DefineDao {
             	if(data.get("categories").get(resultset.getString("categoryname")).containsKey(resultset.getString("businessrulename"))) {
             		
             	} else {
-            		data.get("categories").get(resultset.getString("categoryname")).put(resultset.getString("businessrulename"), new HashMap<String , ArrayList<String>>());
+            		data.get("categories").get(resultset.getString("categoryname")).put(resultset.getString("businessrulename"), new HashMap<String, ArrayList<String>>());
             		data.get("categories").get(resultset.getString("categoryname")).get(resultset.getString("businessrulename")).put("operators", new ArrayList<String>());
             	}
             	data.get("categories").get(resultset.getString("categoryname")).get(resultset.getString("businessrulename")).get("operators").add(resultset.getString("operator"));
@@ -36,10 +43,8 @@ public class DefineOracleDao extends OracleBaseDao implements DefineDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        super.closeConnection();
+        dbconnection.closeConnection();
         return data;
-       
     }
     
     
