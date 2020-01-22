@@ -1,15 +1,15 @@
 package define;
 
-import define.persistence.dao.DefineOracleDao;
+import define.business.controller.DefineController;
 
 public class Main {
 
     public static void main(String[] args) {
         System.out.println("define.Main class works");
 
-        DefineOracleDao dao = new DefineOracleDao();
+        DefineController dao = new DefineController();
 
-        System.out.println(dao.getAvailableInput());
+        System.out.println(dao.getBusinessRuleData());
     	
     
         }

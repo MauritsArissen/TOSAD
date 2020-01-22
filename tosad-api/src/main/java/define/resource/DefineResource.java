@@ -1,5 +1,8 @@
 package define.resource;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -10,7 +13,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
-import define.persistence.dao.DefineOracleDao;
+import org.json.JSONObject;
+
+import define.business.controller.DefineController;
 
 @Path("/define")
 public class DefineResource {
@@ -21,11 +26,11 @@ public class DefineResource {
 		
 		System.out.println("define.Main class works");
 
-        DefineOracleDao dao = new DefineOracleDao();
+        DefineController controller = new DefineController();
 
-        String result = dao.getDefineInfo();
+        HashMap<String, HashMap<String, HashMap<String, HashMap<String, ArrayList<String>>>>> hashedresult = controller.getBusinessRuleData();
         
-        ResponseBuilder builder = Response.ok(result);
+        ResponseBuilder builder = Response.ok(hashedresult);
         
         builder.header("Access-Control-Allow-Origin", "*");
         builder.header("Access-Control-Allow-Headers",
@@ -35,19 +40,6 @@ public class DefineResource {
                 "GET, POST, PUT, DELETE, OPTIONS, HEAD");
         
         return builder.build();
-//        try {
-//        	
-//        	DefineOracleDao dao = new DefineOracleDao();
-//        	String result = dao.getDefineInfo();
-//        	
-//        	System.out.println(result.getClass().getName());
-//        	System.out.println("de define resource");
-//        	System.out.println(result);
-//        	
-//            return result;
-//        } catch (Exception e) {
-//            return "Failed";
-//        }
     }
 
     @POST

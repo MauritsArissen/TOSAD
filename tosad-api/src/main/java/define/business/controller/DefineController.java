@@ -1,24 +1,15 @@
 package define.business.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import define.persistence.dao.DefineOracleDao;
 
 public class DefineController {
-    private static DefineController myInstance;
 
+    public DefineController() {}
 
-    private DefineController() {}
-
-    // Singelton pattern
-    public static DefineController getInstance(){
-        if (myInstance == null) {
-            myInstance = new DefineController();
-        }
-        return myInstance;
-    }
-
-    public ArrayList<String> getBusinessRuleData() {
+    public HashMap<String, HashMap<String, HashMap<String, HashMap<String, ArrayList<String>>>>> getBusinessRuleData() {
         try {
         	// returns all available user from the database as a string
             return new DefineOracleDao().getAvailableInput();
