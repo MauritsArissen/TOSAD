@@ -5,5 +5,5 @@ import define.business.domain.businessrules.BusinessRule;
 import define.business.domain.businessrules.RangeRule;
 
 public interface BusinessRuleFactory {
-    BusinessRule createRule(String name, Operator operator, Trigger trigger, Parameter parameters, Table table);
+    BusinessRule createRule(String name, Operator operator, Trigger trigger, Table table);
 }
