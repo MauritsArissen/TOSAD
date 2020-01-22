@@ -3,6 +3,7 @@ package define.business.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import define.business.controller.factory.BusinessRuleFactory;
@@ -11,6 +12,8 @@ import define.persistence.adapter.DaoAdapter;
 import define.persistence.dao.BaseDao;
 import define.persistence.dao.DefineOracleDao;
 import define.persistence.dao.TargetOracleDao;
+import define.business.domain.LiteralValue;
+import define.business.domain.businessrules.BusinessRule;
 
 public class DefineController {
 
@@ -41,11 +44,11 @@ public class DefineController {
 	public String saveDefineData(String data) {
 		JSONObject jsondata = new JSONObject(data);
 		String ruletype = jsondata.get("ruletype").toString();
-		System.out.println(jsondata);
 		
 		BusinessRuleFactory factory = new TypeBasedBusinessRuleFactory(ruletype);
-//		BusinessRule rule = factory.createRule(name, operator, trigger, table)
+		BusinessRule rule = factory.createRule(jsondata);
 		
+		System.out.println(rule);
 		return null;
 	}
 	
