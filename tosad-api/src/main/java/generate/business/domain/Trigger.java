@@ -10,11 +10,10 @@ public class Trigger {
     private String failuremessage;
     private ArrayList<BusinessRule> businessRules = new ArrayList<>();
 
-    public Trigger(String triggercode, String triggerevent, String failuremessage, ArrayList<BusinessRule> businessRules) {
+    public Trigger(String triggercode, String triggerevent, String failuremessage) {
         this.triggercode = triggercode;
         this.triggerevent = triggerevent;
         this.failuremessage = failuremessage;
-        this.businessRules = businessRules;
     }
 
     public String getTriggercode() {

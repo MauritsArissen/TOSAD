@@ -22,7 +22,8 @@ public class AttributeCompareRule implements BusinessRule {
     }
 
     public String generateDynamicPart() {
-        return "l_passed := :new." + table.getSelectedTableAttribute() + " " + operator.getName() + " " +
+        return  "begin\n" +
+                "l_passed := :new." + table.getSelectedTableAttribute() + " " + operator.getName() + " " +
                 values.get(0).getValue() + ";\n" +
                 "  if not l_passed\n" +
                 "  then\n" +

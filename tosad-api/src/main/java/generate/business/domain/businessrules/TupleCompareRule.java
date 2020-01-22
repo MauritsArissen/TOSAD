@@ -26,8 +26,11 @@ public class TupleCompareRule implements BusinessRule {
         //Checks of het vergelijkbare data typen zijn, front-end check?
 
         //Er is nog geen onderscheid in de getSelectedTableAttribute(). Het heeft nog geen weet van de twee verschillende attributen
-        return "l_passed := :new." + table.getSelectedTableAttribute() + " " + operator.getName() + " :new." +
-                table.getSelectedTableAttribute() + ";\n" +
+        return  "  l_compareValue " + table.getName() + "." + table.getSelectedTableAttribute() + ";\n" +
+                "  l_targetValue " + values.get(0).getValue() + "." + values.get(1).getValue() + "%type;\n" +
+                "begin\n" +
+                "l_passed := :new." + table.getSelectedTableAttribute() + " " + operator.getName() + " :new." +
+                values.get(0).getValue() + ";\n" +
                 "  if not l_passed\n" +
                 "  then\n" +
                 "    l_error_stack := '" + trigger.getFailuremessage() + "';\n" +

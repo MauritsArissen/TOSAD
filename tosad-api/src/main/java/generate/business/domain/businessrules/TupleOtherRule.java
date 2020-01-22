@@ -14,15 +14,16 @@ public class TupleOtherRule implements BusinessRule {
     private Table table;
 
     public TupleOtherRule(Operator operator, Trigger trigger,
-                              ArrayList<LiteralValue> values, Table table) {
+                          ArrayList<LiteralValue> values, Table table) {
         this.operator = operator;
         this.trigger = trigger;
         this.values = values;
-        this.table = table;;
+        this.table = table;
     }
 
     public String generateDynamicPart() {
-        return "l_passed := " + values.get(0).getValue() + ";\n" +
+        return  "begin\n" +
+                "l_passed := " + values.get(0).getValue() + ";\n" +
                 "  if not l_passed\n" +
                 "  then\n" +
                 "    l_error_stack := '" + trigger.getFailuremessage() + "';\n" +

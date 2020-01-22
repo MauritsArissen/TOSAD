@@ -14,7 +14,7 @@ public class AttributeListRule implements BusinessRule {
     private Table table;
 
     public AttributeListRule(Operator operator, Trigger trigger,
-                                ArrayList<LiteralValue> values, Table table) {
+                             ArrayList<LiteralValue> values, Table table) {
         this.operator = operator;
         this.trigger = trigger;
         this.values = values;
@@ -22,7 +22,8 @@ public class AttributeListRule implements BusinessRule {
     }
 
     public String generateDynamicPart() {
-        return "l_passed := :new." + table.getSelectedTableAttribute() + " " + operator.getName() + " " +
+        return  "begin\n" +
+                "l_passed := :new." + table.getSelectedTableAttribute() + " " + operator.getName() + " " +
                 "(" + generateList() + ")" +
                 "  if not l_passed\n" +
                 "  then\n" +

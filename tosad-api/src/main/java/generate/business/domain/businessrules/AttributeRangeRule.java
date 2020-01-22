@@ -16,11 +16,12 @@ public class AttributeRangeRule implements BusinessRule {
         this.operator = operator;
         this.trigger = trigger;
         this.values = values;
-        this.table = table;;
+        this.table = table;
     }
 
     public String generateDynamicPart() {
-        return "l_passed := :new." + table.getSelectedTableAttribute() + " " + operator.getName() + " " +
+        return  "begin\n" +
+                "l_passed := :new." + table.getSelectedTableAttribute() + " " + operator.getName() + " " +
                 values.get(0).getValue() + " and " + values.get(1).getValue() + ";\n" +
                 "  if not l_passed\n" +
                 "  then\n" +

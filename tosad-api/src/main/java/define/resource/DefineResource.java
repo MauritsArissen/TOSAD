@@ -36,36 +36,4 @@ public class DefineResource {
         return builder.build();
     }
 
-    @POST
-    @Path("/savedefined")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response doSomethingWithUiInput(postJsonUIinput in) {
-	    System.out.println("test");
-	    System.out.println("tablename: " + in.getTable());
-
-	    return Response.ok().build();
-    }
-
-    public String getTrigger(
-            @FormParam("tableName") String tableName,
-            @FormParam("attribute") String attribute,
-            @FormParam("operator") String operator,
-            @FormParam("value1") int value1,
-            @FormParam("value2") int value2,
-            @FormParam("failureMessage") String failureMessage) {
-        return "create or replace TRIGGER generated_name\n" +
-                "    BEFORE INSERT ON " + tableName + "\n" +
-                "    FOR EACH ROW\n" +
-                "DECLARE\n" +
-                "    l_passed boolean;\n" +
-                "BEGIN\n" +
-                "    l_passed := " + attribute + " " + operator + " " + value1 + " and " + value2 + ";\n" +
-                "    IF not l_passed \n" +
-                "        THEN    \n" +
-                "            raise_application_error(-20000, '" + failureMessage + "');\n" +
-                "    END IF;\n" +
-                "END generated_name;";
-    }
-
 }

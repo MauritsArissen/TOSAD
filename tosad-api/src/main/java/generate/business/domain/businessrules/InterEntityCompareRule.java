@@ -14,7 +14,7 @@ public class InterEntityCompareRule implements BusinessRule {
     private Table table;
 
     public InterEntityCompareRule(Operator operator, Trigger trigger,
-                             ArrayList<LiteralValue> values, Table table) {
+                                  ArrayList<LiteralValue> values, Table table) {
         this.operator = operator;
         this.trigger = trigger;
         this.values = values;
@@ -26,7 +26,8 @@ public class InterEntityCompareRule implements BusinessRule {
         //Checks of het verschillende tabellen zijn, front-end check?
 
         //Er is nog geen onderscheid in de getSelectedTableAttribute(). Het heeft nog geen weet van de twee verschillende attributen
-        return "l_passed := :new." + table.getSelectedTableAttribute() + " " + operator.getName() + " :new." +
+        return  "begin\n" +
+                "l_passed := :new." + table.getSelectedTableAttribute() + " " + operator.getName() + " :new." +
                 table.getSelectedTableAttribute() + ";\n" +
                 "  if not l_passed\n" +
                 "  then\n" +
