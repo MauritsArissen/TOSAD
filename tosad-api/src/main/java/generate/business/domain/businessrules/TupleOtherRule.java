@@ -7,13 +7,13 @@ import generate.business.domain.Trigger;
 
 import java.util.ArrayList;
 
-public class AttributeOtherRule implements BusinessRule {
+public class TupleOtherRule implements BusinessRule {
     private Operator operator;
     private Trigger trigger;
     private ArrayList<LiteralValue> values;
     private Table table;
 
-    public AttributeOtherRule(Operator operator, Trigger trigger,
+    public TupleOtherRule(Operator operator, Trigger trigger,
                               ArrayList<LiteralValue> values, Table table) {
         this.operator = operator;
         this.trigger = trigger;
