@@ -76,7 +76,7 @@ export class MainComponent implements OnInit, AfterViewInit {
       "values": this.values,
       "failureMessage": this.failureMessageText
     }
-    this._http.postRequest('http://localhost:8080/tosad-api/restservices/define/saverule', this.data).subscribe(o => {
+    this._http.postRequest('http://localhost:8080/tosad-api/restservices/define/saverule', sendData).subscribe(o => {
       console.log("Post request sent")
     })
   }
