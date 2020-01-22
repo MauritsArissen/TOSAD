@@ -12,6 +12,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
+import org.json.JSONObject;
+
 import define.business.controller.DefineController;
 
 @Path("/define")
@@ -35,5 +37,22 @@ public class DefineResource {
         
         return builder.build();
     }
+	
+	@POST
+	@Path("/saverule")
+	@Produces("application/json")
+	public Response defineBusinessRule(String data) throws Exception {
+	    JSONObject jsondata = new JSONObject(data);
+	    System.out.println(jsondata);
+	    
+	    
+	    
+	    ResponseBuilder builder = Response.ok();
+       
+        return builder.build();
+	    
+	}
+	
+	
 
 }

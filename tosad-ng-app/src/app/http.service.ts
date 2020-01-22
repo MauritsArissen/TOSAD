@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -16,11 +16,12 @@ export class HttpService {
     return this.http.get(url);
   }
 
-  postRequest(url, body, options) {
+  postRequest(url, body) {
     let httpHeaders = new HttpHeaders({
       'Content-Type' : 'application/json',
-      'Cache-Control': 'no-cache',
+      'Cache-Control': 'no-cache'
     });   
-    return this.http.post(url, body, { headers: httpHeaders })
+    const req = new HttpRequest('POST', url, JSON.stringify(body));
+    return this.http.request(req);
   }
 }

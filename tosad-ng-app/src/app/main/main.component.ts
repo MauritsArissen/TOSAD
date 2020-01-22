@@ -22,6 +22,7 @@ export class MainComponent implements OnInit, AfterViewInit {
   query: string = "";
   listLength: number = 6;
   selectedAttribute: string = "";
+  inputType: string = "";
 
   /////////////////////////////////////////// EXAMPLE DATA
   data = {}
@@ -59,8 +60,7 @@ export class MainComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this._http.getRequest("http://localhost:8080/tosad-api/restservices/define/").subscribe(rdata => {
       this.data = rdata
-      this.tables = Object.keys(this.datatable);
-      this.categories = Object.keys(this.data['categories']); 
+      this.tables = Object.keys(this.data['datatable']);
       this.refresh()
     })
     this.refresh()
@@ -73,17 +73,28 @@ export class MainComponent implements OnInit, AfterViewInit {
       "category": this.category,
       "ruletype": this.ruletype,
       "operator": this.operator,
+      "values": this.values,
       "failureMessage": this.failureMessageText
     }
-    // this._http.postRequest("http://localhost:8080/tosad-api/restservices/define/savedefined", sendData, null).subscribe(data => {
-    //   console.log(data);
-    // })
-    this.generateCode(sendData)
+    this._http.postRequest('http://localhost:8080/tosad-api/restservices/define/saverule', sendData).subscribe(o => {
+      console.log("Post request sent")
+    })
   }
 
   tableChange() {
-    this.attributes = Object.keys(this.datatable[this.table]);
+    this.attributes = Object.keys(this.data['datatable'][this.table]);
     this.attribute = ""
+    this.attributeChange()
+    this.refresh()
+  }
+
+  attributeChange() {
+    this.categories = Object.keys(this.data['categories']); 
+    this.category = ""
+    this.businessRuleTypes = []
+    this.ruletype = ""
+    this.operator = ""
+    this.operators = []
     this.refresh()
   }
 
@@ -99,22 +110,28 @@ export class MainComponent implements OnInit, AfterViewInit {
     this.operators = this.data['categories'][this.category][this.ruletype].operators
     this.operator = ""
     this.values = []
+    this.inputType = this.data['datatable'][this.table][this.attribute]['type']; 
     this.refresh()
   } 
 
   refresh() {
     setTimeout(() => {
       M.AutoInit()
-      console.log(this.values);
     }, 10)
-  }
-
-  generateCode(data) {
-    this.query = `CREATE OR REPLACE TRIGGER generated_name BEFORE INSERT ON ${data.table} FOR EACH ROW DECLARE l_passed boolean; BEGIN l_passed := ${data.attribute} ${data.operator} ${data.firstParam} AND ${data.secondParam}; IF NOT l_passed THEN raise_application_error(-20000, '${data.failureMessage}'); END IF; END generated_name;`
   }
 
   arrayOne(): any[] {
     return [...Array(this.listLength).keys()]
+  }
+  
+  addField() {
+    this.listLength += 1
+  }
+
+  removeField() {
+    if (this.listLength == 1) return;
+    this.listLength -= 1
+    this.values.splice(-1, 1)
   }
 
 }

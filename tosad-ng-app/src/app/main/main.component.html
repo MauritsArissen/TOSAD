@@ -9,7 +9,7 @@
             <label>Table</label>
         </div>
         <div class="input-field col s6">
-            <select [(ngModel)]="attribute">
+            <select [(ngModel)]="attribute" (change)='attributeChange()'>
                 <option *ngIf="attributes.length == 0" value="none" disabled selected>Choose your table first</option>
                 <option *ngFor="let attribute of attributes" [value]="attribute">{{attribute}}</option>
             </select>
@@ -18,6 +18,7 @@
         <h4 class="col s12">Business rule</h4>
         <div class="input-field col s4">
             <select [(ngModel)]="category" (change)='categoryChange()'>
+                <option *ngIf="categories.length == 0" value="none" disabled selected>Choose your attribute first</option>
                 <option *ngFor="let category of categories" [value]="category">{{category}}</option>
             </select>
             <label>category</label>
@@ -52,12 +53,17 @@
             <!-- Attribute Compare rule -->
             <div *ngIf="ruletype == 'Attribute Compare rule'">
                 <div class="input-field col s12">
-                    <input id="firstParam" type="text" class="validate" [(ngModel)]="values[0]">
+                    <input id="firstParam" *ngIf="inputType == 'VARCHAR2'" type="text" class="validate" [(ngModel)]="values[0]">
+                    <input id="firstParam" *ngIf="inputType == 'NUMBER'" type="number" class="validate" [(ngModel)]="values[0]">
                     <label for="firstParam">Compared value</label>
                 </div>
             </div>
             <!-- Attribute List rule -->
             <div *ngIf="ruletype == 'Attribute List rule'">
+                <div class="list-control col s12">
+                    <a class="waves-effect waves-light btn" (click)="addField()" >Add field</a>
+                    <a class="waves-effect waves-light btn" (click)="removeField()" >Remove field</a>
+                </div>
                 <div *ngFor="let i of arrayOne()" class="col s3">
                     <div class="input-field">
                         <input id="firstParam{{i}}" type="text" class="validate" [(ngModel)]="values[i]">
@@ -80,7 +86,7 @@
             <label for="failureMessageText">Failure message</label>
         </div>
         <div class="input-field col s12">
-            <a class="waves-effect waves-light btn" (click)="sendDefine()">Submit</a>
+            <a class="waves-effect waves-light btn" (click)="sendDefine()">Define</a>
         </div>
     </div>
     <div *ngIf="query.length > 0" class="row">
