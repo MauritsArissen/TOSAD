@@ -15,7 +15,7 @@ public class DefineOracleDao extends OracleBaseDao implements DefineDao {
        ArrayList<BusinessRule> businessRules = null;
        Trigger trigger = null;
        String tableName = null;
-       ArrayList<TableAttribute> selectedTableAttributes = null;
+       TableAttribute selectedTableAttribute = null;
        try(Connection con = super.getConnection()) {
            PreparedStatement pstmt = con.prepareStatement("SELECT gt.event trigger_event, br.failure_message failure_message, \n" +
                    "o.name operator, br.id br_id, tt.name table_name, br.type br_type, tta.name attribute_name\n" +
@@ -36,7 +36,7 @@ public class DefineOracleDao extends OracleBaseDao implements DefineDao {
                tableName = rs.getString("table_name");
                String type = rs.getString("br_type");
 
-               selectedTableAttributes.add(new TableAttribute(rs.getString("attribute_name"))) ;
+               selectedTableAttribute = new TableAttribute(rs.getString("attribute_name"));
 
                trigger = new Trigger(triggerName, triggerEvent, failureMessage);
                Operator operator = new Operator(operatorName);
@@ -52,7 +52,7 @@ public class DefineOracleDao extends OracleBaseDao implements DefineDao {
                        values.add(new LiteralValue(rs2.getString("value")));
                    }
 
-                   Table table = new Table(tableName, selectedTableAttributes);
+                   Table table = new Table(tableName, selectedTableAttribute);
 
                    businessRules.add(new AttributeRangeRule(operator, trigger, values, table));
                }
@@ -61,6 +61,8 @@ public class DefineOracleDao extends OracleBaseDao implements DefineDao {
        } catch (SQLException sqle) {sqle.printStackTrace();}
        
        String template = generateStaticPart(trigger, tableName);
+
+
 
        for (BusinessRule b : businessRules) {
            template += b.generateDynamicPart();
@@ -78,8 +80,7 @@ public class DefineOracleDao extends OracleBaseDao implements DefineDao {
                "  for each row\n" +
                "declare\n" +
                "  l_passed boolean := true;\n" +
-               "  l_error_stack varchar2(4000);\n" +
-               "begin\n";
+               "  l_error_stack varchar2(4000);\n";
        
 
        return template;
