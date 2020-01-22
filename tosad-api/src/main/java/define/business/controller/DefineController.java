@@ -11,7 +11,7 @@ public class DefineController {
 
     public HashMap<String, HashMap<String, HashMap<String, HashMap<String, ArrayList<String>>>>> getBusinessRuleData() {
         try {
-        	// returns all available user from the database as a string
+        	// returns all available user from the database as a hashmap
             return new DefineOracleDao().getAvailableInput();
         } catch (Exception e) {
             System.out.println(e);
