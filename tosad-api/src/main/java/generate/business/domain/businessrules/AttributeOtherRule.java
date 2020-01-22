@@ -1,18 +1,20 @@
 package generate.business.domain.businessrules;
 
-import generate.business.domain.*;
-
+import generate.business.domain.LiteralValue;
+import generate.business.domain.Operator;
+import generate.business.domain.Table;
+import generate.business.domain.Trigger;
 
 import java.util.ArrayList;
 
-public class RangeRule implements BusinessRule {
+public class AttributeOtherRule implements BusinessRule {
     private Operator operator;
     private Trigger trigger;
     private ArrayList<LiteralValue> values;
     private Table table;
 
-    public RangeRule(Operator operator, Trigger trigger,
-                     ArrayList<LiteralValue> values, Table table) {
+    public AttributeOtherRule(Operator operator, Trigger trigger,
+                              ArrayList<LiteralValue> values, Table table) {
         this.operator = operator;
         this.trigger = trigger;
         this.values = values;
@@ -21,7 +23,7 @@ public class RangeRule implements BusinessRule {
 
     public String generateDynamicPart() {
         return "l_passed := :new." + table.getSelectedTableAttribute() + " " + operator.getName() + " " +
-                values.get(0).getValue() + " and " + values.get(1).getValue() + ";\n" +
+                values.get(0).getValue() + ";\n" +
                 "  if not l_passed\n" +
                 "  then\n" +
                 "    l_error_stack := '" + trigger.getFailuremessage() + "';\n" +

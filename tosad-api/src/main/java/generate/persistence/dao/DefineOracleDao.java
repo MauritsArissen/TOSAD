@@ -1,7 +1,6 @@
 package generate.persistence.dao;
 
 import generate.business.domain.businessrules.BusinessRule;
-import generate.business.domain.businessrules.RangeRule;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
