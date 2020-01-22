@@ -1,9 +1,13 @@
 package define.business.controller.factory;
 
-import define.business.domain.*;
+import java.util.ArrayList;
+
+import define.business.domain.LiteralValue;
+import define.business.domain.Table;
+import define.business.domain.TableAttribute;
+import define.business.domain.Trigger;
 import define.business.domain.businessrules.BusinessRule;
-import define.business.domain.businessrules.RangeRule;
 
 public interface BusinessRuleFactory {
-    BusinessRule createRule(String name, Operator operator, Trigger trigger, Table table);
+    BusinessRule createRule(ArrayList<LiteralValue> values, TableAttribute tableattribute, Trigger trigger, Table table);
 }
