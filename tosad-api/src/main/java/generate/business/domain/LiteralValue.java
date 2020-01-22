@@ -6,7 +6,9 @@ public class LiteralValue {
     private int length;
     private int scale;
 
-    public LiteralValue() {}
+    public LiteralValue(String value) {
+        this.value = value;
+    }
 
     public String getValue() {
         return value;
