@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class AttributeRangeRule implements BusinessRule {
     private Operator operator;
-    private ArrayList<LiteralValue> values;
+    private ArrayList<LiteralValue> values = new ArrayList<>();
     private Table table;
     private String failuremessage;
     private String name;

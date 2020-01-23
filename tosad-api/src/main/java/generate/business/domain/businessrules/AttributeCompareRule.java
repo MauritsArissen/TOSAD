@@ -16,7 +16,7 @@ public class AttributeCompareRule implements BusinessRule {
 
     public AttributeCompareRule(Operator operator, Table table, String failuremessage, String name) {
         this.operator = operator;
-        this.values = values;
+        this.values = new ArrayList<>();
         this.table = table;
         this.failuremessage = failuremessage;
         this.name = name;

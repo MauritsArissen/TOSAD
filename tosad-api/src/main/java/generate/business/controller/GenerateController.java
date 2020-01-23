@@ -44,9 +44,9 @@ public class GenerateController {
             Table table = new Table(list.get("targettablename"), new TableAttribute(list.get("targettableattributename")));
             BusinessRule rule = factory.createRule(operator, table, list.get("failure_message"), list.get("businessrulename"));
             trigger.addBusinessRule(rule);
-            System.out.println("rules");
-            System.out.println(rule);
-            System.out.println("end");
+            //System.out.println("rules");
+            //System.out.println(rule);
+            //System.out.println("end");
         }
 
         ArrayList<BusinessRule> ruleList = trigger.getBusinessRules();
@@ -61,13 +61,14 @@ public class GenerateController {
                 " begin\n";
 
         for (BusinessRule bRule : ruleList) {
-            System.out.println(bRule.getName() + "<----");
+            //System.out.println(bRule.getName() + "<----");
             ArrayList<String> values = defineOracleDao.getValuesFromRule(bRule.getName());
             for (String value : values) {
-                System.out.println(value + " <---");
+                //System.out.println(value + " <---");
                 LiteralValue litValue = new LiteralValue(value);
-                System.out.println(litValue.getValue());
+                //System.out.println(litValue.getValue());
                 System.out.println(litValue);
+                System.out.println(bRule);
                 bRule.addValue(litValue);
             }
             triggerString += bRule.generateDynamicPart();

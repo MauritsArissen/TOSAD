@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class AttributeOtherRule implements BusinessRule {
     private Operator operator;
-    private ArrayList<LiteralValue> values;
+    private ArrayList<LiteralValue> values = new ArrayList<>();
     private Table table;
     private String failuremessage;
     private String name;
@@ -16,14 +16,16 @@ public class AttributeOtherRule implements BusinessRule {
     public AttributeOtherRule(Operator operator,
                               Table table, String failuremessage, String name) {
         this.operator = operator;
-        this.values = values;
         this.table = table;
         this.failuremessage = failuremessage;
         this.name = name;
     }
 
     public void addValue(LiteralValue value) {
-        values.add(value);
+        if(value != null) {
+            System.out.println(value);
+            values.add(value);
+        }
     }
 
     public String getName() {

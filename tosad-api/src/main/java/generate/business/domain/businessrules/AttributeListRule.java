@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class AttributeListRule implements BusinessRule {
     private Operator operator;
-    private ArrayList<LiteralValue> values;
+    private ArrayList<LiteralValue> values = new ArrayList<>();
     private Table table;
     private String failuremessage;
     private String name;
@@ -49,8 +49,10 @@ public class AttributeListRule implements BusinessRule {
 
     public String generateList() {
         String value = "";
-        for (int i = 0; i <= values.size(); i++) {
-            value += "'" + values.get(i).getValue() + "', ";
+        if (!values.isEmpty()) {
+            for (LiteralValue v : values) {
+                value += "'" + v.getValue() + "', ";
+            }
         }
         return value;
     }
