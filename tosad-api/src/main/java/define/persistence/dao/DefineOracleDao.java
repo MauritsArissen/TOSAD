@@ -67,6 +67,7 @@ public class DefineOracleDao implements DefineDao {
 		
 		// only works if trigger doesn't exist, will be checked in this method
 		insertTrigger(rule.getTrigger(), triggerId); 
+		triggerId = getTriggerFromRule(rule.getTrigger());
 			
         try (Connection conn = dbconnection.getConnection()) {
         	if (ruletypecode.equals("ARNG") || ruletypecode.equals("ACMP") || ruletypecode.equals("ALIS") || ruletypecode.equals("AOTH")) {
@@ -104,6 +105,8 @@ public class DefineOracleDao implements DefineDao {
         			pstatement.setString(1, l.getValue());
                     pstatement.executeQuery();
                     
+                    pstatement.close();
+                    
                     String paridquery = "select max(id) as id from parameter";
     				int parid = 0;
     				
@@ -112,6 +115,9 @@ public class DefineOracleDao implements DefineDao {
     				while (parresult.next()) {
     					parid = parresult.getInt("id");
     				}
+    				
+    				getparidstatement.close();
+    				parresult.close();
   		
     				String coupletableinsert = "insert into parameterrule (businessruleid, parameterid) values (?, ?)";
     				PreparedStatement coupletableinsertstatement = conn.prepareStatement(coupletableinsert);
@@ -146,7 +152,6 @@ public class DefineOracleDao implements DefineDao {
 		String checktargettable = "select * from targettable where name = ?";
 		String inserttargettable = "insert into targettable (name, databaseid) values (?, 1)";
 		boolean tableExists = false;
-		int tableId = 0;
         try (Connection conn = dbconnection.getConnection()) {
         	
     		PreparedStatement statement = conn.prepareStatement(checktargettable);
@@ -166,14 +171,17 @@ public class DefineOracleDao implements DefineDao {
         		PreparedStatement insertstatement = conn.prepareStatement(inserttargettable);
         		insertstatement.setString(1, rule.getTable().getName());
         		insertstatement.executeQuery();
-    		} else {
-    			tableId = result.getInt("id");
+        		insertstatement.close();
     		}
     		
-    		String checktableattribute = "select * from tableattribute where name = ?";
+    		statement.close();
+    		result.close();
+    		
+    		String checktableattribute = "select * from targettableattribute where name = ?";
     		boolean tableattributeExists = false;   
     		
     		PreparedStatement tableattributestatement = conn.prepareStatement(checktableattribute);
+    		tableattributestatement.setString(1, rule.getTable().getSelectedTableAttribute().getName());
     		ResultSet tableattributeresult = tableattributestatement.executeQuery(); 
     		
     		int sizez = 0;
@@ -186,18 +194,22 @@ public class DefineOracleDao implements DefineDao {
     		}
     		
     		if (!tableattributeExists) {
-        		if (tableExists) {
-        			String inserttableattribute = "insert into tableattribute (name, tableid) values (?, ?)";
-        			PreparedStatement insertstatement = conn.prepareStatement(inserttableattribute);
-        			insertstatement.setString(1, rule.getTable().getSelectedTableAttribute().getName());
-        			insertstatement.setInt(2, tableId);
-        			insertstatement.executeQuery();
-        		} else {
-        			String inserttableattribute = "insert into tableattribute (name, tableid) values (?, (SELECT max(id) from targettable))";
-        			PreparedStatement insertstatement = conn.prepareStatement(inserttableattribute);
-        			insertstatement.setString(1, rule.getTable().getSelectedTableAttribute().getName());
-        			insertstatement.executeQuery();
-        		}
+    			PreparedStatement gettargettable = conn.prepareStatement(checktargettable);
+    			gettargettable.setString(1, rule.getTable().getName());
+        		ResultSet targettableresult = gettargettable.executeQuery();
+        		
+        		int tableid = 0;
+    			while (targettableresult.next()) {
+    				tableid = targettableresult.getInt("id");
+    			}
+    			
+    			String inserttableattribute = "insert into targettableattribute (name, tableid) values (?, ?)";
+    			PreparedStatement insertstatement = conn.prepareStatement(inserttableattribute);
+    			insertstatement.setString(1, rule.getTable().getSelectedTableAttribute().getName());
+    			insertstatement.setInt(2, tableid);
+    			insertstatement.executeQuery();
+    			
+    			insertstatement.close();
     		}
 
         } catch (Exception e) {
