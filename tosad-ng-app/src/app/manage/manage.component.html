@@ -5,16 +5,25 @@
             <h3>Trigger</h3>
             <hr>
             <ul>
-                <li *ngFor="let item of triggers | keyvalue" (click)="getRules(item.key)">{{ item.key }}</li>
+                <li *ngFor="let item of triggers | keyvalue" (click)="getRules(item.key)">
+                    {{ item.key }}
+                    <div class="right">
+                        <a class="waves-effect waves-light btn-small blue modal-trigger" data-target="modalGenerate" (click)="runGenerate(item.key)">Generate</a>
+                    </div>
+                </li>
             </ul>
         </div>
         <div class="col s4">
             <h3>Rules</h3>
             <hr>
             <ul>
-                <li *ngFor="let item of rules" class="rules-content" (click)="getProperties(item.name)">{{ item.name }}</li>
+                <li *ngFor="let item of rules" class="rules-content" (click)="getProperties(item.name)">
+                    {{ item.name }}
+                    <div class="right">
+                        <a class="btn-floating btn-large waves-effect waves-light btn-small red">✕</a>
+                    </div>
+                </li>
             </ul>
-            <a class="waves-effect waves-light btn-small red">Delete</a>
         </div>
         <div class="col s4">
             <h3>Properties</h3>
@@ -23,5 +32,15 @@
                 <li *ngFor="let item of properties" class="rules-content">{{ item.name }}</li>
             </ul>
         </div>
+    </div>
+</div>
+
+<!-- Modal Structure -->
+<div id="modalGenerate" class="modal">
+    <div class="modal-content">
+        <h4>Modal Header</h4>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
     </div>
 </div>
