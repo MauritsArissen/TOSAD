@@ -10,18 +10,26 @@ public class AttributeRangeRule implements BusinessRule {
     private ArrayList<LiteralValue> values;
     private Table table;
     private String failuremessage;
+    private String name;
 
     public AttributeRangeRule(Operator operator,
-                              ArrayList<LiteralValue> values, Table table, String failuremessage) {
+                              Table table, String failuremessage, String name) {
         this.operator = operator;
-        this.values = values;
         this.table = table;
         this.failuremessage = failuremessage;
+        this.name = name;
+    }
+
+    public void addValue(LiteralValue value) {
+        values.add(value);
+    }
+
+    public String getName() {
+        return name;
     }
 
     public String generateDynamicPart() {
-        String template =  "begin\n" +
-                "l_passed := :new." + table.getSelectedTableAttribute() + " " + operator.getName() + " " +
+        String template =  "l_passed := :new." + table.getSelectedTableAttribute() + " " + operator.getName() + " " +
                 values.get(0).getValue() + " and " + values.get(1).getValue() + ";\n" +
                 "  if not l_passed\n" +
                 "  then\n" +
