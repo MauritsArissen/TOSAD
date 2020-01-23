@@ -12,11 +12,15 @@ export class ManageComponent implements OnInit, AfterViewInit {
 
   constructor(private _http: HttpService) { }
 
-  data = {}
+  triggers = []
+  rules = []
+  properties = []
 
   ngOnInit() {
-    this._http.getRequest('http://localhost:8080/tosad-api/restservices/define/').subscribe(rdata => {
-      this.data = rdata
+    this._http.getRequest('http://localhost:8080/tosad-api/restservices/generate/').subscribe(data => {
+      for (const item in data) {
+        this.triggers.push(data[item])
+      }
     })
   }
 
@@ -24,43 +28,27 @@ export class ManageComponent implements OnInit, AfterViewInit {
     this.refresh()
   }
 
-  // Example data
-  triggers: { [key: string]: Object } = {
-    'trigger t1': {
-      'rules': [
-        'attribute a1',
-        'attribute a2'
-      ]
-    },
-    'trigger t2': {
-      'rules': [
-        'attribute b2'
-      ]
-    }
-  }
-
-  rules = []
-  properties = []
-
   getRules(triggerName) {
     this.properties = []
     this.rules = []
-    for (const item in this.triggers[triggerName]['rules']) {
-      let rule = {'name': this.triggers[triggerName]['rules'][item]}
-      this.rules.push(rule)
+
+    let sendData = {
+      "name": triggerName
     }
+
+    this._http.postRequest('http://localhost:8080/tosad-api/restservices/generate/getbusinessrules', sendData).subscribe(data => {
+      for (const item in data["body"]) {
+        this.rules.push(data["body"][item])
+      }
+    })
   }
 
   getProperties(ruleName) {
-    this.properties = [
-      {
-        'name': ruleName
-      }
-    ]
+    this.properties.push(ruleName)
   }
 
   runGenerate(triggerName) {
-    console.log(triggerName)
+
   }
 
   refresh() {
@@ -68,5 +56,4 @@ export class ManageComponent implements OnInit, AfterViewInit {
       M.AutoInit()
     }, 10)
   }
-    
 }

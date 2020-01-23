@@ -3,6 +3,7 @@ package generate.resource;
 import generate.business.controller.GenerateController;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
@@ -30,11 +31,10 @@ public class GenerateResource {
         return builder.build();
     }
 
-    @GET
+    @POST
     @Path("/getbusinessrules")
     @Produces("application/json")
     public Response getBusinessrulesByTrigger(String data) {
-
         ArrayList response = controller.returnRulesByTrigger(data);
         Response.ResponseBuilder builder = Response.ok(response);
 

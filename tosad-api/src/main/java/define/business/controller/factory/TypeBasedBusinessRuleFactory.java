@@ -10,6 +10,9 @@ import define.business.domain.Operator;
 import define.business.domain.Table;
 import define.business.domain.TableAttribute;
 import define.business.domain.Trigger;
+import define.business.domain.businessrules.AttributeCompareRule;
+import define.business.domain.businessrules.AttributeListRule;
+import define.business.domain.businessrules.AttributeOtherRule;
 import define.business.domain.businessrules.BusinessRule;
 import define.business.domain.businessrules.RangeRule;
 
@@ -32,19 +35,19 @@ public class TypeBasedBusinessRuleFactory implements BusinessRuleFactory {
 
     	Operator operator = new Operator(jsondata.get("operator").toString());
     	// BRG_VB_ must be generated, hardcoded for testing.
-    	String triggercode = "BRG_VB_" + jsondata.get("table").toString().substring(0, 2) + jsondata.get("table").toString().substring(jsondata.get("table").toString().length() - 1) + "_trigger";
-    	Trigger trigger = new Trigger(triggercode, "before delete or insert or update" , jsondata.get("failureMessage").toString());
+    	String triggercode = "BRG_BRGEN_" + jsondata.get("table").toString().substring(0, 2) + jsondata.get("table").toString().substring(jsondata.get("table").toString().length() - 1) + "_trigger";
+    	String rulename = "BRG_BRGEN_" + jsondata.get("table").toString().substring(0, 2) + jsondata.get("table").toString().substring(jsondata.get("table").toString().length() - 1) + "_CNS_";
+    	Trigger trigger = new Trigger(triggercode, jsondata.get("triggerEvent").toString() , jsondata.get("failureMessage").toString());
     	Table table = new Table(jsondata.get("table").toString(), new TableAttribute(jsondata.get("attribute").toString()));	
     	
     	if (type.equals("Attribute Range rule")) {
-    		return new RangeRule(operator, trigger, table, values);
-    		
+    		return new RangeRule(rulename, operator, trigger, table, values, type);	
         } else if (type.equals("Attribute Compare rule")) {
-
+        	return new AttributeCompareRule(rulename, operator, trigger, table, values, type);
         } else if (type.equals("Attribute List rule")) {
-
+        	return new AttributeListRule(rulename, operator, trigger, table, values, type);
         } else if (type.equals("Attribute Other rule")) {
-
+        	return new AttributeOtherRule(rulename, operator, trigger, table, values, type);
         } else if (type.equals("Tuple Compare rule")) {
 
         } else if (type.equals("Tuple Other rule")) {

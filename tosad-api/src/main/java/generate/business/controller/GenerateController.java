@@ -8,14 +8,7 @@ import generate.business.domain.Table;
 import generate.business.domain.TableAttribute;
 import generate.persistence.adapter.DaoAdapter;
 import generate.persistence.dao.BaseDao;
-import generate.business.domain.Trigger;
 import generate.persistence.dao.DefineOracleDao;
-import generate.persistence.dao.TargetOracleDao;
-import org.json.JSONObject;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class GenerateController {
 
