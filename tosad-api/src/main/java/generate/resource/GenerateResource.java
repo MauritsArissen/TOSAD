@@ -14,9 +14,9 @@ public class GenerateResource {
 
     @GET
     @Produces("application/json")
-    public Response getTriggerInfo(String data) {
+    public Response getTriggerInfo() {
 
-        ArrayList response = controller.returnTriggers(data);
+        ArrayList response = controller.returnTriggers();
         Response.ResponseBuilder builder = Response.ok(response);
 
         return builder.build();
