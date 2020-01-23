@@ -26,7 +26,7 @@ public class TupleCompareRule implements BusinessRule {
 
         //Er is nog geen onderscheid in de getSelectedTableAttribute(). Het heeft nog geen weet van de twee verschillende attributen
         String template =  "begin\n" +
-                "l_passed := :new." + table.getSelectedTableAttributes() + " " + operator.getName() + " :new." +
+                "l_passed := :new." + table.getSelectedTableAttribute() + " " + operator.getName() + " :new." +
                 values.get(0).getValue() + ";\n" +
                 "  if not l_passed\n" +
                 "  then\n" +

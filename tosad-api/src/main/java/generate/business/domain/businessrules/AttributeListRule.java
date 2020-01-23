@@ -23,7 +23,7 @@ public class AttributeListRule implements BusinessRule {
 
     public String generateDynamicPart() {
         String template =  "begin\n" +
-                "l_passed := :new." + table.getSelectedTableAttributes() + " " + operator.getName() + " " +
+                "l_passed := :new." + table.getSelectedTableAttribute() + " " + operator.getName() + " " +
                 "(" + generateList() + ")" +
                 "  if not l_passed\n" +
                 "  then\n" +
