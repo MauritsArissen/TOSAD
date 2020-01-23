@@ -19,6 +19,14 @@ public class GenerateResource {
         ArrayList response = controller.returnTriggers();
         Response.ResponseBuilder builder = Response.ok(response);
 
+        builder.header("Access-Control-Allow-Origin", "*");
+        builder.header("Access-Control-Allow-Headers",
+                "origin, content-type, accept, authorization");
+        builder.header("Access-Control-Allow-Credentials", "true");
+        builder.header("Access-Control-Allow-Methods",
+                "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+
+
         return builder.build();
     }
 
@@ -29,6 +37,14 @@ public class GenerateResource {
 
         ArrayList response = controller.returnRulesByTrigger(data);
         Response.ResponseBuilder builder = Response.ok(response);
+
+        builder.header("Access-Control-Allow-Origin", "*");
+        builder.header("Access-Control-Allow-Headers",
+                "origin, content-type, accept, authorization");
+        builder.header("Access-Control-Allow-Credentials", "true");
+        builder.header("Access-Control-Allow-Methods",
+                "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+
 
         return builder.build();
     }

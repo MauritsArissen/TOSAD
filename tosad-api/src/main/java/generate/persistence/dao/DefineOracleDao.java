@@ -37,8 +37,8 @@ public class DefineOracleDao implements DefineDao {
        return result;
    }
 
-   public ArrayList getRulesByTrigger(Trigger trigger) {
-       String query = "select businessrule.name from businessrule, generatedtrigger where generatedtrigger.name = '" + trigger.getTriggercode() + "' AND generatedtrigger.id = businessrule.triggerid";
+   public ArrayList getRulesByTrigger(String triggername) {
+       String query = "select businessrule.name from businessrule, generatedtrigger where generatedtrigger.name = '" + triggername + "' AND generatedtrigger.id = businessrule.triggerid";
        ArrayList<String> result = new ArrayList();
        try (Connection conn = dbconnection.getConnection()) {
 
@@ -55,6 +55,10 @@ public class DefineOracleDao implements DefineDao {
        }
        dbconnection.closeConnection();
        return result;
+   }
+
+   public ArrayList getAllDataFromTrigger(String triggername) {
+        return null;
    }
 
  
