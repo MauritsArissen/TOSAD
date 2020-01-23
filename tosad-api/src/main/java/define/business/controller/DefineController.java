@@ -49,7 +49,7 @@ public class DefineController {
 		BaseDao defineconnectionadapter = new DaoAdapter().serialize("Oracle", "jdbc:oracle:thin:@//ondora04.hu.nl:1521/EDUC11", "cursist", "cursist8101");
     	String ruledata = new DefineOracleDao(defineconnectionadapter).defineRule(rule);
     	
-    	System.out.println(ruledata);
+    	System.out.println(ruledata); // prints "failed" or "succes"
 		
 		return ruledata;
 	}

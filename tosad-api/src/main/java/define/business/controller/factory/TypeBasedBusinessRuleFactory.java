@@ -10,6 +10,9 @@ import define.business.domain.Operator;
 import define.business.domain.Table;
 import define.business.domain.TableAttribute;
 import define.business.domain.Trigger;
+import define.business.domain.businessrules.AttributeCompareRule;
+import define.business.domain.businessrules.AttributeListRule;
+import define.business.domain.businessrules.AttributeOtherRule;
 import define.business.domain.businessrules.BusinessRule;
 import define.business.domain.businessrules.RangeRule;
 
@@ -38,14 +41,13 @@ public class TypeBasedBusinessRuleFactory implements BusinessRuleFactory {
     	Table table = new Table(jsondata.get("table").toString(), new TableAttribute(jsondata.get("attribute").toString()));	
     	
     	if (type.equals("Attribute Range rule")) {
-    		return new RangeRule(rulename, operator, trigger, table, values, type);
-    		
+    		return new RangeRule(rulename, operator, trigger, table, values, type);	
         } else if (type.equals("Attribute Compare rule")) {
-
+        	return new AttributeCompareRule(rulename, operator, trigger, table, values, type);
         } else if (type.equals("Attribute List rule")) {
-
+        	return new AttributeListRule(rulename, operator, trigger, table, values, type);
         } else if (type.equals("Attribute Other rule")) {
-
+        	return new AttributeOtherRule(rulename, operator, trigger, table, values, type);
         } else if (type.equals("Tuple Compare rule")) {
 
         } else if (type.equals("Tuple Other rule")) {

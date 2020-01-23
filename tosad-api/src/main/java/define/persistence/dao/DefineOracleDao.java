@@ -110,6 +110,8 @@ public class DefineOracleDao implements DefineDao {
     				coupletableinsertstatement.setInt(2, parid);
     				coupletableinsertstatement.executeUpdate();
         		}
+        		
+        		successful = "success";
 			}
 	   
 			switch (ruletypecode) {

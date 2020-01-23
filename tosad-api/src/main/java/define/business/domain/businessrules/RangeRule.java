@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import define.business.domain.LiteralValue;
 import define.business.domain.Operator;
 import define.business.domain.Table;
-import define.business.domain.TableAttribute;
 import define.business.domain.Trigger;
 
 public class RangeRule implements BusinessRule {
