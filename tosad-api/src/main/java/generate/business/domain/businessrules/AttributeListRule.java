@@ -9,16 +9,16 @@ import java.util.ArrayList;
 
 public class AttributeListRule implements BusinessRule {
     private Operator operator;
-    private Trigger trigger;
     private ArrayList<LiteralValue> values;
     private Table table;
+    private String failuremessage;
 
-    public AttributeListRule(Operator operator, Trigger trigger,
-                             ArrayList<LiteralValue> values, Table table) {
+    public AttributeListRule(Operator operator,
+                             ArrayList<LiteralValue> values, Table table, String failuremessage) {
         this.operator = operator;
-        this.trigger = trigger;
         this.values = values;
         this.table = table;
+        this.failuremessage = failuremessage;
     }
 
     public String generateDynamicPart() {
@@ -27,7 +27,7 @@ public class AttributeListRule implements BusinessRule {
                 "(" + generateList() + ")" +
                 "  if not l_passed\n" +
                 "  then\n" +
-                "    l_error_stack := '" + trigger.getFailuremessage() + "';\n" +
+                "    l_error_stack := '" + failuremessage + "';\n" +
                 "    raise_application_error( -20800, l_error_stack );\n" +
                 "  end if;\n";
         return template;
