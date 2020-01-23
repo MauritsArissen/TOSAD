@@ -1,13 +1,13 @@
 package generate.business.controller;
 
-import generate.persistence.adapter.DaoAdapter;
-import generate.persistence.dao.BaseDao;
-import generate.business.domain.Trigger;
-import generate.persistence.dao.DefineOracleDao;
-import generate.persistence.dao.TargetOracleDao;
+import java.util.ArrayList;
+
 import org.json.JSONObject;
 
-import java.util.ArrayList;
+import generate.business.domain.Trigger;
+import generate.persistence.adapter.DaoAdapter;
+import generate.persistence.dao.BaseDao;
+import generate.persistence.dao.DefineOracleDao;
 
 public class GenerateController {
 

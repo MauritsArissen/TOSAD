@@ -6,6 +6,12 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import define.business.domain.LiteralValue;
+import define.business.domain.Operator;
+import define.business.domain.TableAttribute;
+import define.business.domain.Trigger;
+import define.business.domain.businessrules.BusinessRule;
+
 public class DefineOracleDao implements DefineDao {
 	private BaseDao dbconnection;
 	
@@ -46,7 +52,195 @@ public class DefineOracleDao implements DefineDao {
         dbconnection.closeConnection();
         return data;
     }
-    
-    
+	
+	public String defineRule(BusinessRule rule) {
+		String successful = "failed";
+		
+		int triggerId = getTriggerFromRule(rule.getTrigger());
+		int operatorId = getOperatorFromRule(rule.getOperator());
+		int attributeId = getTableAttributeFromRule(rule.getTable().getSelectedTableAttribute());
+		String ruletypecode = getRuletypeFromRule(rule.getType());
+		
+		insertTrigger(rule.getTrigger(), triggerId); // only works if trigger doesn't exist
+			
+        try (Connection conn = dbconnection.getConnection()) {
+        	if (ruletypecode.equals("ARNG") || ruletypecode.equals("ACMP") || ruletypecode.equals("ALIS") || ruletypecode.equals("AOTH")) {
+        		// insert businessrule
+	    		String businessruleinsert = "insert into businessrule (name, type, failure_message, attributeid, operatorid, triggerid) values (? || (businessrule_sequence.nextval + 1), ?, ?, ?, ?, ?)";
+				PreparedStatement statement = conn.prepareStatement(businessruleinsert);
+				
+				statement.setString(1, rule.getName() + ruletypecode + "_");
+				statement.setString(2, ruletypecode);
+				statement.setString(3, rule.getTrigger().getFailuremessage());
+				statement.setInt(4, attributeId);
+				statement.setInt(5, operatorId);
+				statement.setInt(6, triggerId);
+				statement.executeUpdate();
+				
+				// get businessrule id 
+				String ruleidquery = "select max(id) as id from businessrule";
+				int ruleid = 0;
+				
+				PreparedStatement getruleidstatement = conn.prepareStatement(ruleidquery);
+				ResultSet result = getruleidstatement.executeQuery();
+				while (result.next()) {
+					ruleid = result.getInt("id");
+				}
+        		
+				// insert parameters
+        		String parameterinsert = "insert into parameter (value) values (?)"; 
+        		
+        		for (LiteralValue l : rule.getValues() ) {
+        			PreparedStatement pstatement = conn.prepareStatement(parameterinsert);
+        			pstatement.setString(1, l.getValue());
+                    pstatement.executeQuery();
+                    
+                    String paridquery = "select max(id) as id from parameter";
+    				int parid = 0;
+    				
+    				PreparedStatement getparidstatement = conn.prepareStatement(paridquery);
+    				ResultSet parresult = getparidstatement.executeQuery();
+    				while (parresult.next()) {
+    					parid = parresult.getInt("id");
+    				}
+  		
+    				String coupletableinsert = "insert into parameterrule (businessruleid, parameterid) values (?, ?)";
+    				PreparedStatement coupletableinsertstatement = conn.prepareStatement(coupletableinsert);
+    				coupletableinsertstatement.setInt(1, ruleid);
+    				coupletableinsertstatement.setInt(2, parid);
+    				coupletableinsertstatement.executeUpdate();
+        		}
+			}
+	   
+			switch (ruletypecode) {
+			case "TCMP":
+				break;
+			case "TOTH":
+				break;
+			case "ICMP":
+				break;
+			case "EOTH":
+				break;
+			case "MODI":
+				break;
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return successful;
+	}
+	
+	private int getOperatorFromRule(Operator operator) {
+		String query = "SELECT * from operator o where o.name = ?";
+        int operatorId = 0;
+                
+		try (Connection conn = dbconnection.getConnection()) {
 
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, operator.getName());
+            ResultSet resultset = statement.executeQuery();
+            
+            while (resultset.next()) {
+            	operatorId = statement.getResultSet().getInt("id");
+            }
+            resultset.close();
+            statement.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        dbconnection.closeConnection();       
+		return operatorId;
+	}
+
+	private int getTriggerFromRule(Trigger trigger) {
+		String query = "SELECT * from generatedtrigger t where t.name = ?";
+        int triggerid = 0;
+                
+		try (Connection conn = dbconnection.getConnection()) {
+
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, trigger.getTriggercode());
+            ResultSet resultset = statement.executeQuery();
+            
+            while (resultset.next()) {
+            	triggerid = statement.getResultSet().getInt("id");
+            }
+            resultset.close();
+            statement.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        dbconnection.closeConnection();
+		return triggerid;
+	}
+	
+	private int getTableAttributeFromRule(TableAttribute attribute) {
+		String query = "SELECT * from targettableattribute t where t.name = ?";
+        int attributeid = 0;
+                
+		try (Connection conn = dbconnection.getConnection()) {
+
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, attribute.getName());
+            ResultSet resultset = statement.executeQuery();
+            
+            while (resultset.next()) {
+            	attributeid = statement.getResultSet().getInt("id");
+            }
+            resultset.close();
+            statement.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        dbconnection.closeConnection();
+		return attributeid;
+	}
+	
+	private String getRuletypeFromRule(String type) {
+		String query = "SELECT * from businessruletype b where b.name = ?";
+        String ruletypecode = "";
+                
+		try (Connection conn = dbconnection.getConnection()) {
+
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, type);
+            ResultSet resultset = statement.executeQuery();
+            
+            while (resultset.next()) {
+            	ruletypecode = statement.getResultSet().getString("code");
+            }
+            resultset.close();
+            statement.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        dbconnection.closeConnection();
+		return ruletypecode;
+	}
+	
+	// if trigger doesn't exist yet, use this method
+	private void insertTrigger(Trigger trigger, int triggerid) {
+		
+		try (Connection conn = dbconnection.getConnection()) {	
+			boolean triggerAdded = false;
+			if (triggerid == 0) {
+				
+				String triggerquery = "insert into generatedtrigger (name, event) values (?, ?)";
+				PreparedStatement triggerstatement = conn.prepareStatement(triggerquery);
+				triggerstatement.setString(1, trigger.getTriggercode());
+				triggerstatement.setString(2, trigger.getTriggerevent());
+				
+				triggerAdded = triggerstatement.executeUpdate() > 0;	
+				System.out.println("Trigger inserted: " + triggerAdded);
+			} else {
+				System.out.println("Trigger inserted: " + triggerAdded + ", trigger already exists");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
 }
