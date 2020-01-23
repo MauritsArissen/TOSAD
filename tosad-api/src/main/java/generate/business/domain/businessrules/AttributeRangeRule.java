@@ -28,6 +28,10 @@ public class AttributeRangeRule implements BusinessRule {
         return name;
     }
 
+    public Table getTable () {
+        return table;
+    }
+
     public String generateDynamicPart() {
         String template =  "l_passed := :new." + table.getSelectedTableAttribute() + " " + operator.getName() + " " +
                 values.get(0).getValue() + " and " + values.get(1).getValue() + ";\n" +

@@ -1,10 +1,5 @@
 package generate.persistence.dao;
 
-import generate.persistence.dao.BaseDao;
-import generate.business.domain.*;
-import generate.business.domain.businessrules.AttributeRangeRule;
-import generate.business.domain.businessrules.BusinessRule;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -87,6 +82,32 @@ public class DefineOracleDao implements DefineDao {
        }
        dbconnection.closeConnection();
        return result;
+   }
+
+   public ArrayList getValuesFromRule(String ruleName) {
+       String query = "SELECT parameter.value, \n" +
+               "(SELECT targettableattribute.name FROM targettableattribute WHERE targettableattribute.id = parameterrule.attributeid) as attributename, \n" +
+               "(SELECT targettable.name FROM targettable, targettableattribute WHERE targettableattribute.id = parameterrule.attributeid AND targettableattribute.tableid = targettable.id) as tablename\n" +
+               "FROM parameterrule, parameter, businessrule\n" +
+               "WHERE businessrule.name = ? AND parameterrule.businessruleid = businessrule.id AND parameterrule.parameterid = parameter.id";
+       ArrayList result = new ArrayList();
+       int arrayIndex = 0;
+       try (Connection conn = dbconnection.getConnection()) {
+
+           PreparedStatement statement = conn.prepareStatement(query);
+           statement.setString(1, ruleName);
+           ResultSet resultset = statement.executeQuery();
+           while(resultset.next()) {
+               result.add(resultset.getString("value"));
+           }
+           resultset.close();
+           statement.close();
+       } catch (Exception e) {
+           e.printStackTrace();
+       }
+       dbconnection.closeConnection();
+       return result;
+
    }
 
  

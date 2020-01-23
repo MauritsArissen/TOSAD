@@ -27,6 +27,10 @@ public class TupleOtherRule implements BusinessRule {
         return name;
     }
 
+    public Table getTable () {
+        return table;
+    }
+
     public void addValue(LiteralValue value) {
         values.add(value);
     }

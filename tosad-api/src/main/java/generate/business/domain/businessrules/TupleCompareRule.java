@@ -31,6 +31,10 @@ public class TupleCompareRule implements BusinessRule {
         return name;
     }
 
+    public Table getTable () {
+        return table;
+    }
+
     public String generateDynamicPart() {
         //Checks of het vergelijkbare data typen zijn, front-end check?
 

@@ -31,6 +31,10 @@ public class InterEntityCompareRule implements BusinessRule {
         return name;
     }
 
+    public Table getTable () {
+        return table;
+    }
+
     public String generateDynamicPart() {
         //Checks of het vergelijkbare data types zijn, front-end check?
         //Checks of het verschillende tabellen zijn, front-end check?
