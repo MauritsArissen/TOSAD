@@ -11,11 +11,9 @@ import java.util.ArrayList;
 
 public class GenerateController {
 
-    public ArrayList returnTriggers(String data) {
-        JSONObject jsondata = new JSONObject(data);
-        Trigger trigger = new Trigger(jsondata.get("name").toString());
+    public ArrayList returnTriggers() {
         BaseDao generateconnectionadapter = new DaoAdapter().serialize("Oracle", "jdbc:oracle:thin:@//ondora04.hu.nl:1521/EDUC11", "cursist", "cursist8101");
-        ArrayList<String> triggerData = new DefineOracleDao(generateconnectionadapter).getTriggerInfo(trigger);
+        ArrayList<String> triggerData = new DefineOracleDao(generateconnectionadapter).getTriggerInfo();
 
         return triggerData;
     }
