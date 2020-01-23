@@ -4,25 +4,27 @@
         <div class="col s4">
             <h3>Trigger</h3>
             <hr>
-            <ul>
-                <li class="listItem" *ngFor="let item of triggers" (click)="getRules(item)">
+            <ul *ngFor="let item of triggers">
+                <li *ngIf="item; else elseBlock" class="listItem" (click)="getRules(item)">
                     {{ item }}
                     <div class="right">
                         <a class="waves-effect waves-light btn-small blue modal-trigger" data-target="modalGenerate" (click)="runGenerate(item)">Generate</a>
                     </div>
                 </li>
+                <ng-template #elseBlock><p style="font-style: italic">No triggers available</p></ng-template>
             </ul>
         </div>
         <div class="col s4">
             <h3>Rules</h3>
             <hr>
-            <ul>
-                <li class="listItem" *ngFor="let item of rules" (click)="getProperties(item)">
+            <ul *ngFor="let item of rules">
+                <li *ngIf="item; else elseBlock" class="listItem" (click)="getProperties(item)">
                     {{ item }}
                     <div class="right">
                         <a class="btn-floating btn-large waves-effect waves-light btn-small red">✕</a>
                     </div>
                 </li>
+                <ng-template #elseBlock><p style="font-style: italic">No rules available</p></ng-template>
             </ul>
         </div>
         <div class="col s4">
