@@ -1,5 +1,6 @@
 package generate.business.controller;
 
+import generate.business.domain.Trigger;
 import generate.business.domain.businessrules.BusinessRule;
 import generate.business.controller.factory.BusinessRuleFactory;
 import generate.business.controller.factory.TypeBasedBusinessRuleFactory;
@@ -9,6 +10,10 @@ import generate.business.domain.TableAttribute;
 import generate.persistence.adapter.DaoAdapter;
 import generate.persistence.dao.BaseDao;
 import generate.persistence.dao.DefineOracleDao;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class GenerateController {
 
