@@ -22,7 +22,7 @@ public class GenerateController {
         JSONObject jsondata = new JSONObject(data);
         Trigger trigger = new Trigger(jsondata.get("name").toString());
         BaseDao generateconnectionadapter = new DaoAdapter().serialize("Oracle", "jdbc:oracle:thin:@//ondora04.hu.nl:1521/EDUC11", "cursist", "cursist8101");
-        ArrayList<String> triggerData = new DefineOracleDao(generateconnectionadapter).getRulesByTrigger(trigger);
+        ArrayList<String> triggerData = new DefineOracleDao(generateconnectionadapter).getRulesByTrigger(trigger.getTriggercode());
 
         return triggerData;
     }
@@ -30,6 +30,7 @@ public class GenerateController {
     public String generateTrigger(String data) {
         JSONObject jsondata = new JSONObject(data);
         Trigger trigger = new Trigger(jsondata.get("name").toString());
+        BaseDao generateconnectionadapter = new DaoAdapter().serialize("Oracle", "jdbc:oracle:thin:@//ondora04.hu.nl:1521/EDUC11", "cursist", "cursist8101");
 
         return null;
     }
