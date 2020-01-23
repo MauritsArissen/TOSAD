@@ -7,6 +7,11 @@ h1,h2,h3,h4 {
     color: white;
 }
 
+.scrollable {
+    overflow: auto;
+    height: 500px;
+}
+
 .listItem {
     margin: 10px 0;
     padding: 10px;
@@ -15,7 +20,11 @@ h1,h2,h3,h4 {
     box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
 }
 
-.listItem:hover,
+.listItem:hover {
+    cursor: pointer;
+    background-color: #3b3b3b;
+}
+
 .listItem:active {
     cursor: pointer;
     background-color: #3b3b3b;
@@ -23,6 +32,11 @@ h1,h2,h3,h4 {
 
 .right {
     float: right;
+}
+
+.emptyCol {
+    color: #414141;
+    font-style: italic;
 }
 
 .btn-small {
@@ -82,4 +96,16 @@ h1,h2,h3,h4 {
     border-top: none;
     border: none;
     border-radius: 6px;
+}
+
+// Custom scrollbar
+::-webkit-scrollbar {
+    // scroll-padding-left: 3px;
+    width: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #414141;
+    border-left: 3px solid transparent;
+    background-clip: padding-box;
 }

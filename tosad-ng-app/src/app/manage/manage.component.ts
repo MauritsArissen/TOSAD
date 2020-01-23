@@ -14,6 +14,7 @@ export class ManageComponent implements OnInit, AfterViewInit {
 
   triggers = []
   rules = []
+  properties = []
 
   ngOnInit() {
     this._http.getRequest('http://localhost:8080/tosad-api/restservices/generate/').subscribe(data => {
@@ -26,23 +27,6 @@ export class ManageComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.refresh()
   }
-
-  // Example data
-  // triggers: { [key: string]: Object } = {
-  //   'trigger t1': {
-  //     'rules': [
-  //       'attribute a1',
-  //       'attribute a2'
-  //     ]
-  //   },
-  //   'trigger t2': {
-  //     'rules': [
-  //       'attribute b2'
-  //     ]
-  //   }
-  // }
-
-  properties = []
 
   getRules(triggerName) {
     this.properties = []
@@ -60,11 +44,7 @@ export class ManageComponent implements OnInit, AfterViewInit {
   }
 
   getProperties(ruleName) {
-    this.properties = [
-      {
-        'name': ruleName
-      }
-    ]
+    this.properties.push(ruleName)
   }
 
   runGenerate(triggerName) {
@@ -75,11 +55,5 @@ export class ManageComponent implements OnInit, AfterViewInit {
     setTimeout(() => {
       M.AutoInit()
     }, 10)
-  }
-
-  name = '';
-  
-  sendGenerate() {
-
   }
 }
