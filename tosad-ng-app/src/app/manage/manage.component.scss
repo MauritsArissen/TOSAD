@@ -6,3 +6,16 @@ h1,h2,h3 {
 .col > div {
     color: white;
 }
+
+.col > ul > li {
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #2e2e2e;
+    border-radius: 4px;
+}
+
+.col > ul > li:hover,
+.col > ul > li:active {
+    cursor: pointer;
+    background-color: #3b3b3b;
+}

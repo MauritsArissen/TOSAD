@@ -3,17 +3,20 @@
     <div class="row">
         <div class="col s4">
             <h3>Trigger</h3>
+            <hr>
             <ul>
                 <li *ngFor="let item of triggers | keyvalue" (click)="getRules(item.key)">{{ item.key }}</li>
             </ul>
         </div>
         <div class="col s4">
             <h3>Rules</h3>
+            <hr>
             <div *ngFor="let item of rules" class="rules-content" (click)="getProperties(item.name)">{{ item.name }}</div>
             <a class="waves-effect waves-light btn-small red">Delete</a>
         </div>
         <div class="col s4">
             <h3>Properties</h3>
+            <hr>
             <div *ngFor="let item of properties" class="rules-content">{{ item.name }}</div>
         </div>
     </div>
