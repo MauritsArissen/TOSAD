@@ -1,7 +1,9 @@
 package generate.business.controller.factory;
 
+import define.business.domain.businessrules.BusinessRule;
 import generate.business.domain.*;
+import org.json.JSONObject;
 
 public interface BusinessRuleFactory {
-    String createRule(String name, Operator operator, Trigger trigger, Table table);
+    BusinessRule createRule(JSONObject jsondata);
 }

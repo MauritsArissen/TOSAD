@@ -12,6 +12,12 @@ public class OracleBaseDao implements BaseDao {
     protected Connection myConn;
     protected Statement myStmt;
 
+    public OracleBaseDao(String url, String user, String pass) {
+        this.url = url;
+        this.user = user;
+        this.pass = pass;
+    }
+
     public Connection getConnection() {
         try {
             myConn = DriverManager.getConnection(url, user, pass);

@@ -1,89 +1,61 @@
 package generate.persistence.dao;
 
+import generate.persistence.dao.BaseDao;
 import generate.business.domain.*;
 import generate.business.domain.businessrules.AttributeRangeRule;
 import generate.business.domain.businessrules.BusinessRule;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
-public class DefineOracleDao extends OracleBaseDao implements DefineDao {
-   public String getGenerateInfo(String triggerName) {
-       ArrayList<BusinessRule> businessRules = null;
-       Trigger trigger = null;
-       String tableName = null;
-       TableAttribute selectedTableAttribute = null;
-       try(Connection con = super.getConnection()) {
-           PreparedStatement pstmt = con.prepareStatement("SELECT gt.event trigger_event, br.failure_message failure_message, \n" +
-                   "o.name operator, br.id br_id, tt.name table_name, br.type br_type, tta.name attribute_name\n" +
-                   "FROM businessrule br, generatedtrigger gt, operator o, \n" +
-                   "targettableattribute tta, targettable tt\n" +
-                   "WHERE br.attributeid = tta.id\n" +
-                   "AND tta.tableid = tt.id\n" +
-                   "AND br.operatorid = o.id\n" +
-                   "AND br.triggerid = gt.id\n" +
-                   "AND gt.name = ?;");
-           pstmt.setString(1, triggerName);
-           ResultSet rs = pstmt.executeQuery();
-           while(rs.next()) {
-               String triggerEvent = rs.getString("trigger_event");
-               String failureMessage = rs.getString("failure_message");
-               String operatorName = rs.getString("operator");
-               int brId = rs.getInt("br_id");
-               tableName = rs.getString("table_name");
-               String type = rs.getString("br_type");
+public class DefineOracleDao implements DefineDao {
+   private BaseDao dbconnection;
 
-               selectedTableAttribute = new TableAttribute(rs.getString("attribute_name"));
+    public DefineOracleDao(BaseDao dbconnection) {
+        this.dbconnection = dbconnection;
+    }
 
-               trigger = new Trigger(triggerName, triggerEvent, failureMessage);
-               Operator operator = new Operator(operatorName);
+   public ArrayList<String> getTriggerInfo(Trigger trigger) {
+        //hardcoded application
+        String query = "select name from generatedtrigger\n" +
+                "WHERE REGEXP_LIKE(name, '^BRG_BRGEN');";
+        ArrayList<String> result = new ArrayList();
+       try (Connection conn = dbconnection.getConnection()) {
 
-               if (type == "ARNG") {
-                   ArrayList<LiteralValue> values = null;
-                   PreparedStatement pstmt2 = con.prepareStatement("SELECT p.value value FROM parameter p, parameterrule pr\n" +
-                           "WHERE pr.parameterid = p.id\n" +
-                           "AND pr.businessruleid = ?;");
-                   pstmt2.setInt(1, brId);
-                   ResultSet rs2 = pstmt2.executeQuery();
-                   while (rs2.next()) {
-                       values.add(new LiteralValue(rs2.getString("value")));
-                   }
+           PreparedStatement statement = conn.prepareStatement(query);
+           ResultSet resultset = statement.executeQuery();
 
-                   Table table = new Table(tableName, selectedTableAttribute);
-
-                   businessRules.add(new AttributeRangeRule(operator, trigger, values, table));
-               }
-
+           while(resultset.next()) {
+                result.add(resultset.getString("name"));
            }
-       } catch (SQLException sqle) {sqle.printStackTrace();}
-       
-       String template = generateStaticPart(trigger, tableName);
-
-
-
-       for (BusinessRule b : businessRules) {
-           template += b.generateDynamicPart();
-       }       
-       
-       template += "end " + trigger.getTriggercode() + ";";
-
-       return template;
+           resultset.close();
+           statement.close();
+       } catch (Exception e) {
+           e.printStackTrace();
+       }
+       dbconnection.closeConnection();
+       return result;
    }
 
-   public String generateStaticPart(Trigger trigger, String tableName) {
-       String template = "create or replace trigger " + trigger.getTriggercode() + "\n" +
-               "  before " + trigger.getTriggerevent() + "\n" +
-               "  on " + tableName + "\n" +
-               "  for each row\n" +
-               "declare\n" +
-               "  l_passed boolean := true;\n" +
-               "  l_error_stack varchar2(4000);\n";
-       
+   public ArrayList getRulesByTrigger(Trigger trigger) {
+       String query = "select businessrule.name from businessrule, generatedtrigger where generatedtrigger.name = '" + trigger.getTriggercode() + "' AND generatedtrigger.id = businessrule.triggerid";
+       ArrayList<String> result = new ArrayList();
+       try (Connection conn = dbconnection.getConnection()) {
 
-       return template;
+           PreparedStatement statement = conn.prepareStatement(query);
+           ResultSet resultset = statement.executeQuery();
+
+           while(resultset.next()) {
+               result.add(resultset.getString("name"));
+           }
+           resultset.close();
+           statement.close();
+       } catch (Exception e) {
+           e.printStackTrace();
+       }
+       dbconnection.closeConnection();
+       return result;
    }
 
  
