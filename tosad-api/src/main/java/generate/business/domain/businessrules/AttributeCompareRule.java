@@ -30,6 +30,10 @@ public class AttributeCompareRule implements BusinessRule {
         return name;
     }
 
+    public Table getTable () {
+        return table;
+    }
+
     public String generateDynamicPart() {
         String template =  "begin\n" +
                 "l_passed := :new." + table.getSelectedTableAttribute() + " " + operator.getName() + " " +

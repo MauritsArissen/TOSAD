@@ -9,6 +9,6 @@ public class Main {
         System.out.println("test");
         GenerateController controller = new GenerateController();
         String triggername = "BRG_BRGEN_GES_trigger";
-        ArrayList response = controller.generateTrigger(triggername);
+        String response = controller.generateTrigger(triggername);
     }
 }
