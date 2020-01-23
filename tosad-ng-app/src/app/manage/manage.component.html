@@ -11,13 +11,17 @@
         <div class="col s4">
             <h3>Rules</h3>
             <hr>
-            <div *ngFor="let item of rules" class="rules-content" (click)="getProperties(item.name)">{{ item.name }}</div>
+            <ul>
+                <li *ngFor="let item of rules" class="rules-content" (click)="getProperties(item.name)">{{ item.name }}</li>
+            </ul>
             <a class="waves-effect waves-light btn-small red">Delete</a>
         </div>
         <div class="col s4">
             <h3>Properties</h3>
             <hr>
-            <div *ngFor="let item of properties" class="rules-content">{{ item.name }}</div>
+            <ul>
+                <li *ngFor="let item of properties" class="rules-content">{{ item.name }}</li>
+            </ul>
         </div>
     </div>
 </div>
