@@ -18,8 +18,7 @@ public class DefineOracleDao implements DefineDao {
 
    public ArrayList<String> getTriggerInfo() {
         //hardcoded application
-        String query = "select name from generatedtrigger\n" +
-                "WHERE REGEXP_LIKE(name, '^BRG_BRGEN');";
+        String query = "select name from generatedtrigger WHERE REGEXP_LIKE(name, '^BRG_BRGEN')";
         ArrayList<String> result = new ArrayList();
        try (Connection conn = dbconnection.getConnection()) {
 
