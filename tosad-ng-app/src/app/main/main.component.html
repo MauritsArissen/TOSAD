@@ -72,6 +72,13 @@
                     </div>
                 </div>
             </div>
+            <!-- Attribute List rule -->
+            <div *ngIf="ruletype == 'Attribute Other rule'">
+                <div class="input-field col s12">
+                    <textarea id="textarea1" class="materialize-textarea" [(ngModel)]="values[0]"></textarea>
+                    <label for="textarea1">Query</label>
+                </div>
+            </div>
             <!-- Tuple Compare rule -->
             <div *ngIf="ruletype == 'Tuple Compare rule'" class="input-field col s12">
                 <select [(ngModel)]="selectedAttribute">
