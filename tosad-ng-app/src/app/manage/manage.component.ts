@@ -32,6 +32,7 @@ export class ManageComponent implements OnInit {
   properties = []
 
   getRules(triggerName) {
+    this.properties = []
     this.rules = []
     for (const item in this.triggers[triggerName]["rules"]) {
       let rule = {"name": this.triggers[triggerName]["rules"][item]}
