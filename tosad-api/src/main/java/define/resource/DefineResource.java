@@ -41,16 +41,12 @@ public class DefineResource {
 	@POST
 	@Path("/saverule")
 	@Produces("application/json")
-	public Response defineBusinessRule(String data) throws Exception {
-	    JSONObject jsondata = new JSONObject(data);
-	    System.out.println(jsondata);
-	    
-	    
-	    
-	    ResponseBuilder builder = Response.ok();
+	public Response defineBusinessRule(String data) throws Exception {  
+		
+		String response = controller.saveDefineData(data);  
+	    ResponseBuilder builder = Response.ok(response);
        
-        return builder.build();
-	    
+        return builder.build();    
 	}
 	
 	

@@ -3,10 +3,17 @@ package define.business.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import define.business.controller.factory.BusinessRuleFactory;
+import define.business.controller.factory.TypeBasedBusinessRuleFactory;
 import define.persistence.adapter.DaoAdapter;
 import define.persistence.dao.BaseDao;
 import define.persistence.dao.DefineOracleDao;
 import define.persistence.dao.TargetOracleDao;
+import define.business.domain.LiteralValue;
+import define.business.domain.businessrules.BusinessRule;
 
 public class DefineController {
 
@@ -33,6 +40,20 @@ public class DefineController {
         System.out.println("Failed to execute method.");
         return null;
     }
+	
+	public String saveDefineData(String data) {
+		JSONObject jsondata = new JSONObject(data);
+		String ruletype = jsondata.get("ruletype").toString();
+		
+		BusinessRuleFactory factory = new TypeBasedBusinessRuleFactory(ruletype);
+		BusinessRule rule = factory.createRule(jsondata);
+		
+		// In de dao een methode waarin je een BusinessRule gaat meegeven,
+		// dan die methode in dao een string returnen waarin staat of t is gelukt of niet,
+		// dan return je die string hierzo en geef je m mee in de resource response
+		
+		return null;
+	}
 	
 	
 
