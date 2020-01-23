@@ -1,5 +1,9 @@
 package generate.persistence.dao;
 
+import generate.business.domain.Trigger;
+
+import java.util.ArrayList;
+
 public interface DefineDao {
-    String getGenerateInfo(String triggerName);
+    ArrayList<String> getTriggerInfo(Trigger trigger);
 }

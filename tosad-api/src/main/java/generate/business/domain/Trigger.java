@@ -7,13 +7,11 @@ import java.util.ArrayList;
 public class Trigger {
     private String triggercode;
     private String triggerevent;
-    private String failuremessage;
     private ArrayList<BusinessRule> businessRules = new ArrayList<>();
 
-    public Trigger(String triggercode, String triggerevent, String failuremessage) {
+    public Trigger(String triggercode) {
         this.triggercode = triggercode;
-        this.triggerevent = triggerevent;
-        this.failuremessage = failuremessage;
+        this.triggerevent = "before delete or insert or update";
     }
 
     public String getTriggercode() {
@@ -24,9 +22,11 @@ public class Trigger {
         return triggerevent;
     }
 
-    public String getFailuremessage() {
-        return failuremessage;
+    public void setTriggerevent(String event) {
+        this.triggerevent = event;
     }
+
+
 
     public void addBusinessRule(BusinessRule businessRule) {
         businessRules.add(businessRule);
