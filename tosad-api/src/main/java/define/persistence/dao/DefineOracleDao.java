@@ -56,12 +56,17 @@ public class DefineOracleDao implements DefineDao {
 	public String defineRule(BusinessRule rule) {
 		String successful = "failed";
 		
+		// check if target table/attribute is in our database. if not, it will be added.
+		checkTargetData(rule);
+			
+		// start with saving the rule
 		int triggerId = getTriggerFromRule(rule.getTrigger());
 		int operatorId = getOperatorFromRule(rule.getOperator());
 		int attributeId = getTableAttributeFromRule(rule.getTable().getSelectedTableAttribute());
 		String ruletypecode = getRuletypeFromRule(rule.getType());
 		
-		insertTrigger(rule.getTrigger(), triggerId); // only works if trigger doesn't exist
+		// only works if trigger doesn't exist, will be checked in this method
+		insertTrigger(rule.getTrigger(), triggerId); 
 			
         try (Connection conn = dbconnection.getConnection()) {
         	if (ruletypecode.equals("ARNG") || ruletypecode.equals("ACMP") || ruletypecode.equals("ALIS") || ruletypecode.equals("AOTH")) {
@@ -77,6 +82,8 @@ public class DefineOracleDao implements DefineDao {
 				statement.setInt(6, triggerId);
 				statement.executeUpdate();
 				
+				statement.close();
+				
 				// get businessrule id 
 				String ruleidquery = "select max(id) as id from businessrule";
 				int ruleid = 0;
@@ -86,6 +93,8 @@ public class DefineOracleDao implements DefineDao {
 				while (result.next()) {
 					ruleid = result.getInt("id");
 				}
+				getruleidstatement.close();
+				result.close();
         		
 				// insert parameters
         		String parameterinsert = "insert into parameter (value) values (?)"; 
@@ -114,23 +123,87 @@ public class DefineOracleDao implements DefineDao {
         		successful = "success";
 			}
 	   
-			switch (ruletypecode) {
-			case "TCMP":
-				break;
-			case "TOTH":
-				break;
-			case "ICMP":
-				break;
-			case "EOTH":
-				break;
-			case "MODI":
-				break;
-			}
+//			switch (ruletypecode) {
+//			case "TCMP":
+//				break;
+//			case "TOTH":
+//				break;
+//			case "ICMP":
+//				break;
+//			case "EOTH":
+//				break;
+//			case "MODI":
+//				break;
+//			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return successful;
+	}
+	
+	private void checkTargetData(BusinessRule rule) {
+		String checktargettable = "select * from targettable where name = ?";
+		String inserttargettable = "insert into targettable (name, databaseid) values (?, 1)";
+		boolean tableExists = false;
+		int tableId = 0;
+        try (Connection conn = dbconnection.getConnection()) {
+        	
+    		PreparedStatement statement = conn.prepareStatement(checktargettable);
+    		statement.setString(1, rule.getTable().getName());
+    		ResultSet result = statement.executeQuery();
+    		
+    		int size = 0;
+    		while (result.next()) {
+    			size++;
+    		}
+    		
+    		if (size > 0) {
+    			tableExists = true;
+    		}
+    		
+    		if (!tableExists) {
+        		PreparedStatement insertstatement = conn.prepareStatement(inserttargettable);
+        		insertstatement.setString(1, rule.getTable().getName());
+        		insertstatement.executeQuery();
+    		} else {
+    			tableId = result.getInt("id");
+    		}
+    		
+    		String checktableattribute = "select * from tableattribute where name = ?";
+    		boolean tableattributeExists = false;   
+    		
+    		PreparedStatement tableattributestatement = conn.prepareStatement(checktableattribute);
+    		ResultSet tableattributeresult = tableattributestatement.executeQuery(); 
+    		
+    		int sizez = 0;
+    		while (tableattributeresult.next()) {
+    			sizez++;
+    		}
+    		
+    		if (sizez > 0) {
+    			tableattributeExists = true;
+    		}
+    		
+    		if (!tableattributeExists) {
+        		if (tableExists) {
+        			String inserttableattribute = "insert into tableattribute (name, tableid) values (?, ?)";
+        			PreparedStatement insertstatement = conn.prepareStatement(inserttableattribute);
+        			insertstatement.setString(1, rule.getTable().getSelectedTableAttribute().getName());
+        			insertstatement.setInt(2, tableId);
+        			insertstatement.executeQuery();
+        		} else {
+        			String inserttableattribute = "insert into tableattribute (name, tableid) values (?, (SELECT max(id) from targettable))";
+        			PreparedStatement insertstatement = conn.prepareStatement(inserttableattribute);
+        			insertstatement.setString(1, rule.getTable().getSelectedTableAttribute().getName());
+        			insertstatement.executeQuery();
+        		}
+    		}
+
+        } catch (Exception e) {
+        	e.printStackTrace();
+        }
+
 	}
 	
 	private int getOperatorFromRule(Operator operator) {

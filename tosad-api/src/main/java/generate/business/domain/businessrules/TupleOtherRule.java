@@ -12,13 +12,23 @@ public class TupleOtherRule implements BusinessRule {
     private ArrayList<LiteralValue> values;
     private Table table;
     private String failuremessage;
+    private String name;
 
     public TupleOtherRule(Operator operator,
-                          ArrayList<LiteralValue> values, Table table, String failuremessage) {
+                          ArrayList<LiteralValue> values, Table table, String failuremessage, String name) {
         this.operator = operator;
         this.values = values;
         this.table = table;
         this.failuremessage = failuremessage;
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void addValue(LiteralValue value) {
+        values.add(value);
     }
 
     public String generateDynamicPart() {

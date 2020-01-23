@@ -18,4 +18,40 @@ public class TupleOtherRule implements BusinessRule {
         this.table = table;
     }
 
+	@Override
+	public define.business.domain.Operator getOperator() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public define.business.domain.Trigger getTrigger() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public define.business.domain.Table getTable() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<define.business.domain.LiteralValue> getValues() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

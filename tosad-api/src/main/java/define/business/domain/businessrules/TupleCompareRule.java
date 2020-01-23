@@ -18,4 +18,40 @@ public class TupleCompareRule implements BusinessRule {
         this.table = table;
     }
 
+	@Override
+	public Operator getOperator() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Trigger getTrigger() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Table getTable() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<LiteralValue> getValues() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -8,7 +8,7 @@ public class Main {
     public static void main (String[] args) {
         System.out.println("test");
         GenerateController controller = new GenerateController();
-        ArrayList response = controller.returnTriggers();
-        System.out.println(response);
+        String triggername = "BRG_BRGEN_GES_trigger";
+        ArrayList response = controller.generateTrigger(triggername);
     }
 }
