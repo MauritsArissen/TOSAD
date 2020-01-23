@@ -82,6 +82,8 @@ public class DefineOracleDao implements DefineDao {
 				statement.setInt(6, triggerId);
 				statement.executeUpdate();
 				
+				statement.close();
+				
 				// get businessrule id 
 				String ruleidquery = "select max(id) as id from businessrule";
 				int ruleid = 0;
@@ -91,6 +93,8 @@ public class DefineOracleDao implements DefineDao {
 				while (result.next()) {
 					ruleid = result.getInt("id");
 				}
+				getruleidstatement.close();
+				result.close();
         		
 				// insert parameters
         		String parameterinsert = "insert into parameter (value) values (?)"; 
