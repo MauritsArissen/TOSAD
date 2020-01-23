@@ -20,3 +20,21 @@ h1,h2,h3 {
     cursor: pointer;
     background-color: #3b3b3b;
 }
+
+.right {
+    float: right;
+}
+
+.btn-small {
+    height: 25px;
+    line-height: 25px;
+    font-size: 13px;
+    margin-top: -3px;
+}
+
+.btn-floating.btn-small {
+    width: 25px;
+    height: 25px;
+    line-height: 25px;
+    margin-top: -3px;
+}
