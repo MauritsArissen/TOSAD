@@ -23,36 +23,12 @@ export class MainComponent implements OnInit, AfterViewInit {
   listLength: number = 6;
   selectedAttribute: string = "";
   inputType: string = "";
-
-  /////////////////////////////////////////// EXAMPLE DATA
-  data = {}
-  datatable = {
-    lessons: {
-      name: {
-        type: 'string'
-      },
-      length: {
-        type: 'number'
-      },
-      teacherid: {
-        type: 'number'
-      }
-    },
-    food: {
-      name: {
-        type: 'string'
-      },
-      calories: {
-        type: 'number'
-      }
-    }
-  }
-  tables = [];
-  attributes = [];
-  categories = [];
-  businessRuleTypes = [];
-  operators = [];
-  ////////////////////////////////////////////////////////
+  data: Object = {}
+  tables: string[] = [];
+  attributes: string[] = [];
+  categories: string[] = [];
+  businessRuleTypes: string[] = [];
+  operators: string[] = [];
 
   ngOnInit() {
   }  
@@ -74,7 +50,8 @@ export class MainComponent implements OnInit, AfterViewInit {
       "ruletype": this.ruletype,
       "operator": this.operator,
       "values": this.values,
-      "failureMessage": this.failureMessageText
+      "failureMessage": this.failureMessageText,
+      "triggerEvent": "BEFORE DELETE OR INSERT OR UPDATE"
     }
     this._http.postRequest('http://localhost:8080/tosad-api/restservices/define/saverule', sendData).subscribe(o => {
       console.log("Post request sent")
@@ -125,11 +102,12 @@ export class MainComponent implements OnInit, AfterViewInit {
   }
   
   addField() {
+    if (this.listLength == 12) return;
     this.listLength += 1
   }
 
   removeField() {
-    if (this.listLength == 1) return;
+    if (this.listLength == 2) return;
     this.listLength -= 1
     this.values.splice(-1, 1)
   }

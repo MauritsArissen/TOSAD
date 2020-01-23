@@ -66,7 +66,8 @@
                 </div>
                 <div *ngFor="let i of arrayOne()" class="col s3">
                     <div class="input-field">
-                        <input id="firstParam{{i}}" type="text" class="validate" [(ngModel)]="values[i]">
+                        <input id="firstParam{{i}}" *ngIf="inputType == 'VARCHAR2'" type="text" class="validate" [(ngModel)]="values[i]">
+                        <input id="firstParam{{i}}" *ngIf="inputType == 'NUMBER'" type="number" class="validate" [(ngModel)]="values[i]">
                         <label for="firstParam{{i}}">Value</label>
                     </div>
                 </div>
