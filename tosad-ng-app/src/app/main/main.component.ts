@@ -54,7 +54,7 @@ export class MainComponent implements OnInit, AfterViewInit {
       "triggerEvent": "BEFORE DELETE OR INSERT OR UPDATE"
     }
     this._http.postRequest('http://localhost:8080/tosad-api/restservices/define/saverule', sendData).subscribe(o => {
-      console.log("Post request sent")
+      this.query = "Post request sent."
     })
   }
 
