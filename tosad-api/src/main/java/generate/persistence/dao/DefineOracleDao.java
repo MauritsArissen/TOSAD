@@ -53,7 +53,8 @@ public class DefineOracleDao implements DefineDao {
    }
 
    public ArrayList<HashMap<String, String>> getAllDataFromTrigger(String triggername) {
-       String query = "SELECT generatedtrigger.name as triggername,(SELECT name from targettableattribute WHERE targettableattribute.id = businessrule.attributeid) AS targettableattribute,\n" +
+       String query = "SELECT generatedtrigger.name as triggername,(SELECT name from targettableattribute WHERE targettableattribute.id = businessrule.attributeid) AS targettableattribute, \n" +
+               "(SELECT targettable.name from targettable ,targettableattribute WHERE targettableattribute.id = businessrule.attributeid AND targettable.id = targettableattribute.tableid) as targettablename,\n" +
                "businessrule.failure_message, businessrule.name as businessrulename, businessruletype.name as businessruletypename, operator.name as operatorname \n" +
                "FROM generatedtrigger, businessrule, businessruletype, operator\n" +
                "WHERE generatedtrigger.id = businessrule.triggerid AND operator.id = businessrule.operatorid AND businessrule.type = businessruletype.code AND generatedtrigger.name = ?";
@@ -68,6 +69,9 @@ public class DefineOracleDao implements DefineDao {
                HashMap rowResult = new HashMap();
                rowResult.put("triggername", resultset.getString("triggername"));
                rowResult.put("targettableattribute", resultset.getString("targettableattribute"));
+               rowResult.put("targettablename", resultset.getString("targettablename"));
+               System.out.println("tableattr -> " + resultset.getString("targettableattribute"));
+               System.out.println("tablename -> " + resultset.getString("targettablename"));
                rowResult.put("failure_message", resultset.getString("failure_message"));
                rowResult.put("businessrulename", resultset.getString("businessrulename"));
                rowResult.put("businessruletypename", resultset.getString("businessruletypename"));

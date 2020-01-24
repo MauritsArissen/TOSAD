@@ -37,8 +37,7 @@ public class AttributeOtherRule implements BusinessRule {
     }
 
     public String generateDynamicPart() {
-        String template =  "begin\n" +
-                "l_passed := " + values.get(0).getValue() + ";\n" +
+        String template =  "l_passed := " + values.get(0).getValue() + ";\n" +
                 "  if not l_passed\n" +
                 "  then\n" +
                 "    l_error_stack := '" + failuremessage + "';\n" +

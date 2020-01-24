@@ -21,7 +21,7 @@ public class GenerateController {
         return triggerData;
     }
 
-    public ArrayList returnRulesByTrigger(String data) {
+    public ArrayList<String> returnRulesByTrigger(String data) {
         JSONObject jsondata = new JSONObject(data);
         Trigger trigger = new Trigger(jsondata.get("name").toString());
         BaseDao generateconnectionadapter = new DaoAdapter().serialize("Oracle", "jdbc:oracle:thin:@//ondora04.hu.nl:1521/EDUC11", "cursist", "cursist8101");
@@ -30,9 +30,9 @@ public class GenerateController {
         return triggerData;
     }
 
-    public String generateTrigger(String data) {
-
-        Trigger trigger = new Trigger(data);
+    public ArrayList<String> generateTrigger(String data) {
+        JSONObject jsondata = new JSONObject(data);
+        Trigger trigger = new Trigger(jsondata.get("name").toString());
         BaseDao generateconnectionadapter = new DaoAdapter().serialize("Oracle", "jdbc:oracle:thin:@//ondora04.hu.nl:1521/EDUC11", "cursist", "cursist8101");
         DefineOracleDao defineOracleDao = new DefineOracleDao(generateconnectionadapter);
 
@@ -41,41 +41,40 @@ public class GenerateController {
         for (HashMap<String, String> list : result) {
             BusinessRuleFactory factory = new TypeBasedBusinessRuleFactory(list.get("businessruletypename"));
             Operator operator = new Operator(list.get("operatorname"));
-            Table table = new Table(list.get("targettablename"), new TableAttribute(list.get("targettableattributename")));
+            Table table = new Table(list.get("targettablename"), new TableAttribute(list.get("targettableattribute")));
             BusinessRule rule = factory.createRule(operator, table, list.get("failure_message"), list.get("businessrulename"));
             trigger.addBusinessRule(rule);
-            //System.out.println("rules");
-            //System.out.println(rule);
-            //System.out.println("end");
         }
 
         ArrayList<BusinessRule> ruleList = trigger.getBusinessRules();
+        String tablename = "";
+        String bRuleString = "";
+
+        for (BusinessRule bRule : ruleList) {
+            tablename = bRule.getTable().getName();
+            ArrayList<String> values = defineOracleDao.getValuesFromRule(bRule.getName());
+            for (String value : values) {
+                LiteralValue litValue = new LiteralValue(value);
+                bRule.addValue(litValue);
+            }
+            bRuleString += bRule.generateDynamicPart();
+        }
 
         String triggerString = "create or replace trigger " + trigger.getTriggercode() + "\n" +
                 trigger.getTriggerevent() + "\n" +
-                "  on " + ruleList.get(0).getTable().getName() + "\n" +
+                "  on " + tablename + "\n" +
                 "  for each row\n" +
                 "declare\n" +
                 "  l_passed boolean := true;\n" +
                 "  l_error_stack varchar2(4000);\n" +
                 " begin\n";
 
-        for (BusinessRule bRule : ruleList) {
-            //System.out.println(bRule.getName() + "<----");
-            ArrayList<String> values = defineOracleDao.getValuesFromRule(bRule.getName());
-            for (String value : values) {
-                //System.out.println(value + " <---");
-                LiteralValue litValue = new LiteralValue(value);
-                //System.out.println(litValue.getValue());
-                System.out.println(litValue);
-                System.out.println(bRule);
-                bRule.addValue(litValue);
-            }
-            triggerString += bRule.generateDynamicPart();
-        }
+        triggerString += bRuleString;
 
         triggerString += "end " + trigger.getTriggercode();
-        return triggerString;
+        ArrayList<String> returnList = new ArrayList<>();
+        returnList.add(triggerString);
+        return returnList;
     }
 
 }
