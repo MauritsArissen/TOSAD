@@ -71,7 +71,7 @@ public class GenerateController {
 
         triggerString += bRuleString;
 
-        triggerString += "end " + trigger.getTriggercode();
+        triggerString += "end " + trigger.getTriggercode() + ";";
         ArrayList<String> returnList = new ArrayList<>();
         returnList.add(triggerString);
         return returnList;
