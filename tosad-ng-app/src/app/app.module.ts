@@ -9,6 +9,7 @@ import { MainComponent } from './main/main.component';
 import { ManageComponent } from './manage/manage.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { PrismModule } from '@ngx-prism/core';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { FormsModule } from '@angular/forms';
     NgbModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    PrismModule
   ],
   providers: [],
   bootstrap: [AppComponent]

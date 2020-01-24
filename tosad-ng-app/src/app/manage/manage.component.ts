@@ -16,8 +16,8 @@ export class ManageComponent implements OnInit, AfterViewInit {
   rules = []
   properties = []
   triggerCode = []
-  selectedIndexTriggers: number = null;
-  selectedIndexRules: number = null;
+  selectedIndexTriggers: number = null
+  selectedIndexRules: number = null
 
   ngOnInit() {
     this._http.getRequest('http://localhost:8080/tosad-api/restservices/generate/').subscribe(data => {
@@ -66,11 +66,15 @@ export class ManageComponent implements OnInit, AfterViewInit {
       "name": triggerName
     }
 
-    this._http.postRequest('http://localhost:8080/tosad-api/restservices/generate/generateTrigger', sendData).subscribe(data => {
+    this._http.postRequest('http://localhost:8080/tosad-api/restservices/generate/generateTriggerCode', sendData).subscribe(data => {
       for (const item in data["body"]) {
         this.triggerCode.push(data["body"][item])
       }
     })
+  }
+
+  runCode() {
+
   }
 
   refresh() {

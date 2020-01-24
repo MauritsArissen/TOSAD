@@ -35,9 +35,13 @@ h1,h2,h3,h4 {
     font-style: italic;
 }
 
-.generated-code {
-    white-space: pre-wrap;
+.code-snippet {
     font-family: monospace;
+    white-space: pre-wrap;
+    background-color: black;
+    border-radius: 10px;
+    height: 100%;
+    padding: 20px;
 }
 
 .btn-small {
@@ -97,6 +101,7 @@ h1,h2,h3,h4 {
     border-top: none;
     border: none;
     border-radius: 6px;
+    padding: 5px 25px;
 }
 
 // Custom scrollbar

@@ -27,6 +27,7 @@
     "@angular/platform-browser-dynamic": "~8.2.4",
     "@angular/router": "~8.2.4",
     "@ng-bootstrap/ng-bootstrap": "^5.1.4",
+    "@ngx-prism/core": "^2.0.1",
     "@types/cash": "0.0.3",
     "@types/electron": "^1.6.10",
     "@types/jasmine": "~3.3.8",
@@ -47,8 +48,11 @@
     "karma-coverage-istanbul-reporter": "~2.0.1",
     "karma-jasmine": "~2.0.1",
     "karma-jasmine-html-reporter": "^1.4.0",
+    "lodash": "^4.17.15",
+    "lodash-es": "^4.17.15",
     "materialize-css": "^1.0.0",
     "ngx-electron": "^2.2.0",
+    "prismjs": "^1.19.0",
     "protractor": "~5.4.0",
     "rxjs": "~6.4.0",
     "serialize-javascript": "^2.1.2",
@@ -57,5 +61,6 @@
     "tslint": "~5.15.0",
     "typescript": "~3.5.3",
     "zone.js": "~0.9.1"
-  }
+  },
+  "dependencies": {}
 }
