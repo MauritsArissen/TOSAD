@@ -50,6 +50,24 @@ public class GenerateResource {
     }
 
     @POST
+    @Path("/generateTriggerCode")
+    @Produces("application/json")
+    public Response generateTriggerCode(String data) {
+        ArrayList response = controller.generateTriggerCode(data);
+        Response.ResponseBuilder builder = Response.ok(response);
+
+        builder.header("Access-Control-Allow-Origin", "*");
+        builder.header("Access-Control-Allow-Headers",
+                "origin, content-type, accept, authorization");
+        builder.header("Access-Control-Allow-Credentials", "true");
+        builder.header("Access-Control-Allow-Methods",
+                "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+
+
+        return builder.build();
+    }
+
+    @POST
     @Path("/generateTrigger")
     @Produces("application/json")
     public Response generateTrigger(String data) {

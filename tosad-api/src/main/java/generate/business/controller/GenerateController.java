@@ -7,6 +7,7 @@ import generate.business.controller.factory.TypeBasedBusinessRuleFactory;
 import generate.persistence.adapter.DaoAdapter;
 import generate.persistence.dao.BaseDao;
 import generate.persistence.dao.DefineOracleDao;
+import generate.persistence.dao.TargetOracleDao;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public class GenerateController {
         return triggerData;
     }
 
-    public ArrayList<String> generateTrigger(String data) {
+    public ArrayList<String> generateTriggerCode(String data) {
         JSONObject jsondata = new JSONObject(data);
         Trigger trigger = new Trigger(jsondata.get("name").toString());
         BaseDao generateconnectionadapter = new DaoAdapter().serialize("Oracle", "jdbc:oracle:thin:@//ondora04.hu.nl:1521/EDUC11", "cursist", "cursist8101");
@@ -75,6 +76,17 @@ public class GenerateController {
         ArrayList<String> returnList = new ArrayList<>();
         returnList.add(triggerString);
         return returnList;
+    }
+
+    public ArrayList<String> generateTrigger(String data) {
+        ArrayList<String> triggercode = generateTriggerCode(data);
+
+        BaseDao generateconnectionadapter = new DaoAdapter().serialize("Oracle", "jdbc:oracle:thin:@//ondora04.hu.nl:1521/EDUC11", "maurits", "maurits");
+        ArrayList<String> triggerData = new TargetOracleDao(generateconnectionadapter).executeCode(triggercode.get(0));
+
+
+
+        return triggerData;
     }
 
 }
