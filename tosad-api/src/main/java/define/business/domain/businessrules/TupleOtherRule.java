@@ -1,8 +1,11 @@
 package define.business.domain.businessrules;
 
-import generate.business.domain.*;
-
 import java.util.ArrayList;
+
+import define.business.domain.LiteralValue;
+import define.business.domain.Operator;
+import define.business.domain.Table;
+import define.business.domain.Trigger;
 
 public class TupleOtherRule implements BusinessRule {
     private Operator operator;
