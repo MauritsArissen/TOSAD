@@ -35,6 +35,11 @@ h1,h2,h3,h4 {
     font-style: italic;
 }
 
+.generated-code {
+    white-space: pre-wrap;
+    font-family: monospace;
+}
+
 .btn-small {
     height: 25px;
     line-height: 25px;
