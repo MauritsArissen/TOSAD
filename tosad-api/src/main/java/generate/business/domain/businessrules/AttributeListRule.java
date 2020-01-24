@@ -36,9 +36,8 @@ public class AttributeListRule implements BusinessRule {
     }
 
     public String generateDynamicPart() {
-        String template =  "begin\n" +
-                "l_passed := :new." + table.getSelectedTableAttribute() + " " + operator.getName() + " " +
-                "(" + generateList() + ")" +
+        String template =  "l_passed := :new." + table.getSelectedTableAttribute().getName() + " " + operator.getName() + " " +
+                "(" + generateList() + ")\n" +
                 "  if not l_passed\n" +
                 "  then\n" +
                 "    l_error_stack := '" + failuremessage + "';\n" +
@@ -49,9 +48,16 @@ public class AttributeListRule implements BusinessRule {
 
     public String generateList() {
         String value = "";
+        boolean first = true;
         if (!values.isEmpty()) {
             for (LiteralValue v : values) {
-                value += "'" + v.getValue() + "', ";
+                if (first) {
+                    value += "'" + v.getValue() + "'";
+                    first = false;
+                } else {
+                    value += ", '" + v.getValue() + "'";
+                }
+
             }
         }
         return value;

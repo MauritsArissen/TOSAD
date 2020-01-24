@@ -33,7 +33,7 @@ public class AttributeRangeRule implements BusinessRule {
     }
 
     public String generateDynamicPart() {
-        String template =  "l_passed := :new." + table.getSelectedTableAttribute() + " " + operator.getName() + " " +
+        String template =  "l_passed := :new." + table.getSelectedTableAttribute().getName() + " " + operator.getName() + " " +
                 values.get(0).getValue() + " and " + values.get(1).getValue() + ";\n" +
                 "  if not l_passed\n" +
                 "  then\n" +
