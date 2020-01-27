@@ -52,7 +52,6 @@ public class GenerateController {
                 LiteralValue litValue = new LiteralValue(value);
                 bRule.addValue(litValue);
             }
-            if(bRule.getClass().getName().equals("ModifyRule"))
             bRuleString += bRule.generateDynamicPart();
             bRuleDeclare += bRule.generateDeclare();
         }
