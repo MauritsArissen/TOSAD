@@ -36,12 +36,14 @@ h1,h2,h3,h4 {
 }
 
 .code-snippet {
-    font-family: monospace;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
     white-space: pre-wrap;
     background-color: black;
-    border-radius: 10px;
+    border-radius: 0.3em;
     height: 100%;
     padding: 20px;
+    color: #f8f8f2;
+    font-size: 1em;
 }
 
 .btn-small {
