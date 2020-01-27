@@ -2,10 +2,6 @@ package generate.business.controller.factory;
 
 import generate.business.domain.businessrules.*;
 import generate.business.domain.*;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 public class TypeBasedBusinessRuleFactory implements BusinessRuleFactory {
     String type;

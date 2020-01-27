@@ -1,14 +1,7 @@
 package generate.persistence.dao;
 
-import generate.business.domain.*;
-import generate.business.domain.businessrules.AttributeRangeRule;
-import generate.business.domain.businessrules.BusinessRule;
-import generate.persistence.dao.BaseDao;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class TargetOracleDao implements TargetDao {

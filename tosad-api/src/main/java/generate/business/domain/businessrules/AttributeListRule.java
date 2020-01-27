@@ -3,7 +3,6 @@ package generate.business.domain.businessrules;
 import generate.business.domain.LiteralValue;
 import generate.business.domain.Operator;
 import generate.business.domain.Table;
-import generate.business.domain.Trigger;
 
 import java.util.ArrayList;
 
