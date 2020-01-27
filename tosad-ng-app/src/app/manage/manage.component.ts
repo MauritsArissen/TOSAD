@@ -16,6 +16,7 @@ export class ManageComponent implements OnInit, AfterViewInit {
   rules = []
   properties = []
   triggerCode = []
+  triggerName: String = null
   selectedIndexTriggers: number = null
   selectedIndexRules: number = null
 
@@ -45,12 +46,12 @@ export class ManageComponent implements OnInit, AfterViewInit {
     this.selectedIndexRules = null;
 
     let sendData = {
-      "name": triggerName
+      'name': triggerName
     }
 
     this._http.postRequest('http://localhost:8080/tosad-api/restservices/generate/getbusinessrules', sendData).subscribe(data => {
-      for (const item in data["body"]) {
-        this.rules.push(data["body"][item])
+      for (const item in data['body']) {
+        this.rules.push(data['body'][item])
       }
     })
   }
@@ -61,20 +62,29 @@ export class ManageComponent implements OnInit, AfterViewInit {
 
   runGenerate(triggerName) {
     this.triggerCode = []
+    this.triggerName = triggerName
 
     let sendData = {
-      "name": triggerName
+      'name': triggerName
     }
 
     this._http.postRequest('http://localhost:8080/tosad-api/restservices/generate/generateTriggerCode', sendData).subscribe(data => {
-      for (const item in data["body"]) {
-        this.triggerCode.push(data["body"][item])
+      for (const item in data['body']) {
+        this.triggerCode.push(data['body'][item])
       }
     })
   }
 
   runCode() {
+    let sendData = {
+      'name': this.triggerName
+    }
 
+    this._http.postRequest('http://localhost:8080/tosad-api/restservices/generate/generateTrigger', sendData).subscribe(data => {
+      for (const item in data["body"]) {
+        M.toast({html: data['body'][item]})
+      }
+    })
   }
 
   refresh() {

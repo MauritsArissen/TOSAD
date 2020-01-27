@@ -2,6 +2,7 @@ package generate.persistence.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 public class TargetOracleDao implements TargetDao {
@@ -12,22 +13,17 @@ public class TargetOracleDao implements TargetDao {
     }
 
     public ArrayList<String> executeCode (String triggerCode) {
-        System.out.println(triggerCode);
         String query = triggerCode;
         ArrayList<String> result = new ArrayList();
         try (Connection conn = dbconnection.getConnection()) {
+            Statement statement = conn.createStatement();
+            statement.execute(query);
 
-            PreparedStatement statement = conn.prepareStatement(query);
-            boolean compiled = statement.executeUpdate() > 0;
-
-            if(compiled) {
-                result.add("Trigger compiled");
-            } else {
-                result.add("Trigger Failed");
-            }
+            result.add("Trigger compiled!");
 
             statement.close();
         } catch (Exception e) {
+            result.add("Trigger failed!");
             e.printStackTrace();
         }
         dbconnection.closeConnection();
