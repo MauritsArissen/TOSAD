@@ -1,4 +1,4 @@
-package define.business.controller.factory;
+package define.business.domain.factory;
 
 import java.util.ArrayList;
 
