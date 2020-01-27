@@ -15,9 +15,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class GenerateController {
+    private BaseDao generateconnectionadapter;
+    public GenerateController() {
+        BaseDao generateconnectionadapter = new DaoAdapter().serialize("Oracle", "jdbc:oracle:thin:@//ondora04.hu.nl:1521/EDUC11", "cursist", "cursist8101");
+    }
 
     public ArrayList returnTriggers() {
-        BaseDao generateconnectionadapter = new DaoAdapter().serialize("Oracle", "jdbc:oracle:thin:@//ondora04.hu.nl:1521/EDUC11", "cursist", "cursist8101");
         ArrayList<String> triggerData = new DefineOracleDao(generateconnectionadapter).getTriggerInfo();
 
         return triggerData;
@@ -26,7 +29,6 @@ public class GenerateController {
     public ArrayList<String> returnRulesByTrigger(String data) {
         JSONObject jsondata = new JSONObject(data);
         Trigger trigger = new Trigger(jsondata.get("name").toString());
-        BaseDao generateconnectionadapter = new DaoAdapter().serialize("Oracle", "jdbc:oracle:thin:@//ondora04.hu.nl:1521/EDUC11", "cursist", "cursist8101");
         ArrayList<String> triggerData = new DefineOracleDao(generateconnectionadapter).getRulesByTrigger(trigger.getTriggercode());
 
         return triggerData;
@@ -34,11 +36,10 @@ public class GenerateController {
 
     public ArrayList<String> generateTriggerCode(String data) {
         JSONObject jsondata = new JSONObject(data);
-        BaseDao generateconnectionadapter = new DaoAdapter().serialize("Oracle", "jdbc:oracle:thin:@//ondora04.hu.nl:1521/EDUC11", "cursist", "cursist8101");
         DefineOracleDao defineOracleDao = new DefineOracleDao(generateconnectionadapter);
 
         Trigger trigger = new Trigger(jsondata.get("name").toString());
-        trigger = new BusinessRuleController().fillTriggerWithRules(defineOracleDao.getAllDataFromTrigger(trigger.getTriggercode()), trigger);
+        trigger = new BusinessRuleController(generateconnectionadapter).fillTriggerWithRules(defineOracleDao.getAllDataFromTrigger(trigger.getTriggercode()), trigger);
 
         ArrayList<BusinessRule> ruleList = trigger.getBusinessRules();
         String tablename = "";
@@ -47,12 +48,6 @@ public class GenerateController {
 
         for (BusinessRule bRule : ruleList) {
             tablename = bRule.getTable().getName();
-            ArrayList<String> values = defineOracleDao.getValuesFromRule(bRule.getName());
-            for (String value : values) {
-                LiteralValue litValue = new LiteralValue(value);
-                bRule.addValue(litValue);
-            }
-            if(bRule.getClass().getName().equals("ModifyRule"))
             bRuleString += bRule.generateDynamicPart();
             bRuleDeclare += bRule.generateDeclare();
         }
@@ -78,10 +73,7 @@ public class GenerateController {
     public ArrayList<String> generateTrigger(String data) {
         ArrayList<String> triggercode = generateTriggerCode(data);
 
-        BaseDao generateconnectionadapter = new DaoAdapter().serialize("Oracle", "jdbc:oracle:thin:@//ondora04.hu.nl:1521/EDUC11", "maurits", "maurits");
         ArrayList<String> triggerData = new TargetOracleDao(generateconnectionadapter).executeCode(triggercode.get(0));
-
-
 
         return triggerData;
     }
