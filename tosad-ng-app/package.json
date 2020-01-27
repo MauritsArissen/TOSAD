@@ -51,6 +51,7 @@
     "lodash-es": "^4.17.15",
     "materialize-css": "^1.0.0",
     "ngx-electron": "^2.2.0",
+    "ngx-highlight-js": "^2.1.1",
     "protractor": "~5.4.0",
     "rxjs": "~6.4.0",
     "serialize-javascript": "^2.1.2",

@@ -93,3 +93,4 @@ export class ManageComponent implements OnInit, AfterViewInit {
     }, 10)
   }
 }
+
