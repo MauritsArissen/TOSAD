@@ -36,7 +36,6 @@ public class DefineOracleDao implements DefineDao {
        String query = "select businessrule.name from businessrule, generatedtrigger where generatedtrigger.name = '" + triggername + "' AND generatedtrigger.id = businessrule.triggerid";
        ArrayList<String> result = new ArrayList();
        try (Connection conn = dbconnection.getConnection()) {
-
            PreparedStatement statement = conn.prepareStatement(query);
            ResultSet resultset = statement.executeQuery();
 
