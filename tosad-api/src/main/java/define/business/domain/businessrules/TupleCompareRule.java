@@ -5,53 +5,51 @@ import define.business.domain.*;
 import java.util.ArrayList;
 
 public class TupleCompareRule implements BusinessRule {
+	private String name;
     private Operator operator;
     private Trigger trigger;
     private ArrayList<LiteralValue> values;
     private Table table;
+    private String type;
 
-    public TupleCompareRule(Operator operator, Trigger trigger,
-                            ArrayList<LiteralValue> values, Table table) {
+    public TupleCompareRule(String name, Operator operator, Trigger trigger, Table table,
+                            ArrayList<LiteralValue> values, String type) {
         this.operator = operator;
         this.trigger = trigger;
         this.values = values;
         this.table = table;
+        this.name = name;
+        this.type = type;
     }
 
 	@Override
 	public Operator getOperator() {
-		// TODO Auto-generated method stub
-		return null;
+		return operator;
 	}
 
 	@Override
 	public Trigger getTrigger() {
-		// TODO Auto-generated method stub
-		return null;
+		return trigger;
 	}
 
 	@Override
 	public Table getTable() {
-		// TODO Auto-generated method stub
-		return null;
+		return table;
 	}
 
 	@Override
 	public ArrayList<LiteralValue> getValues() {
-		// TODO Auto-generated method stub
-		return null;
+		return values;
 	}
 
 	@Override
 	public String getType() {
-		// TODO Auto-generated method stub
-		return null;
+		return type;
 	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return name;
 	}
 
 }

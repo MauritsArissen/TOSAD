@@ -51,16 +51,14 @@
     </div>
     <div class="modal-content">
         <div class="scrollable code-snippet" *ngFor="let item of triggerCode">
-            <!-- <ngx-prism language="sql">{{ item }}</ngx-prism> -->
             {{ item }}
         </div>
     </div>
     <div class="modal-footer">
         <div class="right">
-            <a class="modal-close waves-effect waves-light btn-small blue">Close</a>
-        </div>
-        <div class="right">
             <a class="modal-close waves-effect waves-light btn-small blue" (click)="runCode()">Run Code</a>
+            &nbsp;
+            <a class="modal-close waves-effect waves-light btn-small blue">Close</a>
         </div>
     </div>
 </div>
