@@ -53,6 +53,7 @@ public class DefineOracleDao implements DefineDao {
         return data;
     }
 	
+	// SAVES EVERYTHING 
 	public String defineRule(BusinessRule rule) {		
 		// check if target table/attribute is in our database. if not, it will be added.
 		checkTargetData(rule);
@@ -105,11 +106,11 @@ public class DefineOracleDao implements DefineDao {
 		int ruleid = getBusinessRuleId();
 		String ruletypecode = getRuletypeFromRule(rule.getType());
 		
-		String parameterinsert = "insert into parameter (value) values (?)"; 
-		String parameterruleinsert = "insert into parameterrule (businessruleid, parameterid) values (?, ?)";
-		
 		try (Connection conn = dbconnection.getConnection()) {
         	if (ruletypecode.equals("ARNG") || ruletypecode.equals("ACMP") || ruletypecode.equals("ALIS") || ruletypecode.equals("AOTH")) {
+        		String parameterinsert = "insert into parameter (value) values (?)"; 
+        		String parameterruleinsert = "insert into parameterrule (businessruleid, parameterid) values (?, ?)";
+        		
         		for (LiteralValue l : rule.getValues() ) {
         			PreparedStatement pstatement = conn.prepareStatement(parameterinsert);
         			pstatement.setString(1, l.getValue());
@@ -124,22 +125,20 @@ public class DefineOracleDao implements DefineDao {
     				parameterruleinsertstatement.setInt(2, parid);
     				parameterruleinsertstatement.executeUpdate();
         		}
+        	} else if (ruletypecode.equals("TCMP")) {        		
+        		LiteralValue l = rule.getValues().get(0);
+        		System.out.println(l.getValue());	
+        		
+        		
+        	} else if (ruletypecode.equals("TOTH")) {
+        		
+        	} else if (ruletypecode.equals("ICMP")) {
+        		
+        	} else if (ruletypecode.equals("EOTH")) {
+        		
+        	} else if (ruletypecode.equals("MODI")) {
+        		
         	}
-        	
-//        	switch (ruletypecode) {
-//			case "TCMP":
-//				break;
-//			case "TOTH":
-//				break;
-//			case "ICMP":
-//				break;
-//			case "EOTH":
-//				break;
-        	
-        	
-//			case "MODI":
-//				break;
-//			}
         	
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -147,6 +146,7 @@ public class DefineOracleDao implements DefineDao {
 			
 	}
 	
+	// checks if target table/attributes from current rule already exist in our database or not
 	private void checkTargetData(BusinessRule rule) {
 		String checktargettable = "select * from targettable where name = ?";
 		String inserttargettable = "insert into targettable (name, databaseid) values (?, 1)";
@@ -176,10 +176,22 @@ public class DefineOracleDao implements DefineDao {
     		statement.close();
     		result.close();
     		
-    		String checktableattribute = "select * from targettableattribute where name = ?";
-    		boolean tableattributeExists = false;   
-    		
-    		PreparedStatement tableattributestatement = conn.prepareStatement(checktableattribute);
+    		// check the column
+    		checkTargetColumn(rule);
+
+        } catch (Exception e) {
+        	e.printStackTrace();
+        }
+	}
+	
+	private void checkTargetColumn(BusinessRule rule) {
+		String checktargettable = "select * from targettable where name = ?";
+		String checktableattribute = "select * from targettableattribute where name = ?";
+		boolean tableattributeExists = false;
+		
+		
+		try (Connection conn = dbconnection.getConnection()) {
+			PreparedStatement tableattributestatement = conn.prepareStatement(checktableattribute);
     		tableattributestatement.setString(1, rule.getTable().getSelectedTableAttribute().getName());
     		ResultSet tableattributeresult = tableattributestatement.executeQuery(); 
     		
@@ -209,12 +221,10 @@ public class DefineOracleDao implements DefineDao {
     			insertstatement.executeQuery();
     			
     			insertstatement.close();
-    		}
-
-        } catch (Exception e) {
-        	e.printStackTrace();
-        }
-
+    		}	
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private int getOperatorFromRule(Operator operator) {
