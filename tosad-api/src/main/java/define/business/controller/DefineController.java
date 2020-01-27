@@ -5,8 +5,8 @@ import java.util.HashMap;
 
 import org.json.JSONObject;
 
-import define.business.controller.factory.BusinessRuleFactory;
-import define.business.controller.factory.TypeBasedBusinessRuleFactory;
+import define.business.domain.factory.BusinessRuleFactory;
+import define.business.domain.factory.TypeBasedBusinessRuleFactory;
 import define.business.domain.businessrules.BusinessRule;
 import define.persistence.adapter.DaoAdapter;
 import define.persistence.dao.BaseDao;

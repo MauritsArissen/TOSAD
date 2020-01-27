@@ -8,53 +8,51 @@ import define.business.domain.Table;
 import define.business.domain.Trigger;
 
 public class TupleOtherRule implements BusinessRule {
+	private String name;
     private Operator operator;
     private Trigger trigger;
     private ArrayList<LiteralValue> values;
     private Table table;
+    private String type;
 
-    public TupleOtherRule(Operator operator, Trigger trigger,
-                          ArrayList<LiteralValue> values, Table table) {
+    public TupleOtherRule(String name, Operator operator, Trigger trigger, Table table,
+                          ArrayList<LiteralValue> values, String type) {
         this.operator = operator;
         this.trigger = trigger;
         this.values = values;
         this.table = table;
+        this.name = name;
+        this.type = type;
     }
 
 	@Override
-	public define.business.domain.Operator getOperator() {
-		// TODO Auto-generated method stub
-		return null;
+	public Operator getOperator() {
+		return operator;
 	}
 
 	@Override
-	public define.business.domain.Trigger getTrigger() {
-		// TODO Auto-generated method stub
-		return null;
+	public Trigger getTrigger() {
+		return trigger;
 	}
 
 	@Override
-	public define.business.domain.Table getTable() {
-		// TODO Auto-generated method stub
-		return null;
+	public Table getTable() {
+		return table;
 	}
 
 	@Override
-	public ArrayList<define.business.domain.LiteralValue> getValues() {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<LiteralValue> getValues() {
+		return values;
 	}
 
 	@Override
 	public String getType() {
-		// TODO Auto-generated method stub
-		return null;
+		return type;
 	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return name;
 	}
 
 }

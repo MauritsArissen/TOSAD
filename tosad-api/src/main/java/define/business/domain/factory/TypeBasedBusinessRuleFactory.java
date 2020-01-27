@@ -1,4 +1,4 @@
-package define.business.controller.factory;
+package define.business.domain.factory;
 
 import java.util.ArrayList;
 
@@ -14,7 +14,11 @@ import define.business.domain.businessrules.AttributeCompareRule;
 import define.business.domain.businessrules.AttributeListRule;
 import define.business.domain.businessrules.AttributeOtherRule;
 import define.business.domain.businessrules.BusinessRule;
+import define.business.domain.businessrules.EntityOtherRule;
+import define.business.domain.businessrules.InterEntityCompareRule;
 import define.business.domain.businessrules.RangeRule;
+import define.business.domain.businessrules.TupleCompareRule;
+import define.business.domain.businessrules.TupleOtherRule;
 
 public class TypeBasedBusinessRuleFactory implements BusinessRuleFactory {
     String type;
@@ -49,17 +53,16 @@ public class TypeBasedBusinessRuleFactory implements BusinessRuleFactory {
         } else if (type.equals("Attribute Other rule")) {
         	return new AttributeOtherRule(rulename, operator, trigger, table, values, type);
         } else if (type.equals("Tuple Compare rule")) {
-
+        	return new TupleCompareRule(rulename, operator, trigger, table, values, type);
         } else if (type.equals("Tuple Other rule")) {
-
+        	return new TupleOtherRule(rulename, operator, trigger, table, values, type);
         } else if (type.equals("Inter-Entity Compare rule")) {
-
+        	return new InterEntityCompareRule(rulename, operator, trigger, table, values, type);
         } else if (type.equals("Entity Other rule")) {
-
+        	return new EntityOtherRule(rulename, operator, trigger, table, values, type);
         } else {
         	// modify rule
             return null;
         }
-        return null;
     }
 }
