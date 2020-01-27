@@ -53,83 +53,80 @@ public class DefineOracleDao implements DefineDao {
         return data;
     }
 	
-	public String defineRule(BusinessRule rule) {
-		String successful = "failed";
-		
+	public String defineRule(BusinessRule rule) {		
 		// check if target table/attribute is in our database. if not, it will be added.
 		checkTargetData(rule);
+					
+		// only works if trigger doesn't exist, will be checked in this method
+		int triggerId = getTriggerFromRule(rule.getTrigger());
+		insertTrigger(rule.getTrigger(), triggerId); 
+		triggerId = getTriggerFromRule(rule.getTrigger());
+					
+    	// insert businessrule
+		String successful = saveBusinessRule(rule);
+		
+		// insert parameters/tablecolumns used as parameters (will be checked inside the method)
+		insertCorrectParameter(rule);
 			
-		// start with saving the rule
+		return successful;
+	}
+	
+	private String saveBusinessRule(BusinessRule rule) {
+		String result = "failed";
+		
 		int triggerId = getTriggerFromRule(rule.getTrigger());
 		int operatorId = getOperatorFromRule(rule.getOperator());
 		int attributeId = getTableAttributeFromRule(rule.getTable().getSelectedTableAttribute());
 		String ruletypecode = getRuletypeFromRule(rule.getType());
 		
-		// only works if trigger doesn't exist, will be checked in this method
-		insertTrigger(rule.getTrigger(), triggerId); 
-		triggerId = getTriggerFromRule(rule.getTrigger());
+		try (Connection conn = dbconnection.getConnection()) {
+    		String businessruleinsert = "insert into businessrule (name, type, failure_message, attributeid, operatorid, triggerid) values (? || (businessrule_sequence.nextval + 1), ?, ?, ?, ?, ?)";
+			PreparedStatement statement = conn.prepareStatement(businessruleinsert);
 			
-        try (Connection conn = dbconnection.getConnection()) {
+			statement.setString(1, rule.getName() + ruletypecode + "_");
+			statement.setString(2, ruletypecode);
+			statement.setString(3, rule.getTrigger().getFailuremessage());
+			statement.setInt(4, attributeId);
+			statement.setInt(5, operatorId);
+			statement.setInt(6, triggerId);
+			
+			if (statement.executeUpdate() > 0) {
+				result = "successful";
+			
+			statement.close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;	
+	}
+	
+	private void insertCorrectParameter(BusinessRule rule) {
+		int ruleid = getBusinessRuleId();
+		String ruletypecode = getRuletypeFromRule(rule.getType());
+		
+		String parameterinsert = "insert into parameter (value) values (?)"; 
+		String parameterruleinsert = "insert into parameterrule (businessruleid, parameterid) values (?, ?)";
+		
+		try (Connection conn = dbconnection.getConnection()) {
         	if (ruletypecode.equals("ARNG") || ruletypecode.equals("ACMP") || ruletypecode.equals("ALIS") || ruletypecode.equals("AOTH")) {
-        		// insert businessrule
-	    		String businessruleinsert = "insert into businessrule (name, type, failure_message, attributeid, operatorid, triggerid) values (? || (businessrule_sequence.nextval + 1), ?, ?, ?, ?, ?)";
-				PreparedStatement statement = conn.prepareStatement(businessruleinsert);
-				
-				statement.setString(1, rule.getName() + ruletypecode + "_");
-				statement.setString(2, ruletypecode);
-				statement.setString(3, rule.getTrigger().getFailuremessage());
-				statement.setInt(4, attributeId);
-				statement.setInt(5, operatorId);
-				statement.setInt(6, triggerId);
-				statement.executeUpdate();
-				
-				statement.close();
-				
-				// get businessrule id 
-				String ruleidquery = "select max(id) as id from businessrule";
-				int ruleid = 0;
-				
-				PreparedStatement getruleidstatement = conn.prepareStatement(ruleidquery);
-				ResultSet result = getruleidstatement.executeQuery();
-				while (result.next()) {
-					ruleid = result.getInt("id");
-				}
-				getruleidstatement.close();
-				result.close();
-        		
-				// insert parameters
-        		String parameterinsert = "insert into parameter (value) values (?)"; 
-        		
         		for (LiteralValue l : rule.getValues() ) {
         			PreparedStatement pstatement = conn.prepareStatement(parameterinsert);
         			pstatement.setString(1, l.getValue());
                     pstatement.executeQuery();
                     
                     pstatement.close();
-                    
-                    String paridquery = "select max(id) as id from parameter";
-    				int parid = 0;
-    				
-    				PreparedStatement getparidstatement = conn.prepareStatement(paridquery);
-    				ResultSet parresult = getparidstatement.executeQuery();
-    				while (parresult.next()) {
-    					parid = parresult.getInt("id");
-    				}
-    				
-    				getparidstatement.close();
-    				parresult.close();
-  		
-    				String coupletableinsert = "insert into parameterrule (businessruleid, parameterid) values (?, ?)";
-    				PreparedStatement coupletableinsertstatement = conn.prepareStatement(coupletableinsert);
-    				coupletableinsertstatement.setInt(1, ruleid);
-    				coupletableinsertstatement.setInt(2, parid);
-    				coupletableinsertstatement.executeUpdate();
+                
+    				int parid = getParameterId();
+    				  		
+    				PreparedStatement parameterruleinsertstatement = conn.prepareStatement(parameterruleinsert);
+    				parameterruleinsertstatement.setInt(1, ruleid);
+    				parameterruleinsertstatement.setInt(2, parid);
+    				parameterruleinsertstatement.executeUpdate();
         		}
-        		
-        		successful = "success";
-			}
-	   
-//			switch (ruletypecode) {
+        	}
+        	
+//        	switch (ruletypecode) {
 //			case "TCMP":
 //				break;
 //			case "TOTH":
@@ -138,14 +135,16 @@ public class DefineOracleDao implements DefineDao {
 //				break;
 //			case "EOTH":
 //				break;
+        	
+        	
 //			case "MODI":
 //				break;
 //			}
-			
+        	
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return successful;
+			
 	}
 	
 	private void checkTargetData(BusinessRule rule) {
@@ -326,7 +325,44 @@ public class DefineOracleDao implements DefineDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private int getBusinessRuleId() {
+		String ruleidquery = "select max(id) as id from businessrule";
+		int ruleid = 0;
 		
+		try (Connection conn = dbconnection.getConnection()) {
+			PreparedStatement getruleidstatement = conn.prepareStatement(ruleidquery);
+			ResultSet result = getruleidstatement.executeQuery();
+			while (result.next()) {
+				ruleid = result.getInt("id");
+			}
+			getruleidstatement.close();
+			result.close();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return ruleid;
+	}
+	
+	private int getParameterId() {
+		int parid = 0;
+		String paridquery = "select max(id) as id from parameter";
+		
+		try (Connection conn = dbconnection.getConnection()) {
+			PreparedStatement getparidstatement = conn.prepareStatement(paridquery);
+			ResultSet parresult = getparidstatement.executeQuery();
+			while (parresult.next()) {
+				parid = parresult.getInt("id");
+			}
+			
+			getparidstatement.close();
+			parresult.close();
+		} catch (Exception e ) {
+			e.printStackTrace();
+		}
+		return parid;
 	}
 	
 	
