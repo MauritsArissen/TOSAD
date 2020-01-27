@@ -1,9 +1,10 @@
 package generate.business.controller;
 
-import generate.business.domain.*;
 import generate.business.domain.businessrules.BusinessRule;
-import generate.business.controller.factory.BusinessRuleFactory;
-import generate.business.controller.factory.TypeBasedBusinessRuleFactory;
+import generate.business.domain.businessrules.BusinessRuleController;
+import generate.business.domain.businessrules.ruleattributes.*;
+import generate.business.domain.factory.BusinessRuleFactory;
+import generate.business.domain.factory.TypeBasedBusinessRuleFactory;
 import generate.persistence.adapter.DaoAdapter;
 import generate.persistence.dao.BaseDao;
 import generate.persistence.dao.DefineOracleDao;
@@ -33,23 +34,16 @@ public class GenerateController {
 
     public ArrayList<String> generateTriggerCode(String data) {
         JSONObject jsondata = new JSONObject(data);
-        Trigger trigger = new Trigger(jsondata.get("name").toString());
         BaseDao generateconnectionadapter = new DaoAdapter().serialize("Oracle", "jdbc:oracle:thin:@//ondora04.hu.nl:1521/EDUC11", "cursist", "cursist8101");
         DefineOracleDao defineOracleDao = new DefineOracleDao(generateconnectionadapter);
 
-        ArrayList<HashMap<String, String>> result = defineOracleDao.getAllDataFromTrigger(trigger.getTriggercode());
-
-        for (HashMap<String, String> list : result) {
-            BusinessRuleFactory factory = new TypeBasedBusinessRuleFactory(list.get("businessruletypename"));
-            Operator operator = new Operator(list.get("operatorname"));
-            Table table = new Table(list.get("targettablename"), new TableAttribute(list.get("targettableattribute")));
-            BusinessRule rule = factory.createRule(operator, table, list.get("failure_message"), list.get("businessrulename"));
-            trigger.addBusinessRule(rule);
-        }
+        Trigger trigger = new Trigger(jsondata.get("name").toString());
+        trigger = new BusinessRuleController().fillTriggerWithRules(defineOracleDao.getAllDataFromTrigger(trigger.getTriggercode()), trigger);
 
         ArrayList<BusinessRule> ruleList = trigger.getBusinessRules();
         String tablename = "";
         String bRuleString = "";
+        String bRuleDeclare = "";
 
         for (BusinessRule bRule : ruleList) {
             tablename = bRule.getTable().getName();
@@ -58,7 +52,9 @@ public class GenerateController {
                 LiteralValue litValue = new LiteralValue(value);
                 bRule.addValue(litValue);
             }
+            if(bRule.getClass().getName().equals("ModifyRule"))
             bRuleString += bRule.generateDynamicPart();
+            bRuleDeclare += bRule.generateDeclare();
         }
 
         String triggerString = "create or replace trigger " + trigger.getTriggercode() + "\n" +
@@ -68,6 +64,7 @@ public class GenerateController {
                 "declare\n" +
                 "  l_passed boolean := true;\n" +
                 "  l_error_stack varchar2(4000);\n" +
+                bRuleDeclare +
                 " begin\n";
 
         triggerString += bRuleString;

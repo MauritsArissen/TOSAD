@@ -1,8 +1,8 @@
 package generate.business.domain.businessrules;
 
-import generate.business.domain.LiteralValue;
-import generate.business.domain.Operator;
-import generate.business.domain.Table;
+import generate.business.domain.businessrules.ruleattributes.LiteralValue;
+import generate.business.domain.businessrules.ruleattributes.Operator;
+import generate.business.domain.businessrules.ruleattributes.Table;
 
 import java.util.ArrayList;
 
@@ -33,8 +33,13 @@ public class AttributeCompareRule implements BusinessRule {
         return table;
     }
 
+    public String generateDeclare() {
+        return "";
+    }
+
     public String generateDynamicPart() {
-        String template =  "l_passed := :new." + table.getSelectedTableAttribute().getName() + " " + operator.getName() + " '" +
+        String template =  "--" + name + "\n" +
+                "l_passed := :new." + table.getSelectedTableAttribute().getName() + " " + operator.getName() + " '" +
                 values.get(0).getValue() + "';\n" +
                 "  if not l_passed\n" +
                 "  then\n" +

@@ -1,4 +1,4 @@
-package generate.business.domain;
+package generate.business.domain.businessrules.ruleattributes;
 
 public class Operator {
     private String name;

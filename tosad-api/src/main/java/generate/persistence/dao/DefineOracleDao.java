@@ -102,7 +102,14 @@ public class DefineOracleDao implements DefineDao {
            statement.setString(1, ruleName);
            ResultSet resultset = statement.executeQuery();
            while(resultset.next()) {
-               result.add(resultset.getString("value"));
+               String value = resultset.getString("value");
+               if(value == null) {
+                   result.add(resultset.getString("tablename"));
+                   result.add(resultset.getString("attributename"));
+               } else {
+                   result.add(value);
+               }
+
            }
            resultset.close();
            statement.close();
