@@ -17,7 +17,7 @@ import java.util.HashMap;
 public class GenerateController {
     private BaseDao generateconnectionadapter;
     public GenerateController() {
-        BaseDao generateconnectionadapter = new DaoAdapter().serialize("Oracle", "jdbc:oracle:thin:@//ondora04.hu.nl:1521/EDUC11", "cursist", "cursist8101");
+        this.generateconnectionadapter = new DaoAdapter().serialize("Oracle", "jdbc:oracle:thin:@//ondora04.hu.nl:1521/EDUC11", "cursist", "cursist8101");
     }
 
     public ArrayList returnTriggers() {
