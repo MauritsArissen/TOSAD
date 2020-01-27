@@ -12,6 +12,7 @@ public class TargetOracleDao implements TargetDao {
     }
 
     public ArrayList<String> executeCode (String triggerCode) {
+
         System.out.println(triggerCode);
         String query = triggerCode;
         ArrayList<String> result = new ArrayList();

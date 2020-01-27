@@ -1,4 +1,4 @@
-package generate.business.domain;
+package generate.business.domain.businessrules.ruleattributes;
 
 import generate.business.domain.businessrules.BusinessRule;
 

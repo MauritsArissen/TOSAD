@@ -1,6 +1,8 @@
 package generate.business.domain.businessrules;
 
-import generate.business.domain.*;
+import generate.business.domain.businessrules.ruleattributes.LiteralValue;
+import generate.business.domain.businessrules.ruleattributes.Operator;
+import generate.business.domain.businessrules.ruleattributes.Table;
 
 
 import java.util.ArrayList;
@@ -33,7 +35,8 @@ public class AttributeRangeRule implements BusinessRule {
     }
 
     public String generateDynamicPart() {
-        String template =  "l_passed := :new." + table.getSelectedTableAttribute().getName() + " " + operator.getName() + " " +
+        String template =  "--" + name + "\n" +
+                "l_passed := :new." + table.getSelectedTableAttribute().getName() + " " + operator.getName() + " " +
                 values.get(0).getValue() + " and " + values.get(1).getValue() + ";\n" +
                 "  if not l_passed\n" +
                 "  then\n" +
@@ -41,6 +44,10 @@ public class AttributeRangeRule implements BusinessRule {
                 "    raise_application_error( -20800, l_error_stack );\n" +
                 "  end if;\n";
         return template;
+    }
+
+    public String generateDeclare() {
+        return "";
     }
 
 }

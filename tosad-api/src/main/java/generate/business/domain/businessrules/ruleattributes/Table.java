@@ -1,4 +1,4 @@
-package generate.business.domain;
+package generate.business.domain.businessrules.ruleattributes;
 
 public class Table {
     private String name;

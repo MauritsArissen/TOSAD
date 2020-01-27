@@ -1,8 +1,8 @@
 package generate.business.domain.businessrules;
 
-import generate.business.domain.LiteralValue;
-import generate.business.domain.Operator;
-import generate.business.domain.Table;
+import generate.business.domain.businessrules.ruleattributes.LiteralValue;
+import generate.business.domain.businessrules.ruleattributes.Operator;
+import generate.business.domain.businessrules.ruleattributes.Table;
 
 import java.util.ArrayList;
 
@@ -13,8 +13,7 @@ public class InterEntityCompareRule implements BusinessRule {
     private String failuremessage;
     private String name;
 
-    public InterEntityCompareRule(Operator operator,
-                                  ArrayList<LiteralValue> values, Table table, String failuremessage, String name) {
+    public InterEntityCompareRule(Operator operator, Table table, String failuremessage, String name) {
         this.operator = operator;
         this.values = values;
         this.table = table;
@@ -39,11 +38,13 @@ public class InterEntityCompareRule implements BusinessRule {
         //Checks of het verschillende tabellen zijn, front-end check?
 
         //geen idee of dit klopt
-        String template = "cursor lc_first is\n" +
-                "select " + table.getName() + "." + table.getSelectedTableAttribute() + "\n" +
-                "from " + table.getName() + "\n" +
+        String template = "--" + name + " code\n" +
+                "cursor lc_first is\n" +
+                "select " + values.get(1).getValue() + "\n" +
+                "from " + values.get(0).getValue()  + "\n" +
                 "l_targetValue " + values.get(0).getValue() + "." + values.get(1).getValue() + "%type;\n" +
                 "begin\n" +
+                "--" + name + "\n" +
                 "open lc_first;\n" +
                 "fetch lc_first into l_targetValue;\n" +
                 "close lc_first;\n" +
@@ -53,6 +54,13 @@ public class InterEntityCompareRule implements BusinessRule {
                 "    l_error_stack := '" + failuremessage + "';\n" +
                 "    raise_application_error( -20800, l_error_stack );\n" +
                 "  end if;\n";
+        return template;
+    }
+
+    public String generateDeclare() {
+        String template =  "--" + name + " declare\n" +
+                values.get(1).getValue() + "\n";
+
         return template;
     }
 
