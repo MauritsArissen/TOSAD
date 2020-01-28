@@ -3,8 +3,6 @@ package generate.business.controller;
 import generate.business.domain.businessrules.BusinessRule;
 import generate.business.domain.businessrules.BusinessRuleController;
 import generate.business.domain.businessrules.ruleattributes.*;
-import generate.business.domain.factory.BusinessRuleFactory;
-import generate.business.domain.factory.TypeBasedBusinessRuleFactory;
 import generate.persistence.adapter.DaoAdapter;
 import generate.persistence.dao.BaseDao;
 import generate.persistence.dao.DefineOracleDao;
@@ -12,7 +10,6 @@ import generate.persistence.dao.TargetOracleDao;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class GenerateController {
     private BaseDao generateconnectionadapter;

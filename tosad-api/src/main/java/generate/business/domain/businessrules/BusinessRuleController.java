@@ -9,11 +9,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class BusinessRuleController {
-    private BaseDao generateconnectionadapter;
     private BusinessRuleExtraController extraController;
 
     public BusinessRuleController(BaseDao generateconnectionadapter) {
-        this.generateconnectionadapter = generateconnectionadapter;
         extraController = new BusinessRuleExtraController(generateconnectionadapter);
     }
 
