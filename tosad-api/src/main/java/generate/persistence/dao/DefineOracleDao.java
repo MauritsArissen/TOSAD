@@ -69,8 +69,6 @@ public class DefineOracleDao implements DefineDao {
                rowResult.put("triggername", resultset.getString("triggername"));
                rowResult.put("targettableattribute", resultset.getString("targettableattribute"));
                rowResult.put("targettablename", resultset.getString("targettablename"));
-               System.out.println("tableattr -> " + resultset.getString("targettableattribute"));
-               System.out.println("tablename -> " + resultset.getString("targettablename"));
                rowResult.put("failure_message", resultset.getString("failure_message"));
                rowResult.put("businessrulename", resultset.getString("businessrulename"));
                rowResult.put("businessruletypename", resultset.getString("businessruletypename"));

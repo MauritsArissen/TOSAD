@@ -114,6 +114,7 @@ export class ManageComponent implements OnInit, AfterViewInit {
   }
 
   deleteRule() {    
+    console.log(this.selectedRule)
     let sendData = {
       'name': this.selectedRule
     }
