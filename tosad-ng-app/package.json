@@ -60,6 +60,5 @@
     "tslint": "~5.15.0",
     "typescript": "~3.5.3",
     "zone.js": "~0.9.1"
-  },
-  "dependencies": {}
+  }
 }

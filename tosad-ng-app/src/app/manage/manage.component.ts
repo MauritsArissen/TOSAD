@@ -69,10 +69,9 @@ export class ManageComponent implements OnInit, AfterViewInit {
     }
 
     this._http.postRequest('http://localhost:8080/tosad-api/restservices/generate/generateTriggerCode', sendData).subscribe(data => {
-      for (const item in data['body']) {
-        this.triggerCode.push(data['body'][item])
-      }
+      this.triggerCode = data['body']
     })
+    
   }
 
   // Edit to retrieve definition

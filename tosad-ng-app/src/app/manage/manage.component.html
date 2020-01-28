@@ -9,7 +9,7 @@
                     <li *ngFor="let item of triggers; let i = index" class="listItem" [class.active]="selectedIndexTriggers === i" (click)="getRules(item); setIndexTriggers(i)">
                         {{ item }}
                         <div class="right">
-                            <a class="waves-effect waves-light btn-small green modal-trigger" data-target="modalGenerate" (click)="runGenerate(item)">Generate</a>
+                            <a class="waves-effect waves-light btn-small blue modal-trigger" data-target="modalGenerate" (click)="runGenerate(item)">Generate</a>
                         </div>
                     </li>
                 </ul>
@@ -23,10 +23,7 @@
                 <ul *ngIf="rules.length > 0; else elseRule">
                     <li *ngFor="let item of rules; let i = index" class="listItem" [class.active]="selectedIndexRules === i" (click)="getProperties(item); setIndexRules(i)">
                         {{ item }}
-                        
                         <div class="right">
-                            <a class="btn-floating btn-large waves-effect waves-light btn-small green modal-trigger" data-target="modalEdit" (click)="runEdit(item)">✎</a>
-                            &nbsp;
                             <a class="btn-floating btn-large waves-effect waves-light btn-small red">✕</a>
                         </div>
                     </li>
@@ -55,32 +52,13 @@
     <div class="modal-content">
         <div class="scrollable code-snippet" *ngFor="let item of triggerCode">
             <!-- {{ item }} -->
-            <textarea highlight-js [options]="{}" [lang]="'sql'" id="sqltext">
-                {{ item }}
-            </textarea>
+            <textarea highlight-js [options]="{}" [lang]="'sql'" [code]="item" id="sqltext"></textarea>
 
         </div>
     </div>
     <div class="modal-footer">
         <div class="right">
             <a class="modal-close waves-effect waves-light btn-small blue" (click)="runCode()">Run Code</a>
-            &nbsp;
-            <a class="modal-close waves-effect waves-light btn-small blue">Close</a>
-        </div>
-    </div>
-</div>
-
-<div id="modalEdit" class="modal">
-    <div class="modal-header">
-        <h4>Edit Trigger</h4>
-    </div>
-    <div class="modal-content">
-        Texttest
-        
-    </div>
-    <div class="modal-footer">
-        <div class="right">
-            <a class="modal-close waves-effect waves-light btn-small blue" (click)="editCode()">Edit Code</a>
             &nbsp;
             <a class="modal-close waves-effect waves-light btn-small blue">Close</a>
         </div>
