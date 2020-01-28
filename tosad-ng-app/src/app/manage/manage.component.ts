@@ -75,6 +75,22 @@ export class ManageComponent implements OnInit, AfterViewInit {
     })
   }
 
+  // Edit to retrieve definition
+  runEdit(triggerName) {
+    this.triggerCode = []
+    this.triggerName = triggerName
+
+    let sendData = {
+      'name': triggerName
+    }
+
+    this._http.postRequest('http://localhost:8080/tosad-api/restservices/generate/generateTriggerCode', sendData).subscribe(data => {
+      for (const item in data['body']) {
+        this.triggerCode.push(data['body'][item])
+      }
+    })
+  }
+
   runCode() {
     let sendData = {
       'name': this.triggerName
@@ -93,3 +109,4 @@ export class ManageComponent implements OnInit, AfterViewInit {
     }, 10)
   }
 }
+
