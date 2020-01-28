@@ -51,9 +51,7 @@
     </div>
     <div class="modal-content">
         <div class="scrollable code-snippet" *ngFor="let item of triggerCode">
-            <!-- {{ item }} -->
             <textarea highlight-js [options]="{}" [lang]="'sql'" [code]="item" id="sqltext"></textarea>
-
         </div>
     </div>
     <div class="modal-footer">
