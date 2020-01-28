@@ -375,5 +375,32 @@ public class DefineOracleDao implements DefineDao {
 		return parid;
 	}
 	
+	public String deleteBusinessRule(String name) {
+		String dparameterrule = "delete from parameterrule where businessruleid = (select id from businessrule where name = ?)";
+		String dbusinessrule  = "delete from businessrule where name = ?";
+		boolean prdeleted = false;
+		boolean brdeleted = false;
+		
+		try (Connection conn = dbconnection.getConnection()) {
+			PreparedStatement prule = conn.prepareStatement(dparameterrule);
+			prule.setString(1, name);
+			prdeleted = prule.executeUpdate() > 0;
+			prule.close();
+			
+			PreparedStatement brule = conn.prepareStatement(dbusinessrule);
+			brule.setString(1, name);
+			brdeleted = brule.executeUpdate() > 0;
+			brule.close();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if (prdeleted && brdeleted) {
+			return "success";
+		} else {
+			return "failed";
+		}
+	}
+	
 	
 }

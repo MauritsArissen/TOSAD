@@ -2,6 +2,7 @@ package define.resource;
 
 import java.util.HashMap;
 
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -52,6 +53,25 @@ public class DefineResource {
         return builder.build();    
 	}
 	
+	@POST
+	@Path("/deleterule")
+	public Response deleteBusinessRule(String data) {
+				
+		String response = controller.deleteBusinessRule(data);
+		HashMap<String, String> result = new HashMap();
+		result.put("response", response);
+		
+		ResponseBuilder builder = Response.ok(result);
+	       
+	    builder.header("Access-Control-Allow-Origin", "*");
+        builder.header("Access-Control-Allow-Headers",
+                "origin, content-type, accept, authorization");
+        builder.header("Access-Control-Allow-Credentials", "true");
+        builder.header("Access-Control-Allow-Methods",
+                "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+        
+        return builder.build(); 
+	}
 	
 
 }
