@@ -13,8 +13,10 @@ import java.util.ArrayList;
 
 public class GenerateController {
     private BaseDao generateconnectionadapter;
+    private BaseDao targetconnectionadapter;
     public GenerateController() {
         this.generateconnectionadapter = new DaoAdapter().serialize("Oracle", "jdbc:oracle:thin:@//ondora04.hu.nl:1521/EDUC11", "cursist", "cursist8101");
+        this.targetconnectionadapter = new DaoAdapter().serialize("Oracle", "jdbc:oracle:thin:@//ondora04.hu.nl:1521/EDUC11", "maurits", "maurits");
     }
 
     public ArrayList returnTriggers() {
@@ -70,7 +72,7 @@ public class GenerateController {
     public ArrayList<String> generateTrigger(String data) {
         ArrayList<String> triggercode = generateTriggerCode(data);
 
-        ArrayList<String> triggerData = new TargetOracleDao(generateconnectionadapter).executeCode(triggercode.get(0));
+        ArrayList<String> triggerData = new TargetOracleDao(targetconnectionadapter).executeCode(triggercode.get(0));
 
         return triggerData;
     }
