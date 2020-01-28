@@ -19,6 +19,7 @@ export class ManageComponent implements OnInit, AfterViewInit {
   triggerName: String = null
   selectedIndexTriggers: number = null
   selectedIndexRules: number = null
+  selectedRule: String = "";
 
   ngOnInit() {
     this._http.getRequest('http://localhost:8080/tosad-api/restservices/generate/').subscribe(data => {
@@ -108,16 +109,20 @@ export class ManageComponent implements OnInit, AfterViewInit {
     }, 10)
   }
 
-  deleteRule(item) {    
+  deleteModal(item) {
+    this.selectedRule = item
+  }
+
+  deleteRule() {    
     let sendData = {
-      'name': item
+      'name': this.selectedRule
     }
 
     this._http.postRequest('http://localhost:8080/tosad-api/restservices/define/deleterule', sendData).subscribe(data => {
       var newList = this.rules.slice();
       this.rules = [];
       for (const it of newList) {
-        if (it == item) continue;
+        if (it == this.selectedRule) continue;
         this.rules.push(it)
       }
     })

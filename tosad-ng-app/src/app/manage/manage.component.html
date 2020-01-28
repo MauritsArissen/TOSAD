@@ -24,7 +24,7 @@
                     <li *ngFor="let item of rules; let i = index" class="listItem" [class.active]="selectedIndexRules === i" (click)="getProperties(item); setIndexRules(i)">
                         {{ item }}
                         <div class="right">
-                            <a class="btn-floating btn-large waves-effect waves-light btn-small red" (click)="deleteRule(item)">✕</a>
+                            <a class="btn-floating btn-large waves-effect waves-light btn-small red btn modal-trigger" data-target="modalDelete" (click)="deleteModal(item)">✕</a>
                         </div>
                     </li>
                 </ul>
@@ -60,5 +60,21 @@
             &nbsp;
             <a class="modal-close waves-effect waves-light btn-small blue">Close</a>
         </div>
+    </div>
+</div>
+
+<div id="modalDelete" class="modal">
+    <div class="modal-header">
+        <h4>{{ selectedRule }}</h4>
+    </div>
+    <div class="modal-content">
+        <blockquote>
+            Are you sure about deleting this rule?
+          </blockquote>
+    </div>
+    <div class="modal-footer">
+        <a class="modal-close waves-effect waves-light btn-small blue" (click)="deleteRule()">Delete Rule</a>
+        &nbsp;
+        <a class="modal-close waves-effect waves-light btn-small blue">Close</a>
     </div>
 </div>
