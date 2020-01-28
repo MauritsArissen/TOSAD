@@ -3,6 +3,7 @@ package generate.business.domain.businessrules;
 import generate.business.domain.businessrules.ruleattributes.LiteralValue;
 import generate.business.domain.businessrules.ruleattributes.Operator;
 import generate.business.domain.businessrules.ruleattributes.Table;
+import org.apache.commons.lang3.math.NumberUtils;
 
 import java.util.ArrayList;
 
@@ -51,13 +52,21 @@ public class AttributeListRule implements BusinessRule {
         boolean first = true;
         if (!values.isEmpty()) {
             for (LiteralValue v : values) {
-                if (first) {
-                    value += "'" + v.getValue() + "'";
-                    first = false;
+                if(NumberUtils.isNumber(v.getValue())) {
+                    if (first) {
+                        value += "" + v.getValue();
+                        first = false;
+                    } else {
+                        value += ", " + v.getValue();
+                    }
                 } else {
-                    value += ", '" + v.getValue() + "'";
+                    if (first) {
+                        value += "'" + v.getValue() + "'";
+                        first = false;
+                    } else {
+                        value += ", '" + v.getValue() + "'";
+                    }
                 }
-
             }
         }
         return value;

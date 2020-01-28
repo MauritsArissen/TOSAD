@@ -34,10 +34,6 @@ public class ModifyRule implements BusinessRule {
     }
 
     public String generateDynamicPart() {
-        //Checks of het vergelijkbare data types zijn, front-end check?
-        //Checks of het verschillende tabellen zijn, front-end check?
-
-        //geen idee of dit klopt
         String template =  "--" + name + " code\n" +
                 values.get(0).getValue() + "\n" +
                 "  if not l_passed\n" +
