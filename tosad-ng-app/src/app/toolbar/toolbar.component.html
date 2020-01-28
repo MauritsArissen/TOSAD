@@ -2,8 +2,8 @@
     <div class="left">
         <h1>Business Rule Generator</h1>
     </div>
-    <div class="middle">
-        <a routerLink="/" [ngClass]="{'active': define}" (click)="setDefine(true)">Define</a>
+    <div class="middle" *ngIf="checkPage()">
+        <a routerLink="/define" [ngClass]="{'active': define}" (click)="setDefine(true)">Define</a>
         <a routerLink="/manage" [ngClass]="{'active': !define}" (click)="setDefine(false)">Manage</a>
     </div>
     <div class="right">

@@ -17,7 +17,7 @@ export class MainComponent implements OnInit, AfterViewInit {
   category: string = "";
   ruletype: string = "";
   operator: string = "";
-  values = [];
+  values: string[] = [];
   failureMessageText: string = "";
   query: string = "";
   listLength: number = 6;
@@ -29,6 +29,8 @@ export class MainComponent implements OnInit, AfterViewInit {
   categories: string[] = [];
   businessRuleTypes: string[] = [];
   operators: string[] = [];
+  fixedTables: string[] = [];
+  fixedAttributes: string[] = [];
 
   ngOnInit() {
   }  
@@ -61,8 +63,16 @@ export class MainComponent implements OnInit, AfterViewInit {
   tableChange() {
     this.attributes = Object.keys(this.data['datatable'][this.table]);
     this.attribute = ""
+    this.fixedTables = this.tables.slice();
+    this.fixedTables.splice(this.fixedTables.indexOf(this.table), 1);
     this.attributeChange()
     this.refresh()
+  }
+
+  fixedTablesChange() {
+    this.fixedAttributes = Object.keys(this.data['datatable'][this.values[0]]);
+    this.values[1] = null;
+    this.refresh();
   }
 
   attributeChange() {
@@ -87,7 +97,7 @@ export class MainComponent implements OnInit, AfterViewInit {
     this.operators = this.data['categories'][this.category][this.ruletype].operators
     this.operator = ""
     this.values = []
-    this.inputType = this.data['datatable'][this.table][this.attribute]['type']; 
+    this.inputType = this.data['datatable'][this.table][this.attribute]['type'];
     this.refresh()
   } 
 

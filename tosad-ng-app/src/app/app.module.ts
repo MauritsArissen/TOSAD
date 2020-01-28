@@ -10,13 +10,15 @@ import { ManageComponent } from './manage/manage.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { HighlightJsModule } from 'ngx-highlight-js';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ToolbarComponent,
     MainComponent,
-    ManageComponent
+    ManageComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
