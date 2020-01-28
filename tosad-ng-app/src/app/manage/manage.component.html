@@ -24,7 +24,7 @@
                     <li *ngFor="let item of rules; let i = index" class="listItem" [class.active]="selectedIndexRules === i" (click)="getProperties(item); setIndexRules(i)">
                         {{ item }}
                         <div class="right">
-                            <a class="btn-floating btn-large waves-effect waves-light btn-small red">✕</a>
+                            <a class="btn-floating btn-large waves-effect waves-light btn-small red" (click)="deleteRule(item)">✕</a>
                         </div>
                     </li>
                 </ul>

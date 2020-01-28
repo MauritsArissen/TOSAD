@@ -54,6 +54,14 @@ public class DefineController {
 		return ruledata;
 	}
 	
+	public String deleteBusinessRule(String data) {
+		JSONObject jsondata = new JSONObject(data);
+		String rulename = jsondata.get("name").toString();
+		
+		BaseDao defineconnectionadapter = new DaoAdapter().serialize("Oracle", "jdbc:oracle:thin:@//ondora04.hu.nl:1521/EDUC11", "cursist", "cursist8101");
+		return new DefineOracleDao(defineconnectionadapter).deleteBusinessRule(rulename);
+	}
+	
 	
 
 }
