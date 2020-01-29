@@ -135,9 +135,17 @@ public class DefineOracleDao implements DefineDao {
 				parameterruleinsertstatement.setInt(2, columnid);
 				parameterruleinsertstatement.executeUpdate();
         		
-        	} else if (ruletypecode.equals("TOTH")) {
-        		
         	} else if (ruletypecode.equals("ICMP")) {
+        		int tableid = checkTargetTableValue(rule.getValues().get(0).getValue());
+        		int columnid = checkTargetColumnValue(rule.getValues().get(0).getValue(), rule.getValues().get(1).getValue());
+        		String parameterruleinsert = "insert into parameterrule (businessruleid, attributeid) values (?, ?)";
+
+				PreparedStatement parameterruleinsertstatement = conn.prepareStatement(parameterruleinsert);
+				parameterruleinsertstatement.setInt(1, ruleid);
+				parameterruleinsertstatement.setInt(2, columnid);
+				parameterruleinsertstatement.executeUpdate();
+				
+        	} else if (ruletypecode.equals("TOTH")) {
         		
         	} else if (ruletypecode.equals("EOTH")) {
         		
@@ -151,8 +159,60 @@ public class DefineOracleDao implements DefineDao {
 			
 	}
 	
+	private int checkTargetTableValue(String tablename) {
+		String checktargettable = "select * from targettable where name = ?";
+		boolean tableExists = false;
+		
+		try (Connection conn = dbconnection.getConnection()) {
+			PreparedStatement gettargettable = conn.prepareStatement(checktargettable);
+			gettargettable.setString(1, tablename);
+    		ResultSet targettableresult = gettargettable.executeQuery();
+    		
+    		int sizez = 0;
+    		while (targettableresult.next()) {
+    			sizez++;
+    		}
+    		
+    		gettargettable.close();
+    		targettableresult.close();
+    		
+    		if (sizez > 0) {
+    			tableExists = true;
+    		}
+    		
+    		if (!tableExists) {
+    			String inserttable = "insert into targettable (name, databaseid) values (?, ?)";
+    			PreparedStatement inserttablestmt = conn.prepareStatement(inserttable);
+    			inserttablestmt.setString(1, tablename);
+    			inserttablestmt.setInt(2, 1);
+    			inserttablestmt.executeQuery();
+    			
+    			inserttablestmt.close();
+    		}
+    		
+    		int tableid = 0;
+    		String tableidquery = "select * from targettable where name = ?";
+    		PreparedStatement tableidstmt = conn.prepareStatement(tableidquery);
+    		tableidstmt.setString(1,  tablename);
+    		ResultSet result = tableidstmt.executeQuery();
+    		
+    		while (result.next()) {
+    			tableid = result.getInt("id");
+    		}
+    		
+    		tableidstmt.close();
+    		result.close();
+    		
+    		return tableid;
+    		
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+			return 0;
+	}
+	
 	// checks if target table/attribute as value exists or not
-	public int checkTargetColumnValue(String tablename, String valuename) {
+	private int checkTargetColumnValue(String tablename, String valuename) {
 		String checktargettable = "select * from targettable where name = ?";
 		String checktableattribute = "select * from targettableattribute where name = ? and tableid = ?";
 		boolean tableattributeExists = false;
