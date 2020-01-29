@@ -8,3 +8,10 @@ html, body {
     font-size: 13px;
     border-left: 3px solid red;
 }
+
+pre {
+    border: none;
+    padding: 1em !important;
+    overflow: auto;
+    font-size: 14px;
+}
