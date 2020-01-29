@@ -13,11 +13,11 @@ import java.util.ArrayList;
 public class GenerateResource {
     GenerateController controller = new GenerateController();
 
-    @GET
+    @POST
     @Produces("application/json")
-    public Response getTriggerInfo() {
+    public Response getTriggerInfo(String data) {
 
-        ArrayList response = controller.returnTriggers();
+        ArrayList response = controller.returnTriggers(data);
         Response.ResponseBuilder builder = Response.ok(response);
 
         builder.header("Access-Control-Allow-Origin", "*");
