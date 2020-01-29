@@ -32,24 +32,6 @@ public class DefineResource {
         
         return builder.build();
     }
-
-	@GET
-	@Path("/editrule")
-	@Produces("application/json")
-	public Response getRuleInfo(String businessRuleName) {
-		//
-		HashMap<String, String> hashedresult = controller.getEditData(businessRuleName);
-		ResponseBuilder builder = Response.ok(hashedresult);
-
-		builder.header("Access-Control-Allow-Origin", "*");
-		builder.header("Access-Control-Allow-Headers",
-				"origin, content-type, accept, authorization");
-		builder.header("Access-Control-Allow-Credentials", "true");
-		builder.header("Access-Control-Allow-Methods",
-				"GET, POST, PUT, DELETE, OPTIONS, HEAD");
-
-		return builder.build();
-	}
 	
 	@POST
 	@Path("/saverule")
