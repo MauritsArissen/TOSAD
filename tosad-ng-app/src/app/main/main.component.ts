@@ -37,8 +37,9 @@ export class MainComponent implements OnInit, AfterViewInit {
   }  
 
   ngAfterViewInit() {
-    this._http.getRequest("http://localhost:8080/tosad-api/restservices/define/").subscribe(rdata => {
-      this.data = rdata
+    this._http.postRequest("http://localhost:8080/tosad-api/restservices/define", this._data.getCredentials()).subscribe(rdata => {
+      if (!rdata['body']) return;
+      this.data = rdata['body']
       this.tables = Object.keys(this.data['datatable']);
       this.refresh()
     })

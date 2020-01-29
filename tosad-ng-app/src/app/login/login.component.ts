@@ -1,6 +1,5 @@
 import { Component, OnInit, AfterViewInit, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
-import { SharedService } from '../shared.service';
 import { DataService } from '../data.service';
 
 declare const M;

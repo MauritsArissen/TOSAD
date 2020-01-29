@@ -8,12 +8,8 @@
     border: 1px solid black;
     border-bottom: none;
 
-    h1 {
-        color: rgb(73, 73, 73);
-    }
-
-    input, option {
-        color: rgb(133, 133, 133);
+    input, option, h1, span {
+        color: rgb(194, 194, 194) !important;
     }
 }
 .continue {
@@ -28,4 +24,8 @@
 
 .toast {
     border-left: 3px solid red;
+}
+
+.col {
+    color: #858585
 }

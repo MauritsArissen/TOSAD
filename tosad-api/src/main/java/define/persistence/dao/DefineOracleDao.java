@@ -125,10 +125,15 @@ public class DefineOracleDao implements DefineDao {
     				parameterruleinsertstatement.setInt(2, parid);
     				parameterruleinsertstatement.executeUpdate();
         		}
-        	} else if (ruletypecode.equals("TCMP")) {        		
-        		LiteralValue l = rule.getValues().get(0);
-        		System.out.println(l.getValue());	
         		
+        	} else if (ruletypecode.equals("TCMP")) {        		
+        		int columnid = checkTargetColumnValue(rule.getTable().getName(), rule.getValues().get(0).getValue());
+        		String parameterruleinsert = "insert into parameterrule (businessruleid, attributeid) values (?, ?)";
+        		
+				PreparedStatement parameterruleinsertstatement = conn.prepareStatement(parameterruleinsert);
+				parameterruleinsertstatement.setInt(1, ruleid);
+				parameterruleinsertstatement.setInt(2, columnid);
+				parameterruleinsertstatement.executeUpdate();
         		
         	} else if (ruletypecode.equals("TOTH")) {
         		
@@ -145,6 +150,69 @@ public class DefineOracleDao implements DefineDao {
 		}
 			
 	}
+	
+	// checks if target table/attribute as value exists or not
+	public int checkTargetColumnValue(String tablename, String valuename) {
+		String checktargettable = "select * from targettable where name = ?";
+		String checktableattribute = "select * from targettableattribute where name = ? and tableid = ?";
+		boolean tableattributeExists = false;
+		
+		try (Connection conn = dbconnection.getConnection()) {
+			
+			PreparedStatement gettargettable = conn.prepareStatement(checktargettable);
+			gettargettable.setString(1, tablename);
+    		ResultSet targettableresult = gettargettable.executeQuery();
+    		
+    		int tableid = 0;
+			while (targettableresult.next()) {
+				tableid = targettableresult.getInt("id");
+			}			
+			
+			PreparedStatement tableattributestatement = conn.prepareStatement(checktableattribute);
+    		tableattributestatement.setString(1, valuename);
+    		tableattributestatement.setInt(2, tableid);
+    		ResultSet tableattributeresult = tableattributestatement.executeQuery(); 
+    		
+    		int sizez = 0;
+    		while (tableattributeresult.next()) {
+    			sizez++;
+    		}
+    		
+    		if (sizez > 0) {
+    			tableattributeExists = true;
+    		}
+    		
+    		if (!tableattributeExists) {
+    			String inserttableattribute = "insert into targettableattribute (name, tableid) values (?, ?)";
+    			PreparedStatement insertstatement = conn.prepareStatement(inserttableattribute);
+    			insertstatement.setString(1, valuename);
+    			insertstatement.setInt(2, tableid);
+    			insertstatement.executeQuery();
+    			
+    			insertstatement.close();
+    		}	
+    		
+    		int columnidnumber = 0;
+    		String columnid = "select * from targettableattribute where name = ? and tableid = ?";
+    		PreparedStatement columnidstatement = conn.prepareStatement(columnid);
+    		columnidstatement.setString(1,  valuename);
+    		columnidstatement.setInt(2, tableid);
+    		ResultSet result = columnidstatement.executeQuery();
+    		
+    		while (result.next()) {
+    			columnidnumber = result.getInt("id");
+    		}
+    		
+    		columnidstatement.close();
+    	
+    		return columnidnumber;
+    		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
 	
 	// checks if target table/attributes from current rule already exist in our database or not
 	private void checkTargetData(BusinessRule rule) {

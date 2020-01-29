@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { SharedService } from './shared.service';
+import { Router } from '@angular/router';
+import { DataService } from './data.service';
 
 @Component({
   selector: 'app-root',
@@ -7,15 +8,7 @@ import { SharedService } from './shared.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  credentials: Object;
-
-  constructor(private _sharedService: SharedService) {
-
-    _sharedService.changeEmitted$.subscribe(
-      item => {
-        this.credentials = item;
-      }
-    )
-    
+  constructor(private _router: Router, private _data: DataService) {
+    if (_data.credentials == null) _router.navigate(["/"]);
   }
 }

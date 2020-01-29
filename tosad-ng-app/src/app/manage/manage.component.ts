@@ -20,12 +20,24 @@ export class ManageComponent implements OnInit, AfterViewInit {
   triggerName: String = null
   selectedIndexTriggers: number = null
   selectedIndexRules: number = null
-  selectedRule: String = "";
+  selectedRule: String = ''
+  data: Object = {}
+  table: string = ''
+  attribute: string = ''
+  category: string = ''
+  ruletype: string = ''
+  operator: string = ''
+  values: string[] = []
+  failureMessageText: string = ''
 
   ngOnInit() {
-    this._http.getRequest('http://localhost:8080/tosad-api/restservices/generate/').subscribe(data => {
-      for (const item in data) {
-        this.triggers.push(data[item])
+    let sendData = {
+      'credentials': this._data.getCredentials()
+    }
+    this._http.postRequest('http://localhost:8080/tosad-api/restservices/generate/', sendData).subscribe(data => {
+      if (!data['body']) return
+      for (const item in data['body']) {
+        this.triggers.push(data['body'][item])
       }
     })
   }
@@ -35,23 +47,25 @@ export class ManageComponent implements OnInit, AfterViewInit {
   }
 
   setIndexTriggers(index: number) {
-    this.selectedIndexTriggers = index;
+    this.selectedIndexTriggers = index
   }
 
   setIndexRules(index: number) {
-    this.selectedIndexRules = index;
+    this.selectedIndexRules = index
   }
 
   getRules(triggerName) {
     this.properties = []
     this.rules = []
-    this.selectedIndexRules = null;
+    this.selectedIndexRules = null
 
     let sendData = {
-      'name': triggerName
+      'name': triggerName,
+      'credentials': this._data.getCredentials()
     }
 
     this._http.postRequest('http://localhost:8080/tosad-api/restservices/generate/getbusinessrules', sendData).subscribe(data => {
+      if (!data['body']) return
       for (const item in data['body']) {
         this.rules.push(data['body'][item])
       }
@@ -72,37 +86,35 @@ export class ManageComponent implements OnInit, AfterViewInit {
     }
 
     this._http.postRequest('http://localhost:8080/tosad-api/restservices/generate/generateTriggerCode', sendData).subscribe(data => {
+      if (!data['body']) return
       this.triggerCode = data['body']
     })
     
   }
 
-  // Edit to retrieve definition
+  // UNFINISHED, retrieve the selected definition from define database
   runEdit(item) {
     this.selectedRule = item
-
- 
     let sendData = {
-      'name': this.selectedRule
+      'name': this.selectedRule,
+      'credentials': this._data.getCredentials()
     }
+    this._http.postRequest('http://localhost:8080/tosad-api/restservices/define/definition/', sendData).subscribe(ddata => {
+      this.data = ddata
 
-    this._http.postRequest('http://localhost:8080/tosad-api/restservices/define/deleterule', sendData).subscribe(data => {
-      var newList = this.rules.slice();
-      this.rules = [];
-      for (const it of newList) {
-        if (it == this.selectedRule) continue;
-        this.rules.push(it)
-      }
+      this.refresh()
     })
   }
 
   runCode() {
     let sendData = {
-      'name': this.triggerName
+      'name': this.triggerName,
+      'credentials': this._data.getCredentials()
     }
 
     this._http.postRequest('http://localhost:8080/tosad-api/restservices/generate/generateTrigger', sendData).subscribe(data => {
-      for (const item in data["body"]) {
+      if (!data['body']) return
+      for (const item in data['body']) {
         M.toast({html: data['body'][item]})
       }
     })
@@ -120,14 +132,16 @@ export class ManageComponent implements OnInit, AfterViewInit {
 
   deleteRule() {
     let sendData = {
-      'name': this.selectedRule
+      'name': this.selectedRule,
+      'credentials': this._data.getCredentials()
     }
 
     this._http.postRequest('http://localhost:8080/tosad-api/restservices/define/deleterule', sendData).subscribe(data => {
+      console.log(data)
       var newList = this.rules.slice()
       this.rules = []
       for (const it of newList) {
-        if (it == this.selectedRule) continue;
+        if (it == this.selectedRule) continue
         this.rules.push(it)
       }
     })
