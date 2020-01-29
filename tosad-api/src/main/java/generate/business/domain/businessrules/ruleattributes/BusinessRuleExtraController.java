@@ -22,6 +22,8 @@ public class BusinessRuleExtraController {
 
     public BusinessRule addValuesToRule(BusinessRule rule) {
         ArrayList<String> values = defineDao.getValuesFromRule(rule.getName());
+
+        System.out.println("init values");
         for (String value : values) {
             LiteralValue litValue = new LiteralValue(value);
             rule.addValue(litValue);
