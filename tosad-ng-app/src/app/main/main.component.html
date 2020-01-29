@@ -13,7 +13,7 @@
                 <option *ngIf="attributes.length == 0" value="none" disabled selected>Choose your table first</option>
                 <option *ngFor="let attribute of attributes" [value]="attribute">{{attribute}}</option>
             </select>
-            <label>Atribute</label>
+            <label>Attribute</label>
         </div>
         <h4 class="col s12">Business rule</h4>
         <div class="input-field col s4">
@@ -87,6 +87,13 @@
                 </select>
                 <label>Attribute</label>
             </div>
+            <!-- Tuple Other rule -->
+            <div *ngIf="ruletype == 'Tuple Other rule'">
+                <div class="input-field col s12">
+                    <textarea id="textarea1" class="materialize-textarea" [(ngModel)]="values[0]"></textarea>
+                    <label for="textarea1">Query</label>
+                </div>
+            </div>
             <!-- Inter-Entity Compare rule -->
             <div *ngIf="ruletype == 'Inter-Entity Compare rule'" class="input-field col s6">
                 <select [(ngModel)]="values[0]" (change)="fixedTablesChange()">
@@ -100,7 +107,20 @@
                     <option *ngIf="fixedAttributes.length == 0" value="none" disabled selected>Choose your table first</option>
                     <option *ngFor="let attri of fixedAttributes" [value]="attri">{{attri}}</option>
                 </select>
-                <label>Table</label>
+                <label>Attribute</label>
+            </div>
+            <!-- Entity Other rule -->
+            <div *ngIf="ruletype == 'Entity Other rule'">
+                <div class="input-field col s6">
+                    <textarea id="textarea1" class="materialize-textarea" [(ngModel)]="values[0]"></textarea>
+                    <label for="textarea1">Declare</label>
+                </div>
+            </div>
+            <div *ngIf="ruletype == 'Entity Other rule'">
+                <div class="input-field col s6">
+                    <textarea id="textarea2" class="materialize-textarea" [(ngModel)]="values[1]"></textarea>
+                    <label for="textarea2">Query</label>
+                </div>
             </div>
             <!-- End -->
         </div>
