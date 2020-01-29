@@ -24,6 +24,8 @@
                     <li *ngFor="let item of rules; let i = index" class="listItem" [class.active]="selectedIndexRules === i" (click)="getProperties(item); setIndexRules(i)">
                         {{ item }}
                         <div class="right">
+                            <a class="btn-floating btn-large waves-effect waves-light btn-small green modal-trigger" data-target="modalEdit" (click)="runEdit(item)">✎</a>
+                            &nbsp;
                             <a class="btn-floating btn-large waves-effect waves-light btn-small red btn modal-trigger" data-target="modalDelete" (click)="deleteModal(item)">✕</a>
                         </div>
                     </li>
@@ -31,7 +33,7 @@
                 <ng-template #elseRule><p class="emptyCol">No rules available</p></ng-template>
             </div>
         </div>
-        <div class="col s4">
+        <!-- <div class="col s4">
             <h3>Properties</h3>
             <hr>
             <div class="scrollable">
@@ -40,7 +42,7 @@
                 </ul>
                 <ng-template #elseProperty><p class="emptyCol">No properties available</p></ng-template>
             </div>
-        </div>
+        </div> -->
     </div>
 </div>
 
@@ -76,5 +78,35 @@
         <a class="modal-close waves-effect waves-light btn-small blue" (click)="deleteRule()">Delete Rule</a>
         &nbsp;
         <a class="modal-close waves-effect waves-light btn-small blue">Close</a>
+    </div>
+</div>
+
+<div id="modalEdit" class="modal">
+    <div class="modal-header">
+        <h4>{{ selectedRule }}</h4>
+    </div>
+    <div class="modal-content">
+        Texttest
+
+
+
+        <div class="row">
+            <h4 class="col s12">Table data</h4>
+            <div class="input-field col s6">
+                <select [(ngModel)]="table" (change)='tableChange()'>
+                    <option *ngFor="let table of tables" [value]="table">{{table}}</option>
+                </select>
+                <label>Table</label>
+            </div>
+        </div>
+
+        
+    </div>
+    <div class="modal-footer">
+        <div class="right">
+            <a class="modal-close waves-effect waves-light btn-small blue" (click)="editRuleDefinition()">Edit Rule Definition</a>
+            &nbsp;
+            <a class="modal-close waves-effect waves-light btn-small blue">Close</a>
+        </div>
     </div>
 </div>

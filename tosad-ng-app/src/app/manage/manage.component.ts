@@ -76,17 +76,20 @@ export class ManageComponent implements OnInit, AfterViewInit {
   }
 
   // Edit to retrieve definition
-  runEdit(triggerName) {
-    this.triggerCode = []
-    this.triggerName = triggerName
+  runEdit(item) {
+    this.selectedRule = item
 
+ 
     let sendData = {
-      'name': triggerName
+      'name': this.selectedRule
     }
 
-    this._http.postRequest('http://localhost:8080/tosad-api/restservices/generate/generateTriggerCode', sendData).subscribe(data => {
-      for (const item in data['body']) {
-        this.triggerCode.push(data['body'][item])
+    this._http.postRequest('http://localhost:8080/tosad-api/restservices/define/deleterule', sendData).subscribe(data => {
+      var newList = this.rules.slice();
+      this.rules = [];
+      for (const it of newList) {
+        if (it == this.selectedRule) continue;
+        this.rules.push(it)
       }
     })
   }
