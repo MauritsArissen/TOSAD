@@ -14,7 +14,6 @@ public class GenerateResource {
     GenerateController controller = new GenerateController();
 
     @POST
-    @Produces("application/json")
     public Response getTriggerInfo(String data) {
 
         ArrayList response = controller.returnTriggers(data);
