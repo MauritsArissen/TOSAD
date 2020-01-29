@@ -1,5 +1,6 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { HttpService } from '../http.service';
+import { DataService } from '../data.service';
 
 declare const M;
 
@@ -10,7 +11,7 @@ declare const M;
 })
 export class MainComponent implements OnInit, AfterViewInit {
 
-  constructor(private _http: HttpService) { }
+  constructor(private _http: HttpService, private _data: DataService) { }
 
   table: string = "";
   attribute: string = "";
@@ -53,7 +54,8 @@ export class MainComponent implements OnInit, AfterViewInit {
       "operator": this.operator,
       "values": this.values,
       "failureMessage": this.failureMessageText,
-      "triggerEvent": "BEFORE DELETE OR INSERT OR UPDATE"
+      "triggerEvent": "BEFORE DELETE OR INSERT OR UPDATE",
+      "credentials": this._data.getCredentials()
     }
     this._http.postRequest('http://localhost:8080/tosad-api/restservices/define/saverule', sendData).subscribe(o => {
       this.query = "Post request sent."
