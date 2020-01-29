@@ -14,6 +14,7 @@ import define.persistence.dao.DefineOracleDao;
 import define.persistence.dao.TargetOracleDao;
 
 public class DefineController {
+	// hier static die defineconnectionadapters setten
 
     public DefineController() {}
 
