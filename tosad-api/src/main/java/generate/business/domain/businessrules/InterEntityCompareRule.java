@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class InterEntityCompareRule implements BusinessRule {
     private Operator operator;
-    private ArrayList<LiteralValue> values;
+    private ArrayList<LiteralValue> values = new ArrayList<>();
     private Table table;
     private String failuremessage;
     private String name;
@@ -38,7 +38,7 @@ public class InterEntityCompareRule implements BusinessRule {
                 "open lc_first;\n" +
                 "fetch lc_first into l_targetValue;\n" +
                 "close lc_first;\n" +
-                "l_passed := :new." + table.getSelectedTableAttribute() + " " + operator.getName() + " l_targetValue;\n" +
+                "l_passed := :new." + table.getSelectedTableAttribute().getName() + " " + operator.getName() + " l_targetValue;\n" +
                 "  if not l_passed\n" +
                 "  then\n" +
                 "    l_error_stack := '" + failuremessage + "';\n" +

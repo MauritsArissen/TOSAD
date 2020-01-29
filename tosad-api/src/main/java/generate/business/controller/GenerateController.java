@@ -43,7 +43,6 @@ public class GenerateController {
 
     public ArrayList<String> generateTriggerCode(String data) {
         JSONObject jsondata = new JSONObject(data);
-        System.out.println(jsondata.getString("name"));
         Trigger trigger = new Trigger(jsondata.get("name").toString());
         trigger = new BusinessRuleController(definedao).fillTriggerWithRules(definedao.getAllDataFromTrigger(trigger.getTriggercode()), trigger);
 
