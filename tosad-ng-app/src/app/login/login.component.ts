@@ -1,5 +1,6 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
+import { DataService } from '../data.service';
 
 declare const M;
 
@@ -15,11 +16,14 @@ export class LoginComponent implements OnInit, AfterViewInit {
   host: string = "ondora04.hu.nl";
   port: number = 1521;
   SID: string = "";
-  ServiceName: string = "EDUC10";
+  ServiceName: string = "EDUC11";
   username: string = "maurits";
   password: string = "maurits";
+  name: string = "voetbal";
 
-  constructor(private router: Router) { }
+  @Output() dataOutput = new EventEmitter<Object>();
+
+  constructor(private router: Router, private _data: DataService) { }
 
   ngOnInit() {
   }
@@ -47,7 +51,19 @@ export class LoginComponent implements OnInit, AfterViewInit {
       return M.toast({html: "You must fill in a password", classes: "errorToast"})
     } else if (this.dbType == "") {
       return M.toast({html: "You must select one of the supported database types", classes: "errorToast"})
+    } else if (this.name == "") {
+      return M.toast({html: "You must fill in a database name", classes: "errorToast"})
     }
+
+    var sendData: Object = {
+      url: `${this.host}:${this.port}${this.SID != "" ? ":" + this.SID : "/" + this.ServiceName}`,
+      username: this.username,
+      password: this.password,
+      type: this.dbType,
+      name: this.name
+    }
+
+    this._data.setCredentials(sendData);
     this.router.navigate(['/define'])
   }
 

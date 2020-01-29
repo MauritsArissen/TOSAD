@@ -3,7 +3,7 @@ package generate.business.domain.businessrules;
 import generate.business.domain.businessrules.ruleattributes.*;
 import generate.business.domain.factory.BusinessRuleFactory;
 import generate.business.domain.factory.TypeBasedBusinessRuleFactory;
-import generate.persistence.dao.BaseDao;
+import generate.persistence.dao.DefineDao;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,8 +11,8 @@ import java.util.HashMap;
 public class BusinessRuleController {
     private BusinessRuleExtraController extraController;
 
-    public BusinessRuleController(BaseDao generateconnectionadapter) {
-        extraController = new BusinessRuleExtraController(generateconnectionadapter);
+    public BusinessRuleController(DefineDao defineDao) {
+        extraController = new BusinessRuleExtraController(defineDao);
     }
 
     public Trigger fillTriggerWithRules (ArrayList<HashMap<String, String>> ruleData, Trigger trigger) {

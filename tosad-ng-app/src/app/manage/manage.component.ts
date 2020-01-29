@@ -1,5 +1,6 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { HttpService } from '../http.service';
+import { DataService } from '../data.service';
 
 declare const M;
 
@@ -10,7 +11,7 @@ declare const M;
 })
 export class ManageComponent implements OnInit, AfterViewInit {
 
-  constructor(private _http: HttpService) { }
+  constructor(private _http: HttpService, private _data: DataService) { }
 
   triggers = []
   rules = []
@@ -66,6 +67,7 @@ export class ManageComponent implements OnInit, AfterViewInit {
   }
 
   getProperties(ruleName) {
+    this.properties = []
     this.properties.push(ruleName)
   }
 
@@ -120,15 +122,14 @@ export class ManageComponent implements OnInit, AfterViewInit {
     this.selectedRule = item
   }
 
-  deleteRule() {    
-    console.log(this.selectedRule)
+  deleteRule() {
     let sendData = {
       'name': this.selectedRule
     }
 
     this._http.postRequest('http://localhost:8080/tosad-api/restservices/define/deleterule', sendData).subscribe(data => {
-      var newList = this.rules.slice();
-      this.rules = [];
+      var newList = this.rules.slice()
+      this.rules = []
       for (const it of newList) {
         if (it == this.selectedRule) continue;
         this.rules.push(it)

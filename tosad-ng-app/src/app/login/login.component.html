@@ -34,13 +34,17 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col s12">
+                    <div class="col s6">
                         <select [(ngModel)]="dbType">
                             <option id="typedb" *ngFor="let type of dbTypes" [value]="type">{{type}}</option>
                         </select>
+                        <div class="s12">
+                            <label>Database type</label>
+                        </div>
                     </div>
-                    <div class="col s12">
-                        <label>Database type</label>
+                    <div class="col s6">
+                        <input id="dbname" type="text" class="validate" [(ngModel)]="name">
+                        <label for="dbname">Database name</label>
                     </div>
                 </div>
             </div>

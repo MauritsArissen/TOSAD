@@ -1,26 +1,27 @@
 package generate.business.controller;
 
+import generate.persistence.targetdaofactory.TargetDaoFactory;
+import generate.persistence.targetdaofactory.TypeBasedTargetDaoFactory;
+import generate.persistence.dao.*;
 import generate.business.domain.businessrules.BusinessRule;
 import generate.business.domain.businessrules.BusinessRuleController;
 import generate.business.domain.businessrules.ruleattributes.*;
-import generate.persistence.adapter.DaoAdapter;
-import generate.persistence.dao.BaseDao;
-import generate.persistence.dao.DefineOracleDao;
-import generate.persistence.dao.TargetOracleDao;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 public class GenerateController {
-    private BaseDao generateconnectionadapter;
-    private BaseDao targetconnectionadapter;
+    private DefineDao definedao;
+    private TargetDao targetDao;
     public GenerateController() {
-        this.generateconnectionadapter = new DaoAdapter().serialize("Oracle", "jdbc:oracle:thin:@//ondora04.hu.nl:1521/EDUC11", "cursist", "cursist8101");
-        this.targetconnectionadapter = new DaoAdapter().serialize("Oracle", "jdbc:oracle:thin:@//ondora04.hu.nl:1521/EDUC11", "maurits", "maurits");
+        TargetDaoFactory targetdaofactory = new TypeBasedTargetDaoFactory("Oracle", "jdbc:oracle:thin:@//ondora04.hu.nl:1521/EDUC11", "maurits", "maurits");
+        this.targetDao = targetdaofactory.getTargetDao();
+        BaseDao defineconnection = new OracleBaseDao("jdbc:oracle:thin:@//ondora04.hu.nl:1521/EDUC11", "cursist", "cursist8101");
+        this.definedao = new DefineOracleDao(defineconnection);
     }
 
     public ArrayList returnTriggers() {
-        ArrayList<String> triggerData = new DefineOracleDao(generateconnectionadapter).getTriggerInfo();
+        ArrayList<String> triggerData = definedao.getTriggerInfo();
 
         return triggerData;
     }
@@ -28,17 +29,16 @@ public class GenerateController {
     public ArrayList<String> returnRulesByTrigger(String data) {
         JSONObject jsondata = new JSONObject(data);
         Trigger trigger = new Trigger(jsondata.get("name").toString());
-        ArrayList<String> triggerData = new DefineOracleDao(generateconnectionadapter).getRulesByTrigger(trigger.getTriggercode());
+        ArrayList<String> triggerData = definedao.getRulesByTrigger(trigger.getTriggercode());
 
         return triggerData;
     }
 
     public ArrayList<String> generateTriggerCode(String data) {
         JSONObject jsondata = new JSONObject(data);
-        DefineOracleDao defineOracleDao = new DefineOracleDao(generateconnectionadapter);
 
         Trigger trigger = new Trigger(jsondata.get("name").toString());
-        trigger = new BusinessRuleController(generateconnectionadapter).fillTriggerWithRules(defineOracleDao.getAllDataFromTrigger(trigger.getTriggercode()), trigger);
+        trigger = new BusinessRuleController(definedao).fillTriggerWithRules(definedao.getAllDataFromTrigger(trigger.getTriggercode()), trigger);
 
         ArrayList<BusinessRule> ruleList = trigger.getBusinessRules();
         String tablename = "";
@@ -72,7 +72,7 @@ public class GenerateController {
     public ArrayList<String> generateTrigger(String data) {
         ArrayList<String> triggercode = generateTriggerCode(data);
 
-        ArrayList<String> triggerData = new TargetOracleDao(targetconnectionadapter).executeCode(triggercode.get(0));
+        ArrayList<String> triggerData = targetDao.executeCode(triggercode.get(0));
 
         return triggerData;
     }

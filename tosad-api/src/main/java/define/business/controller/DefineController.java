@@ -3,30 +3,37 @@ package define.business.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import define.persistence.targetdaofactory.TargetDaoFactory;
+import define.persistence.dao.DefineDao;
+import define.persistence.dao.OracleBaseDao;
 import org.json.JSONObject;
 
-import define.business.domain.factory.BusinessRuleFactory;
-import define.business.domain.factory.TypeBasedBusinessRuleFactory;
+import define.business.domain.businessrulefactory.BusinessRuleFactory;
+import define.business.domain.businessrulefactory.TypeBasedBusinessRuleFactory;
 import define.business.domain.businessrules.BusinessRule;
-import define.persistence.adapter.DaoAdapter;
+import define.persistence.targetdaofactory.TypeBasedTargetDaoFactory;
 import define.persistence.dao.BaseDao;
 import define.persistence.dao.DefineOracleDao;
-import define.persistence.dao.TargetOracleDao;
 
 public class DefineController {
-	// hier static die defineconnectionadapters setten
 
-    public DefineController() {}
+	private DefineDao definedao;
 
-	public HashMap<String, HashMap> getDefineData() {
+    public DefineController() {
+    	BaseDao defineconnection = new OracleBaseDao("jdbc:oracle:thin:@//ondora04.hu.nl:1521/EDUC11", "cursist", "cursist8101");
+    	this.definedao = new DefineOracleDao(defineconnection);
+	}
+
+	public HashMap<String, HashMap> getDefineData(String data) {
         try {
-        	BaseDao defineconnectionadapter = new DaoAdapter().serialize("Oracle", "jdbc:oracle:thin:@//ondora04.hu.nl:1521/EDUC11", "cursist", "cursist8101");
+			JSONObject jsondata = new JSONObject(data);
+
         	HashMap<String, HashMap<String, HashMap<String, HashMap<String, ArrayList<String>>>>> ruledata = new HashMap<>();
-        	ruledata = new DefineOracleDao(defineconnectionadapter).getAvailableInput();
+        	ruledata = definedao.getAvailableInput();
         
-        	BaseDao targetconnectionadapter = new DaoAdapter().serialize("Oracle", "jdbc:oracle:thin:@//ondora04.hu.nl:1521/EDUC11", "maurits", "maurits");
         	HashMap<String, HashMap<String, HashMap<String, HashMap<String, String>>>> targetdata = new HashMap<>();
-        	targetdata = new TargetOracleDao(targetconnectionadapter).loadTargetDatabase();
+        	TargetDaoFactory targetdaofactory = new TypeBasedTargetDaoFactory(jsondata.getString("type"), "jdbc:oracle:thin:@//"+jsondata.getString("url"), jsondata.getString("username"), jsondata.getString("password"));
+        	targetdata = targetdaofactory.getTargetDao().loadTargetDatabase();
         	
 			HashMap<String, HashMap> totaldata= new HashMap();
         	totaldata.put("categories", ruledata.get("categories"));
@@ -47,8 +54,7 @@ public class DefineController {
 		BusinessRuleFactory factory = new TypeBasedBusinessRuleFactory(ruletype);
 		BusinessRule rule = factory.createRule(jsondata);
 		
-		BaseDao defineconnectionadapter = new DaoAdapter().serialize("Oracle", "jdbc:oracle:thin:@//ondora04.hu.nl:1521/EDUC11", "cursist", "cursist8101");
-    	String ruledata = new DefineOracleDao(defineconnectionadapter).defineRule(rule);
+    	String ruledata = definedao.defineRule(rule);
     	
     	System.out.println(ruledata); // prints "failed" or "succes"
 		
@@ -59,8 +65,7 @@ public class DefineController {
 		JSONObject jsondata = new JSONObject(data);
 		String rulename = jsondata.get("name").toString();
 		
-		BaseDao defineconnectionadapter = new DaoAdapter().serialize("Oracle", "jdbc:oracle:thin:@//ondora04.hu.nl:1521/EDUC11", "cursist", "cursist8101");
-		return new DefineOracleDao(defineconnectionadapter).deleteBusinessRule(rulename);
+		return definedao.deleteBusinessRule(rulename);
 	}
 	
 	
