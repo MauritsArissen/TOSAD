@@ -31,7 +31,10 @@ export class ManageComponent implements OnInit, AfterViewInit {
   failureMessageText: string = "";
 
   ngOnInit() {
-    this._http.getRequest('http://localhost:8080/tosad-api/restservices/generate/').subscribe(data => {
+    let sendData = {
+      "credentials": this._data.getCredentials()
+    }
+    this._http.postRequest('http://localhost:8080/tosad-api/restservices/generate/', sendData).subscribe(data => {
       for (const item in data) {
         this.triggers.push(data[item])
       }
@@ -56,7 +59,8 @@ export class ManageComponent implements OnInit, AfterViewInit {
     this.selectedIndexRules = null;
 
     let sendData = {
-      'name': triggerName
+      'name': triggerName,
+      "credentials": this._data.getCredentials()
     }
 
     this._http.postRequest('http://localhost:8080/tosad-api/restservices/generate/getbusinessrules', sendData).subscribe(data => {
@@ -88,21 +92,21 @@ export class ManageComponent implements OnInit, AfterViewInit {
   // UNFINISHED, retrieve the selected definition from define database
   runEdit(item) {
     this.selectedRule = item
-    this._http.getRequest('http://localhost:8080/tosad-api/restservices/define/definition/').subscribe(ddata => {
+    let sendData = {
+      'name': this.selectedRule,
+      "credentials": this._data.getCredentials()
+    }
+    this._http.postRequest('http://localhost:8080/tosad-api/restservices/define/definition/', sendData).subscribe(ddata => {
       this.data = ddata
 
       this.refresh()
     })
- 
-    let sendData = {
-      'name': this.selectedRule
-    }
-
   }
 
   runCode() {
     let sendData = {
-      'name': this.triggerName
+      'name': this.triggerName,
+      "credentials": this._data.getCredentials()
     }
 
     this._http.postRequest('http://localhost:8080/tosad-api/restservices/generate/generateTrigger', sendData).subscribe(data => {
@@ -124,7 +128,8 @@ export class ManageComponent implements OnInit, AfterViewInit {
 
   deleteRule() {
     let sendData = {
-      'name': this.selectedRule
+      'name': this.selectedRule,
+      "credentials": this._data.getCredentials()
     }
 
     this._http.postRequest('http://localhost:8080/tosad-api/restservices/define/deleterule', sendData).subscribe(data => {
