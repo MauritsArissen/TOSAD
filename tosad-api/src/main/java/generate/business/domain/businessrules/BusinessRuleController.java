@@ -17,6 +17,7 @@ public class BusinessRuleController {
 
     public Trigger fillTriggerWithRules (ArrayList<HashMap<String, String>> ruleData, Trigger trigger) {
         Trigger updatedTrigger = trigger;
+        System.out.println("Hallo");
         for (HashMap<String, String> list : ruleData) {
             Operator operator = extraController.createOperator(list.get("operatorname"));
             Table table = extraController.createTable(list.get("targettablename"), list.get("targettableattribute"));
