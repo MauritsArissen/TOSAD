@@ -73,12 +73,8 @@ public class DefineResource {
 	@Path("/login") 
 	public Response login(String data) {
 		
-		System.out.println(data);
-		
-		String response = controller.login(data);
-		HashMap<String, String> result = new HashMap();
-		result.put("response", response);
-		ResponseBuilder builder = Response.ok(result);
+		HashMap<String, String> response = controller.login(data);
+		ResponseBuilder builder = Response.ok(response);
 	       
 	    builder.header("Access-Control-Allow-Origin", "*");
         builder.header("Access-Control-Allow-Headers",

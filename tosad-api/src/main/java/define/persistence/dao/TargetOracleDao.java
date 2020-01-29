@@ -3,6 +3,7 @@ package define.persistence.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 
 public class TargetOracleDao implements TargetDao {
@@ -39,5 +40,17 @@ public class TargetOracleDao implements TargetDao {
         dbconnection.closeConnection();
         return data;
 	}
+
+	public HashMap<String, String> testConnection() {
+        Connection conn = dbconnection.getConnection();
+        HashMap<String, String> result = new HashMap();
+        if (conn != null) {
+            result.put("message", "Success");
+        } else {
+            result.put("error", "Database credentials are incorrect");
+        }
+        dbconnection.closeConnection();
+        return result;
+    }
 
 }
