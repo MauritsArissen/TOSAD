@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterViewInit, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataService } from '../data.service';
+import { HttpService } from '../http.service';
 
 declare const M;
 
@@ -23,7 +24,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
   @Output() dataOutput = new EventEmitter<Object>();
 
-  constructor(private router: Router, private _data: DataService) { }
+  constructor(private router: Router, private _data: DataService, private _http: HttpService) { }
 
   ngOnInit() {
   }
@@ -63,8 +64,12 @@ export class LoginComponent implements OnInit, AfterViewInit {
       name: this.name
     }
 
-    this._data.setCredentials(sendData);
-    this.router.navigate(['/define'])
+    this._http.postRequest("http://localhost:8080/tosad-api/restservices/define/login", sendData).subscribe(rdata => {
+      if (!rdata["body"]) return;
+      if (rdata["body"]["error"]) return M.toast({html: rdata["body"]["error"], classes: "errorToast"})
+      this._data.setCredentials(sendData);
+      this.router.navigate(['/define'])
+    })
   }
 
 }

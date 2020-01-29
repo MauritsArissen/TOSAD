@@ -68,10 +68,10 @@ public class DefineController {
 		return definedao.deleteBusinessRule(rulename);
 	}
 	
-	public String login(String data) {
+	public HashMap<String, String> login(String data) {
 		JSONObject jsondata = new JSONObject(data);
     	TargetDaoFactory targetdaofactory = new TypeBasedTargetDaoFactory(jsondata.getString("type"), "jdbc:oracle:thin:@//"+jsondata.getString("url"), jsondata.getString("username"), jsondata.getString("password"));
-    	return "T";
+    	return targetdaofactory.getTargetDao().testConnection();
 	}
 	
 	

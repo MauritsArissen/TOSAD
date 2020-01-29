@@ -34,17 +34,7 @@ public class InterEntityCompareRule implements BusinessRule {
     }
 
     public String generateDynamicPart() {
-        //Checks of het vergelijkbare data types zijn, front-end check?
-        //Checks of het verschillende tabellen zijn, front-end check?
-
-        //geen idee of dit klopt
         String template = "--" + name + " code\n" +
-                "cursor lc_first is\n" +
-                "select " + values.get(1).getValue() + "\n" +
-                "from " + values.get(0).getValue()  + "\n" +
-                "l_targetValue " + values.get(0).getValue() + "." + values.get(1).getValue() + "%type;\n" +
-                "begin\n" +
-                "--" + name + "\n" +
                 "open lc_first;\n" +
                 "fetch lc_first into l_targetValue;\n" +
                 "close lc_first;\n" +
@@ -59,7 +49,10 @@ public class InterEntityCompareRule implements BusinessRule {
 
     public String generateDeclare() {
         String template =  "--" + name + " declare\n" +
-                values.get(1).getValue() + "\n";
+                "cursor lc_first is\n" +
+                "select " + values.get(1).getValue() + "\n" +
+                "from " + values.get(0).getValue()  + "\n" +
+                "l_targetValue " + values.get(0).getValue() + "." + values.get(1).getValue() + "%type;\n";
 
         return template;
     }
