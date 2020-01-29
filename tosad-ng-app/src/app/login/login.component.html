@@ -1,0 +1,42 @@
+<div class="container">
+    <div class="row">
+        <div class="col s4 offset-s4">
+            <div class="login">
+                <h1 class="center">Login</h1>
+                <div class="row">
+                    <div class="col s9">
+                        <input id="host" type="text" class="validate">
+                        <label for="host">Host</label>
+                    </div>
+                    <div class="col s3">
+                        <input id="port" type="number" class="validate">
+                        <label for="port">Port</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s6">
+                        <input id="usernamedb" type="text" class="validate">
+                        <label for="usernamedb">Username</label>
+                    </div>
+                    <div class="col s6">
+                        <input id="passworddb" type="password" class="validate">
+                        <label for="passworddb">Password</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <select [(ngModel)]="dbType">
+                            <option id="typedb" *ngFor="let type of dbTypes" [value]="type">{{type}}</option>
+                        </select>
+                    </div>
+                    <div class="col s12">
+                        <label>Database type</label>
+                    </div>
+                </div>
+            </div>
+            <div class="log-in">
+                <a class="waves-effect orange waves-light btn continue" (click)="sendDefine()">Connect</a>
+            </div>
+        </div>
+    </div>
+</div>

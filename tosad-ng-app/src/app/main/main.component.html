@@ -72,7 +72,7 @@
                     </div>
                 </div>
             </div>
-            <!-- Attribute List rule -->
+            <!-- Attribute Other rule -->
             <div *ngIf="ruletype == 'Attribute Other rule'">
                 <div class="input-field col s12">
                     <textarea id="textarea1" class="materialize-textarea" [(ngModel)]="values[0]"></textarea>
@@ -81,12 +81,28 @@
             </div>
             <!-- Tuple Compare rule -->
             <div *ngIf="ruletype == 'Tuple Compare rule'" class="input-field col s12">
-                <select [(ngModel)]="selectedAttribute">
+                <select [(ngModel)]="values[0]">
                     <option *ngIf="attributes.length == 0" value="none" disabled selected>Choose your table first</option>
                     <option *ngFor="let attribute of attributes" [value]="attribute">{{attribute}}</option>
                 </select>
                 <label>Attribute</label>
             </div>
+            <!-- Inter-Entity Compare rule -->
+            <div *ngIf="ruletype == 'Inter-Entity Compare rule'" class="input-field col s6">
+                <select [(ngModel)]="values[0]" (change)="fixedTablesChange()">
+                    <option *ngIf="attributes.length == 0" value="none" disabled selected>Choose your table first</option>
+                    <option *ngFor="let table of fixedTables" [value]="table">{{table}}</option>
+                </select>
+                <label>Table</label>
+            </div>
+            <div *ngIf="ruletype == 'Inter-Entity Compare rule'" class="input-field col s6">
+                <select [(ngModel)]="values[1]">
+                    <option *ngIf="fixedAttributes.length == 0" value="none" disabled selected>Choose your table first</option>
+                    <option *ngFor="let attri of fixedAttributes" [value]="attri">{{attri}}</option>
+                </select>
+                <label>Table</label>
+            </div>
+            <!-- End -->
         </div>
         <h4 class="col s12">Failure</h4>
         <div class="input-field col s12">
