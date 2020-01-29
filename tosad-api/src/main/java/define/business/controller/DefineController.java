@@ -24,13 +24,15 @@ public class DefineController {
     	this.definedao = new DefineOracleDao(defineconnection);
 	}
 
-	public HashMap<String, HashMap> getDefineData() {
+	public HashMap<String, HashMap> getDefineData(String data) {
         try {
+			JSONObject jsondata = new JSONObject(data);
+
         	HashMap<String, HashMap<String, HashMap<String, HashMap<String, ArrayList<String>>>>> ruledata = new HashMap<>();
         	ruledata = definedao.getAvailableInput();
         
         	HashMap<String, HashMap<String, HashMap<String, HashMap<String, String>>>> targetdata = new HashMap<>();
-        	TargetDaoFactory targetdaofactory = new TypeBasedTargetDaoFactory("Oracle", "jdbc:oracle:thin:@//ondora04.hu.nl:1521/EDUC11", "maurits", "maurits");
+        	TargetDaoFactory targetdaofactory = new TypeBasedTargetDaoFactory(jsondata.getString("type"), "jdbc:oracle:thin:@//"+jsondata.getString("url"), jsondata.getString("username"), jsondata.getString("password"));
         	targetdata = targetdaofactory.getTargetDao().loadTargetDatabase();
         	
 			HashMap<String, HashMap> totaldata= new HashMap();
