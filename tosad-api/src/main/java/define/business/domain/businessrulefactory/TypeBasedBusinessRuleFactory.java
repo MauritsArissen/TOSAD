@@ -1,4 +1,4 @@
-package define.business.domain.factory;
+package define.business.domain.businessrulefactory;
 
 import java.util.ArrayList;
 
