@@ -13,15 +13,23 @@ import java.util.ArrayList;
 public class GenerateController {
     private DefineDao definedao;
     private TargetDao targetDao;
+
     public GenerateController() {
-        TargetDaoFactory targetdaofactory = new TypeBasedTargetDaoFactory("Oracle", "jdbc:oracle:thin:@//ondora04.hu.nl:1521/EDUC11", "maurits", "maurits");
-        this.targetDao = targetdaofactory.getTargetDao();
         BaseDao defineconnection = new OracleBaseDao("jdbc:oracle:thin:@//ondora04.hu.nl:1521/EDUC11", "cursist", "cursist8101");
         this.definedao = new DefineOracleDao(defineconnection);
     }
 
-    public ArrayList returnTriggers() {
-        ArrayList<String> triggerData = definedao.getTriggerInfo();
+    public void setTargetDao(JSONObject data) {
+        TargetDaoFactory targetdaofactory = new TypeBasedTargetDaoFactory(data.get("type").toString(), data.get("url").toString(), data.get("username").toString(), data.get("password").toString());
+        this.targetDao = targetdaofactory.getTargetDao();
+    }
+
+
+    public ArrayList returnTriggers(String data) {
+        JSONObject jsondata = new JSONObject(data);
+        JSONObject credentials = new JSONObject(jsondata.get("credentials"));
+        setTargetDao(credentials);
+        ArrayList<String> triggerData = definedao.getTriggerInfo(credentials.get("name").toString());
 
         return triggerData;
     }
@@ -70,6 +78,9 @@ public class GenerateController {
     }
 
     public ArrayList<String> generateTrigger(String data) {
+        JSONObject jsondata = new JSONObject(data);
+        JSONObject credentials = new JSONObject(jsondata.get("credentials"));
+        setTargetDao(credentials);
         ArrayList<String> triggercode = generateTriggerCode(data);
 
         ArrayList<String> triggerData = targetDao.executeCode(triggercode.get(0));
