@@ -1,5 +1,6 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { HttpService } from '../http.service';
+import { DataService } from '../data.service';
 
 declare const M;
 
@@ -10,7 +11,7 @@ declare const M;
 })
 export class ManageComponent implements OnInit, AfterViewInit {
 
-  constructor(private _http: HttpService) { }
+  constructor(private _http: HttpService, private _data: DataService) { }
 
   triggers = []
   rules = []
