@@ -20,6 +20,14 @@ export class ManageComponent implements OnInit, AfterViewInit {
   selectedIndexTriggers: number = null
   selectedIndexRules: number = null
   selectedRule: String = "";
+  data: Object = {}
+  table: string = "";
+  attribute: string = "";
+  category: string = "";
+  ruletype: string = "";
+  operator: string = "";
+  values: string[] = [];
+  failureMessageText: string = "";
 
   ngOnInit() {
     this._http.getRequest('http://localhost:8080/tosad-api/restservices/generate/').subscribe(data => {
@@ -75,23 +83,19 @@ export class ManageComponent implements OnInit, AfterViewInit {
     
   }
 
-  // Edit to retrieve definition
+  // UNFINISHED, retrieve the selected definition from define database
   runEdit(item) {
     this.selectedRule = item
+    this._http.getRequest('http://localhost:8080/tosad-api/restservices/define/definition/').subscribe(ddata => {
+      this.data = ddata
 
+      this.refresh()
+    })
  
     let sendData = {
       'name': this.selectedRule
     }
 
-    this._http.postRequest('http://localhost:8080/tosad-api/restservices/define/deleterule', sendData).subscribe(data => {
-      var newList = this.rules.slice();
-      this.rules = [];
-      for (const it of newList) {
-        if (it == this.selectedRule) continue;
-        this.rules.push(it)
-      }
-    })
   }
 
   runCode() {
