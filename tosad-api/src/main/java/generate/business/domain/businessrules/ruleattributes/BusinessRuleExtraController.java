@@ -1,16 +1,14 @@
 package generate.business.domain.businessrules.ruleattributes;
 
 import generate.business.domain.businessrules.BusinessRule;
-import generate.persistence.dao.BaseDao;
-import generate.persistence.dao.DefineOracleDao;
-
+import generate.persistence.dao.DefineDao;
 import java.util.ArrayList;
 
 public class BusinessRuleExtraController {
-    private BaseDao generateconnectionadapter;
+    private DefineDao defineDao;
 
-    public BusinessRuleExtraController(BaseDao generateconnectionadapter) {
-        this.generateconnectionadapter = generateconnectionadapter;
+    public BusinessRuleExtraController(DefineDao defineDao) {
+        this.defineDao = defineDao;
     }
 
     public Operator createOperator(String operatorName) {
@@ -23,7 +21,7 @@ public class BusinessRuleExtraController {
     }
 
     public BusinessRule addValuesToRule(BusinessRule rule) {
-        ArrayList<String> values = new DefineOracleDao(generateconnectionadapter).getValuesFromRule(rule.getName());
+        ArrayList<String> values = defineDao.getValuesFromRule(rule.getName());
         for (String value : values) {
             LiteralValue litValue = new LiteralValue(value);
             rule.addValue(litValue);
