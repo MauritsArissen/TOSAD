@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class TupleCompareRule implements BusinessRule {
     private Operator operator;
-    private ArrayList<LiteralValue> values;
+    private ArrayList<LiteralValue> values = new ArrayList<>();
     private Table table;
     private String failuremessage;
     private String name;
@@ -34,10 +34,9 @@ public class TupleCompareRule implements BusinessRule {
 
     public String generateDynamicPart() {
         //Checks of het vergelijkbare data typen zijn, front-end check?
-
         //Er is nog geen onderscheid in de getSelectedTableAttribute(). Het heeft nog geen weet van de twee verschillende attributen
         String template =  "--" + name + "\n" +
-                "l_passed := :new." + table.getSelectedTableAttribute() + " " + operator.getName() + " :new." +
+                "l_passed := :new." + table.getSelectedTableAttribute().getName() + " " + operator.getName() + " :new." +
                 values.get(0).getValue() + ";\n" +
                 "  if not l_passed\n" +
                 "  then\n" +

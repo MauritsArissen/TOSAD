@@ -86,11 +86,11 @@ public class DefineOracleDao implements DefineDao {
    }
 
    public ArrayList<String> getValuesFromRule(String ruleName) {
-       String query = "SELECT parameter.value, \n" +
-               "(SELECT targettableattribute.name FROM targettableattribute WHERE targettableattribute.id = parameterrule.attributeid) as attributename, \n" +
-               "(SELECT targettable.name FROM targettable, targettableattribute WHERE targettableattribute.id = parameterrule.attributeid AND targettableattribute.tableid = targettable.id) as tablename\n" +
-               "FROM parameterrule, parameter, businessrule\n" +
-               "WHERE businessrule.name = ? AND parameterrule.businessruleid = businessrule.id AND parameterrule.parameterid = parameter.id";
+       String query = "SELECT parameterrule.id ,(SELECT parameter.value FROM parameter WHERE parameter.id = parameterrule.parameterid ) as value, \r\n" + 
+       		"(SELECT targettableattribute.name FROM targettableattribute WHERE targettableattribute.id = parameterrule.attributeid) as attributename, \r\n" + 
+       		"(SELECT targettable.name FROM targettable, targettableattribute WHERE targettableattribute.id = parameterrule.attributeid AND targettableattribute.tableid = targettable.id) as tablename\r\n" + 
+       		"FROM parameterrule, businessrule\r\n" + 
+       		"WHERE businessrule.name = ? AND parameterrule.businessruleid = businessrule.id";
        ArrayList<String> result = new ArrayList<>();
        int arrayIndex = 0;
        try (Connection conn = dbconnection.getConnection()) {
