@@ -30,6 +30,7 @@ public class TypeBasedBusinessRuleFactory implements BusinessRuleFactory {
     @Override
     public BusinessRule createRule(JSONObject jsondata) {
     	JSONArray jsonArray = (JSONArray) jsondata.get("values");
+    	JSONObject credentials = jsondata.getJSONObject("credentials");
     	ArrayList<LiteralValue> values = new ArrayList<>();
     	
 		for (Object value : jsonArray) {
@@ -38,9 +39,9 @@ public class TypeBasedBusinessRuleFactory implements BusinessRuleFactory {
 		}
 
     	Operator operator = new Operator(jsondata.get("operator").toString());
-    	// BRG_VB_ must be generated, hardcoded for testing.
-    	String triggercode = "BRG_BRGEN_" + jsondata.get("table").toString().substring(0, 2) + jsondata.get("table").toString().substring(jsondata.get("table").toString().length() - 1) + "_trigger";
-    	String rulename = "BRG_BRGEN_" + jsondata.get("table").toString().substring(0, 2) + jsondata.get("table").toString().substring(jsondata.get("table").toString().length() - 1) + "_CNS_";
+    	String generatedname = credentials.getString("name").substring(0, 3) + credentials.getString("name").substring(credentials.getString("name").length() - 2);
+    	String triggercode = "BRG_" + generatedname + "_" + jsondata.get("table").toString().substring(0, 2) + jsondata.get("table").toString().substring(jsondata.get("table").toString().length() - 1) + "_trigger";
+    	String rulename = "BRG_" + generatedname + "_" + jsondata.get("table").toString().substring(0, 2) + jsondata.get("table").toString().substring(jsondata.get("table").toString().length() - 1) + "_CNS_";
     	Trigger trigger = new Trigger(triggercode, jsondata.get("triggerEvent").toString() , jsondata.get("failureMessage").toString());
     	Table table = new Table(jsondata.get("table").toString(), new TableAttribute(jsondata.get("attribute").toString()));	
     	
