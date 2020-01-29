@@ -25,11 +25,10 @@ public class GenerateController {
     }
 
 
-    public ArrayList returnTriggers(String data) {
+    public ArrayList<String> returnTriggers(String data) {
         JSONObject jsondata = new JSONObject(data);
-        JSONObject credentials = new JSONObject(jsondata.get("credentials"));
-        setTargetDao(credentials);
-        ArrayList<String> triggerData = definedao.getTriggerInfo(credentials.get("name").toString());
+        setTargetDao(jsondata);
+        ArrayList<String> triggerData = definedao.getTriggerInfo(jsondata.getString("name"));
 
         return triggerData;
     }
@@ -44,7 +43,7 @@ public class GenerateController {
 
     public ArrayList<String> generateTriggerCode(String data) {
         JSONObject jsondata = new JSONObject(data);
-
+        System.out.println(jsondata.getString("name"));
         Trigger trigger = new Trigger(jsondata.get("name").toString());
         trigger = new BusinessRuleController(definedao).fillTriggerWithRules(definedao.getAllDataFromTrigger(trigger.getTriggercode()), trigger);
 

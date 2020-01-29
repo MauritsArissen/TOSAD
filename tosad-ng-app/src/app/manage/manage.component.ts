@@ -34,7 +34,7 @@ export class ManageComponent implements OnInit, AfterViewInit {
     let sendData = {
       'credentials': this._data.getCredentials()
     }
-    this._http.postRequest('http://localhost:8080/tosad-api/restservices/generate/', sendData).subscribe(data => {
+    this._http.postRequest('http://localhost:8080/tosad-api/restservices/generate', this._data.getCredentials()).subscribe(data => {
       if (!data['body']) return
       for (const item in data['body']) {
         this.triggers.push(data['body'][item])
@@ -60,8 +60,7 @@ export class ManageComponent implements OnInit, AfterViewInit {
     this.selectedIndexRules = null
 
     let sendData = {
-      'name': triggerName,
-      'credentials': this._data.getCredentials()
+      'name': triggerName
     }
 
     this._http.postRequest('http://localhost:8080/tosad-api/restservices/generate/getbusinessrules', sendData).subscribe(data => {
