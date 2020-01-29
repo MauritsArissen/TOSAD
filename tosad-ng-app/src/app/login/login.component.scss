@@ -1,5 +1,5 @@
 .login {
-    margin-top: 12em;
+    margin-top: 9em;
     background-color: rgb(29, 29, 29);
     width: 100%;
     padding: 5px 10px;
@@ -24,4 +24,8 @@
     box-shadow: none;
     border: 1px solid black;
     border-top: none;
+}
+
+.toast {
+    border-left: 3px solid red;
 }
