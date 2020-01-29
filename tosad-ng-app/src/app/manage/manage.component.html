@@ -86,18 +86,49 @@
         <h4>{{ selectedRule }}</h4>
     </div>
     <div class="modal-content">
-        Texttest
-
-
+        
 
         <div class="row">
             <h4 class="col s12">Table data</h4>
             <div class="input-field col s6">
                 <select [(ngModel)]="table" (change)='tableChange()'>
-                    <option *ngFor="let table of tables" [value]="table">{{table}}</option>
+                    <option [value]="table">{{table}}</option>
                 </select>
                 <label>Table</label>
             </div>
+
+            <div class="input-field col s6">
+                <select [(ngModel)]="attribute" (change)='attributeChange()'>
+                    <!-- <option *ngIf="attributes.length == 0" value="none" disabled selected>Choose your table first</option> -->
+                    <option *ngFor="let attribute of attributes" [value]="attribute">{{attribute}}</option>
+                </select>
+                <label>Atribute</label>
+            </div>
+
+            <div class="input-field col s4">
+                <select [(ngModel)]="category" (change)='categoryChange()'>
+                    <!-- <option *ngIf="categories.length == 0" value="none" disabled selected>Choose your attribute first</option> -->
+                    <option *ngFor="let category of categories" [value]="category">{{category}}</option>
+                </select>
+                <label>category</label>
+            </div>
+
+            <div class="input-field col s4">
+                <select [(ngModel)]="ruletype" (change)='businessRuleTypeChange()'>
+                    <!-- <option *ngIf="businessRuleTypes.length == 0" value="none" disabled selected>Select a category first</option> -->
+                    <option *ngFor="let ruletype of businessRuleTypes" [value]="ruletype">{{ruletype}}</option>
+                </select>
+                <label>BusinessRuleType</label>
+            </div>
+
+            <div class="input-field col s4">
+                <select [(ngModel)]="operator">
+                    <!-- <option *ngIf="operators.length == 0" value="none" disabled selected>Select a business rule type first</option> -->
+                    <option *ngFor="let operator of operators" [value]="operator">{{operator}}</option>
+                </select>
+                <label>Operator</label>
+            </div>
+
         </div>
 
         
