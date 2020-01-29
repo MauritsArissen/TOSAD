@@ -75,9 +75,9 @@ public class DefineResource {
 		
 		System.out.println(data);
 		
-//		String response = controller.login(data);
+		String response = controller.login(data);
 		HashMap<String, String> result = new HashMap();
-//		result.put("response", response);
+		result.put("response", response);
 		ResponseBuilder builder = Response.ok(result);
 	       
 	    builder.header("Access-Control-Allow-Origin", "*");
