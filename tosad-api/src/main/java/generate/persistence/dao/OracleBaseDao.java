@@ -35,6 +35,5 @@ public class OracleBaseDao implements BaseDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("Connection to database closed successfully.");
     }
 }

@@ -1,7 +1,7 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 declare var ipcRenderer: any;
-declare var remote: any;
 
 @Component({
   selector: 'app-toolbar',
@@ -10,11 +10,9 @@ declare var remote: any;
 })
 export class ToolbarComponent implements OnInit {
 
-  private ipc_info: string;
-  private remote_info: string;
   public define: boolean = true;
 
-  constructor(zone: NgZone) {}
+  constructor(private router: Router) {}
 
   ngOnInit() {
   }
@@ -29,6 +27,10 @@ export class ToolbarComponent implements OnInit {
 
   setDefine(bool: boolean) {
     this.define = bool;
+  }
+
+  checkPage(): boolean {
+    return this.router.url != "/"
   }
 
 }
