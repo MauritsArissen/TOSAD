@@ -13,8 +13,8 @@ import java.util.ArrayList;
 public class GenerateResource {
     GenerateController controller = new GenerateController();
 
-    @GET
-    @Produces("application/json")
+    @POST
+//    @Produces("application/json")
     public Response getTriggerInfo() {
 
         ArrayList response = controller.returnTriggers();
