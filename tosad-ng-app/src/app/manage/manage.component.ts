@@ -96,9 +96,9 @@ export class ManageComponent implements OnInit, AfterViewInit {
       'name': this.selectedRule,
       'credentials': this._data.getCredentials()
     }
+    //Unfinished request
     this._http.postRequest('http://localhost:8080/tosad-api/restservices/define/definition/', sendData).subscribe(ddata => {
       this.data = ddata
-      this.refresh()
     })
   }
 
