@@ -21,7 +21,6 @@ export class MainComponent implements OnInit, AfterViewInit {
   values: string[] = [];
   failureMessageText: string = "";
   listLength: number = 2;
-  selectedAttribute: string = "";
   inputType: string = "";
   data: Object = {}
   tables: string[] = [];
@@ -46,6 +45,27 @@ export class MainComponent implements OnInit, AfterViewInit {
   }
  
   sendDefine() {
+
+    console.log(this.values);
+    
+
+    // Toast checks
+    if (this.table == "") {
+      return M.toast({html: "You must select a target table", classes: "errorToast"})
+    } else if (this.attribute == "") {
+      return M.toast({html: "You must select a target attribute", classes: "errorToast"})
+    } else if (this.category == "") {
+      return M.toast({html: "You must select a category", classes: "errorToast"})
+    } else if (this.ruletype == "") {
+      return M.toast({html: "You must select a business rule type", classes: "errorToast"})
+    } else if (this.operator == "") {
+      return M.toast({html: "You must select a operator", classes: "errorToast"})
+    } else if (this.values.includes("") || this.values.includes(null) || this.values.includes(undefined) || this.values == []) {
+      return M.toast({html: "You must select/fill all parameter values", classes: "errorToast"})
+    } else if (this.failureMessageText == "") {
+      return M.toast({html: "You must fill in a failure message", classes: "errorToast"})
+    }
+
     let sendData = {
       "table": this.table,
       "attribute": this.attribute,
@@ -77,7 +97,6 @@ export class MainComponent implements OnInit, AfterViewInit {
     this.values = [];
     this.failureMessageText = "";
     this.listLength = 2;
-    this.selectedAttribute = "";
     this.inputType = "";
     this.refresh()
   }
