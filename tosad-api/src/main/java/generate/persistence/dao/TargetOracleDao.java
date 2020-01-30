@@ -35,12 +35,13 @@ public class TargetOracleDao implements TargetDao {
     public ArrayList<String> deleteOrUpdateTrigger(String triggerName) {
         String query = "DROP TRIGGER " + triggerName;
         ArrayList<String> result = new ArrayList();
+        System.out.println(triggerName);
         try (Connection conn = dbconnection.getConnection()) {
+            System.out.println("In try");
             Statement statement = conn.createStatement();
             statement.execute(query);
 
             result.add("Trigger deleted!");
-
             statement.close();
         } catch (Exception e) {
             result.add("Trigger deleting failed!");
