@@ -27,7 +27,6 @@ public class AttributeOtherRule implements BusinessRule {
 
     public void addValue(LiteralValue value) {
         if(value != null) {
-            System.out.println(value);
             values.add(value);
         }
     }
