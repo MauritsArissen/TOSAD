@@ -42,8 +42,7 @@ public class TargetOracleDao implements TargetDao {
             result.add("Trigger deleted!");
             statement.close();
         } catch (Exception e) {
-            result.add("Trigger deleting failed!");
-            e.printStackTrace();
+            result.add("Trigger does not exist in the database!");
         }
         dbconnection.closeConnection();
         return result;
