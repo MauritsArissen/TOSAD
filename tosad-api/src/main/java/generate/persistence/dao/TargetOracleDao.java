@@ -29,4 +29,23 @@ public class TargetOracleDao implements TargetDao {
         dbconnection.closeConnection();
         return result;
     }
+
+    @Override
+    public ArrayList<String> deleteOrUpdateTrigger(String triggerName) {
+        String query = "DROP TRIGGER " + triggerName;
+        ArrayList<String> result = new ArrayList();
+        try (Connection conn = dbconnection.getConnection()) {
+            Statement statement = conn.createStatement();
+            statement.execute(query);
+
+            result.add("Trigger deleted!");
+
+            statement.close();
+        } catch (Exception e) {
+            result.add("Trigger deleting failed!");
+            e.printStackTrace();
+        }
+        dbconnection.closeConnection();
+        return result;
+    }
 }
