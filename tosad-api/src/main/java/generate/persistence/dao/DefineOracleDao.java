@@ -15,9 +15,7 @@ public class DefineOracleDao implements DefineDao {
         //hardcoded application
 
         String shortName = "BRG_" + name.substring(0, 3) + name.substring(name.length() - 2);;
-       System.out.println(shortName);
         String query = "select name from generatedtrigger WHERE REGEXP_LIKE(name, '^" + shortName + "')";
-       System.out.println(query);
         ArrayList<String> result = new ArrayList();
        try (Connection conn = dbconnection.getConnection()) {
 
@@ -101,8 +99,6 @@ public class DefineOracleDao implements DefineDao {
        		"(SELECT targettable.name FROM targettable, targettableattribute WHERE targettableattribute.id = parameterrule.attributeid AND targettableattribute.tableid = targettable.id) as tablename\r\n" + 
        		"FROM parameterrule, businessrule\r\n" + 
        		"WHERE businessrule.name = ? AND parameterrule.businessruleid = businessrule.id";
-       System.out.println(query);
-       System.out.println(ruleName);
        ArrayList<String> result = new ArrayList<>();
        int arrayIndex = 0;
        try (Connection conn = dbconnection.getConnection()) {

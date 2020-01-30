@@ -31,9 +31,6 @@ export class ManageComponent implements OnInit, AfterViewInit {
   failureMessageText: string = ''
 
   ngOnInit() {
-    let sendData = {
-      'credentials': this._data.getCredentials()
-    }
     this._http.postRequest('http://localhost:8080/tosad-api/restservices/generate', this._data.getCredentials()).subscribe(data => {
       if (!data['body']) return
       for (const item in data['body']) {
@@ -81,7 +78,8 @@ export class ManageComponent implements OnInit, AfterViewInit {
     this.triggerName = triggerName
 
     let sendData = {
-      'name': triggerName
+      'name': triggerName,
+      'credentials': this._data.getCredentials()
     }
 
     this._http.postRequest('http://localhost:8080/tosad-api/restservices/generate/generateTriggerCode', sendData).subscribe(data => {
@@ -134,15 +132,20 @@ export class ManageComponent implements OnInit, AfterViewInit {
       'name': this.selectedRule,
       'credentials': this._data.getCredentials()
     }
-
+    let deleteData = {
+      'name': this.triggers[this.selectedIndexTriggers],
+      'credentials': this._data.getCredentials()
+    }
+    
     this._http.postRequest('http://localhost:8080/tosad-api/restservices/define/deleterule', sendData).subscribe(data => {
-      console.log(data)
+      if (!data["body"]) return;
       var newList = this.rules.slice()
       this.rules = []
       for (const it of newList) {
         if (it == this.selectedRule) continue
         this.rules.push(it)
       }
+      this._http.postRequest('http://localhost:8080/tosad-api/restservices/generate/deleteTrigger', deleteData).subscribe(data => {});
     })
   }
 
