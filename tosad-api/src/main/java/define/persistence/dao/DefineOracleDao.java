@@ -107,7 +107,7 @@ public class DefineOracleDao implements DefineDao {
 		String ruletypecode = getRuletypeFromRule(rule.getType());
 		
 		try (Connection conn = dbconnection.getConnection()) {
-        	if (ruletypecode.equals("ARNG") || ruletypecode.equals("ACMP") || ruletypecode.equals("ALIS") || ruletypecode.equals("AOTH") || ruletypecode.equals("TOTH")) {
+        	if (ruletypecode.equals("ARNG") || ruletypecode.equals("ACMP") || ruletypecode.equals("ALIS") || ruletypecode.equals("AOTH") || ruletypecode.equals("TOTH") || ruletypecode.equals("EOTH") || ruletypecode.equals("MODI")) {
         		String parameterinsert = "insert into parameter (value) values (?)"; 
         		String parameterruleinsert = "insert into parameterrule (businessruleid, parameterid) values (?, ?)";
         		
@@ -145,12 +145,27 @@ public class DefineOracleDao implements DefineDao {
 				parameterruleinsertstatement.setInt(2, columnid);
 				parameterruleinsertstatement.executeUpdate();
 				
-       
-        		
-        	} else if (ruletypecode.equals("EOTH")) {
-        		
-        	} else if (ruletypecode.equals("MODI")) {
-        		
+				// pk and fk inserts
+				String parameterinsert = "insert into parameter (value) values (?)"; 
+        		String parameterrulekeyinsertquery = "insert into parameterrule (businessruleid, parameterid) values (?, ?)";
+				ArrayList<String> keys = new ArrayList<>();
+				keys.add(rule.getValues().get(2).getValue());
+				keys.add(rule.getValues().get(3).getValue());
+				
+				for (String key : keys ) {
+        			PreparedStatement pstatement = conn.prepareStatement(parameterinsert);
+        			pstatement.setString(1, key);
+                    pstatement.executeQuery();
+                    
+                    pstatement.close();
+                
+    				int parid = getParameterId();
+    				  		
+    				PreparedStatement parameterrulekeyinsertstatement = conn.prepareStatement(parameterrulekeyinsertquery);
+    				parameterrulekeyinsertstatement.setInt(1, ruleid);
+    				parameterrulekeyinsertstatement.setInt(2, parid);
+    				parameterrulekeyinsertstatement.executeUpdate();
+				}
         	}
         	
 		} catch (Exception e) {
