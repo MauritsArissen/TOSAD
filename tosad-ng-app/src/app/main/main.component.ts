@@ -21,7 +21,7 @@ export class MainComponent implements OnInit, AfterViewInit {
   values: string[] = [];
   failureMessageText: string = "";
   query: string = "";
-  listLength: number = 6;
+  listLength: number = 2;
   selectedAttribute: string = "";
   inputType: string = "";
   data: Object = {}

@@ -30,13 +30,18 @@ export class ManageComponent implements OnInit, AfterViewInit {
   values: string[] = []
   failureMessageText: string = ''
 
-  ngOnInit() {
+  getData() {
     this._http.postRequest('http://localhost:8080/tosad-api/restservices/generate', this._data.getCredentials()).subscribe(data => {
       if (!data['body']) return
+      this.triggers = [];
       for (const item in data['body']) {
         this.triggers.push(data['body'][item])
       }
     })
+  }
+
+  ngOnInit() {
+    this.getData()
   }
 
   ngAfterViewInit(): void {
@@ -145,6 +150,7 @@ export class ManageComponent implements OnInit, AfterViewInit {
         this.rules.push(it)
       }
       this._http.postRequest('http://localhost:8080/tosad-api/restservices/generate/deleteTrigger', deleteData).subscribe(data => {});
+      this.getData()
     })
   }
 
