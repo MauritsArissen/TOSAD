@@ -62,7 +62,7 @@ public class DefineOracleDao implements DefineDao {
                "(select template.constraint from template where template.dbtypeid = (SELECT databasetype.id from databasetype where databasetype.name = 'Oracle') AND template.ruletypecode = businessruletype.code) as constraint, \n" +
                "(select template.declare from template where template.dbtypeid = (SELECT databasetype.id from databasetype where databasetype.name = 'Oracle') AND template.ruletypecode = businessruletype.code) as declare\n" +
                "FROM generatedtrigger, businessrule, businessruletype, operator\n" +
-               "WHERE generatedtrigger.id = businessrule.triggerid AND operator.id = businessrule.operatorid AND businessrule.type = businessruletype.code AND generatedtrigger.name = ?;";
+               "WHERE generatedtrigger.id = businessrule.triggerid AND operator.id = businessrule.operatorid AND businessrule.type = businessruletype.code AND generatedtrigger.name = ?";
        ArrayList result = new ArrayList();
        int arrayIndex = 0;
        try (Connection conn = dbconnection.getConnection()) {
