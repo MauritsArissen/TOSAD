@@ -107,7 +107,7 @@ public class DefineOracleDao implements DefineDao {
 		String ruletypecode = getRuletypeFromRule(rule.getType());
 		
 		try (Connection conn = dbconnection.getConnection()) {
-        	if (ruletypecode.equals("ARNG") || ruletypecode.equals("ACMP") || ruletypecode.equals("ALIS") || ruletypecode.equals("AOTH")) {
+        	if (ruletypecode.equals("ARNG") || ruletypecode.equals("ACMP") || ruletypecode.equals("ALIS") || ruletypecode.equals("AOTH") || ruletypecode.equals("TOTH")) {
         		String parameterinsert = "insert into parameter (value) values (?)"; 
         		String parameterruleinsert = "insert into parameterrule (businessruleid, parameterid) values (?, ?)";
         		
@@ -145,7 +145,7 @@ public class DefineOracleDao implements DefineDao {
 				parameterruleinsertstatement.setInt(2, columnid);
 				parameterruleinsertstatement.executeUpdate();
 				
-        	} else if (ruletypecode.equals("TOTH")) {
+       
         		
         	} else if (ruletypecode.equals("EOTH")) {
         		
@@ -506,19 +506,37 @@ public class DefineOracleDao implements DefineDao {
 	public String deleteBusinessRule(String name) {
 		String dparameterrule = "delete from parameterrule where businessruleid = (select id from businessrule where name = ?)";
 		String dbusinessrule  = "delete from businessrule where name = ?";
+		String triggeridquery = "select * from generatedtrigger where id = (select triggerid from businessrule where name = ?)";
 		boolean prdeleted = false;
 		boolean brdeleted = false;
 		
 		try (Connection conn = dbconnection.getConnection()) {
+			// get triggerid before deleting rule
+			int triggerid = 0;
+			PreparedStatement tid = conn.prepareStatement(triggeridquery);
+			tid.setString(1, name);
+			ResultSet tresult = tid.executeQuery();
+			
+			while (tresult.next()) {
+				triggerid = tresult.getInt("id");
+			}
+			tid.close();
+			tresult.close();
+			
+			// delete from parameterrule
 			PreparedStatement prule = conn.prepareStatement(dparameterrule);
 			prule.setString(1, name);
 			prdeleted = prule.executeUpdate() > 0;
 			prule.close();
 			
+			// delete from businessrule
 			PreparedStatement brule = conn.prepareStatement(dbusinessrule);
 			brule.setString(1, name);
 			brdeleted = brule.executeUpdate() > 0;
 			brule.close();
+			
+			// only works if the trigger doesn't have any business rules.
+			deleteTrigger(triggerid);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -527,6 +545,36 @@ public class DefineOracleDao implements DefineDao {
 			return "success";
 		} else {
 			return "failed";
+		}
+	}
+	
+	private void deleteTrigger(int id) {		
+		String findrulesquery = "select * from businessrule where triggerid = ?";
+		String deletetriggerquery = "delete from generatedtrigger where id = ?";
+				
+		try (Connection conn = dbconnection.getConnection()) {			
+			// check if the trigger has any rules left
+			int rules = 0;
+			PreparedStatement findrules = conn.prepareStatement(findrulesquery);
+			findrules.setInt(1, id);
+			ResultSet rulesresult = findrules.executeQuery();
+			while (rulesresult.next()) {
+				rules++;
+			}
+			findrules.close();
+			
+			System.out.println(rules);
+			
+			// delete trigger if there are no more rules
+			if (rules == 0) {
+				PreparedStatement deltrigger = conn.prepareStatement(deletetriggerquery);
+				deltrigger.setInt(1, id);
+				deltrigger.executeQuery();		
+				deltrigger.close();
+			}	
+			
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	
