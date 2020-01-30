@@ -20,7 +20,7 @@ public class GenerateController {
     }
 
     public void setTargetDao(JSONObject data) {
-        TargetDaoFactory targetdaofactory = new TypeBasedTargetDaoFactory(data.get("type").toString(), "jdbc:oracle:thin:@//"+data.get("url").toString(), data.get("username").toString(), data.get("password").toString());
+        TargetDaoFactory targetdaofactory = new TypeBasedTargetDaoFactory(data.get("type").toString(), data.get("url").toString(), data.get("username").toString(), data.get("password").toString());
         this.targetDao = targetdaofactory.getTargetDao();
     }
 
@@ -77,7 +77,7 @@ public class GenerateController {
 
     public ArrayList<String> generateTrigger(String data) {
         JSONObject jsondata = new JSONObject(data);
-        JSONObject credentials = jsondata.getJSONObject("credentials");
+        JSONObject credentials = new JSONObject(jsondata.get("credentials"));
         setTargetDao(credentials);
         ArrayList<String> triggercode = generateTriggerCode(data);
 
