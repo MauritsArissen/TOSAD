@@ -39,14 +39,21 @@ public class AttributeRangeRule implements BusinessRule {
     }
 
     public String generateDynamicPart() {
-        String template =  "--" + name + "\n" +
-                "l_passed := :new." + table.getSelectedTableAttribute().getName() + " " + operator.getName() + " " +
-                values.get(0).getValue() + " and " + values.get(1).getValue() + ";\n" +
-                "  if not l_passed\n" +
-                "  then\n" +
-                "    l_error_stack := '" + failuremessage + "';\n" +
-                "    raise_application_error( -20800, l_error_stack );\n" +
-                "  end if;\n";
+        String template = "--" + name + "\n";
+        constraintTemplate.replace("[selectedTableAttributeName]", table.getSelectedTableAttribute().getName());
+        constraintTemplate.replace("[operator]", operator.getName());
+        constraintTemplate.replace("[value 1]", values.get(0).getValue());
+        constraintTemplate.replace("[value 2]", values.get(1).getValue());
+        constraintTemplate.replace("[failuremessage]", failuremessage);
+        template += constraintTemplate;
+//        String template =  "--" + name + "\n" +
+//                "l_passed := :new." + table.getSelectedTableAttribute().getName() + " " + operator.getName() + " " +
+//                values.get(0).getValue() + " and " + values.get(1).getValue() + ";\n" +
+//                "  if not l_passed\n" +
+//                "  then\n" +
+//                "    l_error_stack := '" + failuremessage + "';\n" +
+//                "    raise_application_error( -20800, l_error_stack );\n" +
+//                "  end if;\n";
         return template;
     }
 
