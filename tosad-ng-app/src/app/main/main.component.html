@@ -102,12 +102,28 @@
                 </select>
                 <label>Table</label>
             </div>
-            <div *ngIf="ruletype == 'Inter-Entity Compare rule'" class="input-field col s6">
+            <div *ngIf="ruletype == 'Inter-Entity Compare rule'" class="input-field col s6" (change)="refresh()">
                 <select [(ngModel)]="values[1]">
                     <option *ngIf="fixedAttributes.length == 0" value="none" disabled selected>Choose your table first</option>
                     <option *ngFor="let attri of fixedAttributes" [value]="attri">{{attri}}</option>
                 </select>
                 <label>Attribute</label>
+            </div>
+            <div *ngIf="values[1]">
+                <div *ngIf="ruletype == 'Inter-Entity Compare rule'" class="input-field col s6">
+                    <select [(ngModel)]="values[2]">
+                        <option *ngIf="attributes.length == 0" value="none" disabled selected>Choose your table first</option>
+                        <option *ngFor="let att of attributes" [value]="att">{{att}}</option>
+                    </select>
+                    <label>{{table}} key</label>
+                </div>
+                <div *ngIf="ruletype == 'Inter-Entity Compare rule'" class="input-field col s6">
+                    <select [(ngModel)]="values[3]">
+                        <option *ngIf="fixedAttributes.length == 0" value="none" disabled selected>Choose your table first</option>
+                        <option *ngFor="let att of fixedAttributes" [value]="att">{{att}}</option>
+                    </select>
+                    <label>{{values[0]}} key</label>
+                </div>
             </div>
             <!-- Entity Other rule -->
             <div *ngIf="ruletype == 'Entity Other rule'">
@@ -117,6 +133,19 @@
                 </div>
             </div>
             <div *ngIf="ruletype == 'Entity Other rule'">
+                <div class="input-field col s6">
+                    <textarea id="textarea2" class="materialize-textarea" [(ngModel)]="values[1]"></textarea>
+                    <label for="textarea2">Query</label>
+                </div>
+            </div>
+            <!-- Modify rule -->
+            <div *ngIf="ruletype == 'Modify rule'">
+                <div class="input-field col s6">
+                    <textarea id="textarea1" class="materialize-textarea" [(ngModel)]="values[0]"></textarea>
+                    <label for="textarea1">Declare</label>
+                </div>
+            </div>
+            <div *ngIf="ruletype == 'Modify rule'">
                 <div class="input-field col s6">
                     <textarea id="textarea2" class="materialize-textarea" [(ngModel)]="values[1]"></textarea>
                     <label for="textarea2">Query</label>

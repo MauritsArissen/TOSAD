@@ -46,9 +46,6 @@ export class MainComponent implements OnInit, AfterViewInit {
  
   sendDefine() {
 
-    console.log(this.values);
-    
-
     // Toast checks
     if (this.table == "") {
       return M.toast({html: "You must select a target table", classes: "errorToast"})
