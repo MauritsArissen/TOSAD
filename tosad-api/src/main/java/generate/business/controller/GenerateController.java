@@ -77,13 +77,29 @@ public class GenerateController {
 
     public ArrayList<String> generateTrigger(String data) {
         JSONObject jsondata = new JSONObject(data);
-        JSONObject credentials = new JSONObject(jsondata.get("credentials"));
+        JSONObject credentials = jsondata.getJSONObject("credentials");
         setTargetDao(credentials);
         ArrayList<String> triggercode = generateTriggerCode(data);
 
         ArrayList<String> triggerData = targetDao.executeCode(triggercode.get(0));
 
         return triggerData;
+    }
+
+    public ArrayList<String> deleteOrUpdateTrigger(String data) {
+        JSONObject jsondata = new JSONObject(data);
+        JSONObject credentials = jsondata.getJSONObject("credentials");
+        String triggerName = jsondata.getString("triggerName");
+        setTargetDao(credentials);
+        ArrayList<String> returnData = new ArrayList<>();
+
+        returnData = targetDao.deleteOrUpdateTrigger(triggerName);
+        ArrayList<String> triggerData = generateTrigger(data);
+        for(String s : triggerData) {
+            returnData.add(s);
+        }
+
+        return returnData;
     }
 
 }
