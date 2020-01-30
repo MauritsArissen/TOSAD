@@ -45,8 +45,12 @@ public class AttributeCompareRule implements BusinessRule {
     public String generateDynamicPart() {
         String template = "--" + name + "\n";
         constraintTemplate = constraintTemplate.replace("[selectedTableAttributeName]", table.getSelectedTableAttribute().getName());
+        if(NumberUtils.isNumber(values.get(0).getValue())) {
+            constraintTemplate = constraintTemplate.replace("[value]", values.get(0).getValue());
+        } else {
+            constraintTemplate = constraintTemplate.replace("[value]", "'" + values.get(0).getValue() + "'");
+        }
         constraintTemplate = constraintTemplate.replace("[operator]", operator.getName());
-        constraintTemplate = constraintTemplate.replace("[value]", values.get(0).getValue());
         constraintTemplate = constraintTemplate.replace("[failuremessage]", failuremessage);
         template += constraintTemplate + "\n\n";
         return template;

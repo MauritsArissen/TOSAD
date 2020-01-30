@@ -46,8 +46,8 @@ public class ModifyRule implements BusinessRule {
 
     public String generateDeclare() {
         String template = "--" + name + " declare \n";
-        constraintTemplate = constraintTemplate.replace("[value 0]", values.get(1).getValue());
-        template += constraintTemplate + "\n";
+        declareTemplate = declareTemplate.replace("[value 0]", values.get(1).getValue());
+        template += declareTemplate + "\n";
         return template;
     }
 }
