@@ -20,7 +20,6 @@ export class MainComponent implements OnInit, AfterViewInit {
   operator: string = "";
   values: string[] = [];
   failureMessageText: string = "";
-  query: string = "";
   listLength: number = 2;
   selectedAttribute: string = "";
   inputType: string = "";
@@ -59,8 +58,28 @@ export class MainComponent implements OnInit, AfterViewInit {
       "credentials": this._data.getCredentials()
     }
     this._http.postRequest('http://localhost:8080/tosad-api/restservices/define/saverule', sendData).subscribe(o => {
-      this.query = "Post request sent."
+      if (!o['body']) return;
+      if (o['body']['response']) {
+        this.resetData()
+        M.toast({html: "Define rule successful", classes: "okToast"})
+      } else {
+        M.toast({html: "Define rule failed", classes: "errorToast"})
+      }
     })
+  }
+
+  resetData() {
+    this.table = "";
+    this.attribute = "";
+    this.category = "";
+    this.ruletype = "";
+    this.operator = "";
+    this.values = [];
+    this.failureMessageText = "";
+    this.listLength = 2;
+    this.selectedAttribute = "";
+    this.inputType = "";
+    this.refresh()
   }
 
   tableChange() {
