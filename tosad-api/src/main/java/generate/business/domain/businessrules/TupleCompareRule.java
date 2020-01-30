@@ -12,12 +12,16 @@ public class TupleCompareRule implements BusinessRule {
     private Table table;
     private String failuremessage;
     private String name;
+    private String constraintTemplate;
+    private String declareTemplate;
 
-    public TupleCompareRule(Operator operator, Table table, String failuremessage, String name) {
+    public TupleCompareRule(Operator operator, Table table, String failuremessage, String name, String constraintTemplate, String declareTemplate) {
         this.operator = operator;
         this.table = table;
         this.failuremessage = failuremessage;
         this.name = name;
+        this.constraintTemplate = constraintTemplate;
+        this.declareTemplate = declareTemplate;
     }
 
     public void addValue(LiteralValue value) {
