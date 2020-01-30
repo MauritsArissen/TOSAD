@@ -21,7 +21,7 @@ public class BusinessRuleController {
             Operator operator = extraController.createOperator(list.get("operatorname"));
             Table table = extraController.createTable(list.get("targettablename"), list.get("targettableattribute"));
             BusinessRuleFactory factory = new TypeBasedBusinessRuleFactory(list.get("businessruletypename"));
-            BusinessRule rule = factory.createRule(operator, table, list.get("failure_message"), list.get("businessrulename"), "", "");
+            BusinessRule rule = factory.createRule(operator, table, list.get("failure_message"), list.get("businessrulename"), list.get("constraint"), list.get("declare"));
             rule = extraController.addValuesToRule(rule);
             updatedTrigger.addBusinessRule(rule);
         }
