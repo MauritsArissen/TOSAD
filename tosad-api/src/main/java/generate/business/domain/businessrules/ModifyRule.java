@@ -38,7 +38,7 @@ public class ModifyRule implements BusinessRule {
 
     public String generateDynamicPart() {
         String template = "--" + name + " constraint\n";
-        constraintTemplate = constraintTemplate.replace("[value 1]", values.get(0).getValue());
+        constraintTemplate = constraintTemplate.replace("[value 1]", values.get(1).getValue());
         constraintTemplate = constraintTemplate.replace("[failuremessage]", failuremessage);
         template += constraintTemplate + "\n\n";
         return template;
@@ -46,7 +46,7 @@ public class ModifyRule implements BusinessRule {
 
     public String generateDeclare() {
         String template = "--" + name + " declare \n";
-        declareTemplate = declareTemplate.replace("[value 0]", values.get(1).getValue());
+        declareTemplate = declareTemplate.replace("[value 0]", values.get(0).getValue());
         template += declareTemplate + "\n";
         return template;
     }
