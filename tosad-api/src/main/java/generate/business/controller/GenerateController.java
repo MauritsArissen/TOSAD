@@ -45,34 +45,40 @@ public class GenerateController {
         JSONObject jsondata = new JSONObject(data);
         JSONObject credentials = jsondata.getJSONObject("credentials");
         Trigger trigger = new Trigger(jsondata.get("name").toString());
+        ArrayList<String> returnList = new ArrayList<>();
+        System.out.println();
+
         trigger = new BusinessRuleController(definedao).fillTriggerWithRules(definedao.getAllDataFromTrigger(trigger.getTriggercode(), credentials.getString("type")), trigger);
 
-        ArrayList<BusinessRule> ruleList = trigger.getBusinessRules();
-        String tablename = "";
-        String bRuleString = "";
-        String bRuleDeclare = "";
+        if(trigger.getBusinessRules().size() > 0) {
+            ArrayList<BusinessRule> ruleList = trigger.getBusinessRules();
+            String tablename = "";
+            String bRuleString = "";
+            String bRuleDeclare = "";
 
-        for (BusinessRule bRule : ruleList) {
-            tablename = bRule.getTable().getName();
-            bRuleString += bRule.generateDynamicPart();
-            bRuleDeclare += bRule.generateDeclare();
+            for (BusinessRule bRule : ruleList) {
+                tablename = bRule.getTable().getName();
+                bRuleString += bRule.generateDynamicPart();
+                bRuleDeclare += bRule.generateDeclare();
+            }
+
+            String triggerString = "create or replace trigger " + trigger.getTriggercode() + "\n" +
+                    trigger.getTriggerevent() + "\n" +
+                    "  on " + tablename + "\n" +
+                    "  for each row\n" +
+                    "declare\n" +
+                    "  l_passed boolean := true;\n" +
+                    "  l_error_stack varchar2(4000);\n" +
+                    bRuleDeclare +
+                    " begin\n";
+
+            triggerString += bRuleString;
+
+            triggerString += "end " + trigger.getTriggercode() + ";";
+            returnList.add(triggerString);
+        }else {
+
         }
-
-        String triggerString = "create or replace trigger " + trigger.getTriggercode() + "\n" +
-                trigger.getTriggerevent() + "\n" +
-                "  on " + tablename + "\n" +
-                "  for each row\n" +
-                "declare\n" +
-                "  l_passed boolean := true;\n" +
-                "  l_error_stack varchar2(4000);\n" +
-                bRuleDeclare +
-                " begin\n";
-
-        triggerString += bRuleString;
-
-        triggerString += "end " + trigger.getTriggercode() + ";";
-        ArrayList<String> returnList = new ArrayList<>();
-        returnList.add(triggerString);
         return returnList;
     }
 

@@ -563,8 +563,6 @@ public class DefineOracleDao implements DefineDao {
 			}
 			findrules.close();
 			
-			System.out.println(rules);
-			
 			// delete trigger if there are no more rules
 			if (rules == 0) {
 				PreparedStatement deltrigger = conn.prepareStatement(deletetriggerquery);
