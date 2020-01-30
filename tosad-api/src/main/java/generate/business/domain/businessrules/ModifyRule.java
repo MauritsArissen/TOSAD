@@ -37,21 +37,17 @@ public class ModifyRule implements BusinessRule {
     }
 
     public String generateDynamicPart() {
-        String template =  "--" + name + " code\n" +
-                values.get(0).getValue() + "\n" +
-                "  if not l_passed\n" +
-                "  then\n" +
-                "    l_error_stack := '" + failuremessage + "';\n" +
-                "    raise_application_error( -20800, l_error_stack );\n" +
-                "  end if;\n";
-
+        String template = "--" + name + " constraint\n";
+        constraintTemplate = constraintTemplate.replace("[value 1]", values.get(0).getValue());
+        constraintTemplate = constraintTemplate.replace("[failuremessage]", failuremessage);
+        template += constraintTemplate + "\n\n";
         return template;
     }
 
     public String generateDeclare() {
-        String template =  "--" + name + " declare\n" +
-                values.get(1).getValue() + "\n";
-
+        String template = "--" + name + " declare \n";
+        constraintTemplate = constraintTemplate.replace("[value 0]", values.get(1).getValue());
+        template += constraintTemplate + "\n";
         return template;
     }
 }

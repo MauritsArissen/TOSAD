@@ -77,7 +77,7 @@ public class GenerateController {
             triggerString += "end " + trigger.getTriggercode() + ";";
             returnList.add(triggerString);
         }else {
-
+        	returnList.add("No rules in trigger");
         }
         return returnList;
     }
@@ -87,8 +87,12 @@ public class GenerateController {
         JSONObject credentials = jsondata.getJSONObject("credentials");
         setTargetDao(credentials);
         ArrayList<String> triggercode = generateTriggerCode(data);
-
-        ArrayList<String> triggerData = targetDao.executeCode(triggercode.get(0));
+        ArrayList<String> triggerData = new ArrayList<String>();
+        if(triggercode.get(0).equals("No rules in trigger")) {
+        	triggerData = triggercode;
+        } else {
+            triggerData = targetDao.executeCode(triggercode.get(0));	
+        }
 
         return triggerData;
     }
