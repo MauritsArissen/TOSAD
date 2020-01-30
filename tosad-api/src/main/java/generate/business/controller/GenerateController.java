@@ -5,6 +5,7 @@ import generate.persistence.targetdaofactory.TypeBasedTargetDaoFactory;
 import generate.persistence.dao.*;
 import generate.business.domain.businessrules.BusinessRule;
 import generate.business.domain.businessrules.BusinessRuleController;
+import generate.business.domain.businessrules.BusinessRuleControllerInterface;
 import generate.business.domain.businessrules.ruleattributes.*;
 import org.json.JSONObject;
 
@@ -48,7 +49,8 @@ public class GenerateController {
         ArrayList<String> returnList = new ArrayList<>();
         System.out.println();
 
-        trigger = new BusinessRuleController(definedao).fillTriggerWithRules(definedao.getAllDataFromTrigger(trigger.getTriggercode(), credentials.getString("type")), trigger);
+        BusinessRuleControllerInterface rulecomponentcontroller = new BusinessRuleController(definedao);
+        trigger = rulecomponentcontroller.fillTriggerWithRules(definedao.getAllDataFromTrigger(trigger.getTriggercode(), credentials.getString("type")), trigger);
 
         if(trigger.getBusinessRules().size() > 0) {
             ArrayList<BusinessRule> ruleList = trigger.getBusinessRules();

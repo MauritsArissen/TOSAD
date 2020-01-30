@@ -8,7 +8,7 @@ import generate.persistence.dao.DefineDao;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class BusinessRuleController {
+public class BusinessRuleController implements BusinessRuleControllerInterface {
     private BusinessRuleExtraController extraController;
 
     public BusinessRuleController(DefineDao defineDao) {

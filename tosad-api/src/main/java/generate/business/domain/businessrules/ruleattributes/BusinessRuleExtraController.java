@@ -4,7 +4,7 @@ import generate.business.domain.businessrules.BusinessRule;
 import generate.persistence.dao.DefineDao;
 import java.util.ArrayList;
 
-public class BusinessRuleExtraController {
+public class BusinessRuleExtraController implements BusinessRuleExtraControllerInterface {
     private DefineDao defineDao;
 
     public BusinessRuleExtraController(DefineDao defineDao) {
