@@ -40,13 +40,10 @@ public class AttributeOtherRule implements BusinessRule {
     }
 
     public String generateDynamicPart() {
-        String template =  "--" + name + "\n" +
-                "l_passed := " + values.get(0).getValue() + ";\n" +
-                "  if not l_passed\n" +
-                "  then\n" +
-                "    l_error_stack := '" + failuremessage + "';\n" +
-                "    raise_application_error( -20800, l_error_stack );\n" +
-                "  end if;\n";
+        String template = "--" + name + "\n";
+        constraintTemplate = constraintTemplate.replace("[value]", values.get(0).getValue());
+        constraintTemplate = constraintTemplate.replace("[failuremessage]", failuremessage);
+        template += constraintTemplate + "\n\n";
         return template;
     }
 
