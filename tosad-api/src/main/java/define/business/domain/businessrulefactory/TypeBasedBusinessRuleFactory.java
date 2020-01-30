@@ -16,6 +16,7 @@ import define.business.domain.businessrules.AttributeOtherRule;
 import define.business.domain.businessrules.BusinessRule;
 import define.business.domain.businessrules.EntityOtherRule;
 import define.business.domain.businessrules.InterEntityCompareRule;
+import define.business.domain.businessrules.ModifyRule;
 import define.business.domain.businessrules.RangeRule;
 import define.business.domain.businessrules.TupleCompareRule;
 import define.business.domain.businessrules.TupleOtherRule;
@@ -62,8 +63,7 @@ public class TypeBasedBusinessRuleFactory implements BusinessRuleFactory {
         } else if (type.equals("Entity Other rule")) {
         	return new EntityOtherRule(rulename, operator, trigger, table, values, type);
         } else {
-        	// modify rule
-            return null;
+        	return new ModifyRule(rulename, operator, trigger, table, values, type);
         }
     }
 }

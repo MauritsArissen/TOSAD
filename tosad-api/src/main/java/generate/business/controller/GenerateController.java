@@ -45,7 +45,6 @@ public class GenerateController {
         JSONObject jsondata = new JSONObject(data);
         JSONObject credentials = jsondata.getJSONObject("credentials");
         Trigger trigger = new Trigger(jsondata.get("name").toString());
-        System.out.println(data);
         trigger = new BusinessRuleController(definedao).fillTriggerWithRules(definedao.getAllDataFromTrigger(trigger.getTriggercode(), credentials.getString("type")), trigger);
 
         ArrayList<BusinessRule> ruleList = trigger.getBusinessRules();
