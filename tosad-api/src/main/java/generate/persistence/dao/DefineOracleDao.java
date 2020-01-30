@@ -55,12 +55,12 @@ public class DefineOracleDao implements DefineDao {
        return result;
    }
 
-   public ArrayList<HashMap<String, String>> getAllDataFromTrigger(String triggername) {
+   public ArrayList<HashMap<String, String>> getAllDataFromTrigger(String triggername, String databaseType) {
        String query = "SELECT generatedtrigger.name as triggername,(SELECT name from targettableattribute WHERE targettableattribute.id = businessrule.attributeid) AS targettableattribute,\n" +
                "(SELECT targettable.name from targettable ,targettableattribute WHERE targettableattribute.id = businessrule.attributeid AND targettable.id = targettableattribute.tableid) as targettablename,\n" +
                "businessrule.failure_message, businessrule.name as businessrulename, businessruletype.name as businessruletypename, operator.name as operatorname, \n" +
-               "(select template.constraint from template where template.dbtypeid = (SELECT databasetype.id from databasetype where databasetype.name = 'Oracle') AND template.ruletypecode = businessruletype.code) as constraint, \n" +
-               "(select template.declare from template where template.dbtypeid = (SELECT databasetype.id from databasetype where databasetype.name = 'Oracle') AND template.ruletypecode = businessruletype.code) as declare\n" +
+               "(select template.constraint from template where template.dbtypeid = (SELECT databasetype.id from databasetype where databasetype.name = ?) AND template.ruletypecode = businessruletype.code) as constraint, \n" +
+               "(select template.declare from template where template.dbtypeid = (SELECT databasetype.id from databasetype where databasetype.name = ?) AND template.ruletypecode = businessruletype.code) as declare\n" +
                "FROM generatedtrigger, businessrule, businessruletype, operator\n" +
                "WHERE generatedtrigger.id = businessrule.triggerid AND operator.id = businessrule.operatorid AND businessrule.type = businessruletype.code AND generatedtrigger.name = ?";
        ArrayList result = new ArrayList();
@@ -68,7 +68,9 @@ public class DefineOracleDao implements DefineDao {
        try (Connection conn = dbconnection.getConnection()) {
 
            PreparedStatement statement = conn.prepareStatement(query);
-           statement.setString(1, triggername);
+           statement.setString(1, databaseType);
+           statement.setString(2, databaseType);
+           statement.setString(3, triggername);
            ResultSet resultset = statement.executeQuery();
            while(resultset.next()) {
                HashMap rowResult = new HashMap();
@@ -79,6 +81,8 @@ public class DefineOracleDao implements DefineDao {
                rowResult.put("businessrulename", resultset.getString("businessrulename"));
                rowResult.put("businessruletypename", resultset.getString("businessruletypename"));
                rowResult.put("operatorname", resultset.getString("operatorname"));
+               rowResult.put("constraint", resultset.getString("constraint"));
+               rowResult.put("declare", resultset.getString("declare"));
 
                result.add(rowResult);
            }
