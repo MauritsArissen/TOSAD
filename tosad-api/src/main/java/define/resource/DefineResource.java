@@ -72,7 +72,7 @@ public class DefineResource {
 	@POST
 	@Path("/login") 
 	public Response login(String data) {
-		System.out.println("hi");
+		
 		HashMap<String, String> response = controller.login(data);
 		ResponseBuilder builder = Response.ok(response);
 	       

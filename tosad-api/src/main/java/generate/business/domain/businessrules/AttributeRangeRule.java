@@ -13,17 +13,13 @@ public class AttributeRangeRule implements BusinessRule {
     private Table table;
     private String failuremessage;
     private String name;
-    private String constraintTemplate;
-    private String declareTemplate;
 
     public AttributeRangeRule(Operator operator,
-                              Table table, String failuremessage, String name, String constraintTemplate, String declareTemplate) {
+                              Table table, String failuremessage, String name) {
         this.operator = operator;
         this.table = table;
         this.failuremessage = failuremessage;
         this.name = name;
-        this.constraintTemplate = constraintTemplate;
-        this.declareTemplate = declareTemplate;
     }
 
     public void addValue(LiteralValue value) {
@@ -39,13 +35,6 @@ public class AttributeRangeRule implements BusinessRule {
     }
 
     public String generateDynamicPart() {
-//        String template = "--" + name + "\n";
-//        constraintTemplate.replace("[selectedTableAttributeName]", table.getSelectedTableAttribute().getName());
-//        constraintTemplate.replace("[operator]", operator.getName());
-//        constraintTemplate.replace("[value 1]", values.get(0).getValue());
-//        constraintTemplate.replace("[value 2]", values.get(1).getValue());
-//        constraintTemplate.replace("[failuremessage]", failuremessage);
-
         String template =  "--" + name + "\n" +
                 "l_passed := :new." + table.getSelectedTableAttribute().getName() + " " + operator.getName() + " " +
                 values.get(0).getValue() + " and " + values.get(1).getValue() + ";\n" +

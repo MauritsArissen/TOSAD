@@ -63,7 +63,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
       type: this.dbType,
       name: this.name
     }
-    
+
     this._http.postRequest("http://localhost:8080/tosad-api/restservices/define/login", sendData).subscribe(rdata => {
       if (!rdata["body"]) return;
       if (rdata["body"]["error"]) return M.toast({html: rdata["body"]["error"], classes: "errorToast"})
