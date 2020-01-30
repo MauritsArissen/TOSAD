@@ -59,7 +59,7 @@ export class MainComponent implements OnInit, AfterViewInit {
     }
     this._http.postRequest('http://localhost:8080/tosad-api/restservices/define/saverule', sendData).subscribe(o => {
       if (!o['body']) return;
-      if (o['body']['response']) {
+      if (o['body']['response'] == "successful") {
         this.resetData()
         M.toast({html: "Define rule successful", classes: "okToast"})
       } else {

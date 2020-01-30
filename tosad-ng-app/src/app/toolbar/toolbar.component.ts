@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { DataService } from '../data.service';
 
 declare var ipcRenderer: any;
 
@@ -12,7 +13,7 @@ export class ToolbarComponent implements OnInit {
 
   public define: boolean = true;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private _data: DataService) {}
 
   ngOnInit() {
   }
@@ -31,6 +32,11 @@ export class ToolbarComponent implements OnInit {
 
   checkPage(): boolean {
     return this.router.url != "/"
+  }
+
+  resetCreds(): void {
+    let clearData: Object;
+    this._data.setCredentials(clearData);
   }
 
 }
