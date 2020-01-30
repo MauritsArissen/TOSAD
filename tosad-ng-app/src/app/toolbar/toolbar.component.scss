@@ -70,3 +70,12 @@
         
     }
 }
+
+.size {
+    font-size: 2rem;
+    height: 30px;
+    transition: 0.2s;
+    &:hover {
+        color: rgb(255, 52, 52) !important;
+    }
+}
