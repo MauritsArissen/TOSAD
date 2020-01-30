@@ -31,9 +31,6 @@ export class ManageComponent implements OnInit, AfterViewInit {
   failureMessageText: string = ''
 
   ngOnInit() {
-    let sendData = {
-      'credentials': this._data.getCredentials()
-    }
     this._http.postRequest('http://localhost:8080/tosad-api/restservices/generate', this._data.getCredentials()).subscribe(data => {
       if (!data['body']) return
       for (const item in data['body']) {
