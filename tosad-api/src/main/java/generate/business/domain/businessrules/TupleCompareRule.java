@@ -35,7 +35,7 @@ public class TupleCompareRule implements BusinessRule {
     public String generateDynamicPart() {
         String template =  "--" + name + "\n" +
                 "l_passed := :new." + table.getSelectedTableAttribute().getName() + " " + operator.getName() + " :new." +
-                values.get(0).getValue() + ";\n" +
+                values.get(1).getValue() + ";\n" +
                 "  if not l_passed\n" +
                 "  then\n" +
                 "    l_error_stack := '" + failuremessage + "';\n" +
