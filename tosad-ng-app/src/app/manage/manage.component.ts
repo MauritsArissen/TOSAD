@@ -117,7 +117,11 @@ export class ManageComponent implements OnInit, AfterViewInit {
     this._http.postRequest('http://localhost:8080/tosad-api/restservices/generate/generateTrigger', sendData).subscribe(data => {
       if (!data['body']) return
       for (const item in data['body']) {
-        M.toast({html: data['body'][item]})
+        if (data['body'][item] == "Trigger compiled!") {
+          M.toast({html: data['body'][item], classes: "okToast"})
+        } else {
+          M.toast({html: data['body'][item], classes: "errorToast"})
+        }
       }
     })
   }
@@ -146,6 +150,11 @@ export class ManageComponent implements OnInit, AfterViewInit {
       if (!data["body"]) return;
       var newList = this.rules.slice()
       this.rules = []
+      if (data['body']['response'] == "success") {
+        M.toast({html: "Rule deleted from trigger", classes: "okToast"})
+      } else {
+        M.toast({html: "Something went wrong deleting the rule", classes: "errorToast"})
+      }
       for (const it of newList) {
         if (it == this.selectedRule) continue
         this.rules.push(it)

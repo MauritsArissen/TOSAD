@@ -7,8 +7,10 @@
         <a routerLink="/manage" [ngClass]="{'active': !define}" (click)="setDefine(false)">Manage</a>
     </div>
     <div class="right">
-        <button routerLink="/" class="log" *ngIf="checkPage()" (click)="resetCreds()">Log</button>
         <button (click)="minApp()">—</button>
         <button (click)="quitApp()" class="exit">✕</button>
+    </div>
+    <div class="right">
+        <button routerLink="/" class="log" *ngIf="checkPage()" (click)="resetCreds()" class="size material-icons">exit_to_app</button>
     </div>
 </div>
