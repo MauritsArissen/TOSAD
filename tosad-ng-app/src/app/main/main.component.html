@@ -135,8 +135,11 @@
             <div *ngIf="ruletype == 'Entity Other rule'">
                 <div class="input-field col s6">
                     <textarea id="textarea2" class="materialize-textarea" [(ngModel)]="values[1]"></textarea>
-                    <label for="textarea2">Query</label>
+                    <label for="textarea2">Constraint</label>
                 </div>
+            </div>
+            <div *ngIf="ruletype == 'Entity Other rule'" class="col s12">
+                <p>Don't forget to fill in <span class="green-hi">l_passed := </span> with a true/false constraint after</p>
             </div>
             <!-- Modify rule -->
             <div *ngIf="ruletype == 'Modify rule'">
@@ -148,8 +151,11 @@
             <div *ngIf="ruletype == 'Modify rule'">
                 <div class="input-field col s6">
                     <textarea id="textarea2" class="materialize-textarea" [(ngModel)]="values[1]"></textarea>
-                    <label for="textarea2">Query</label>
+                    <label for="textarea2">Constraint</label>
                 </div>
+            </div>
+            <div *ngIf="ruletype == 'Modify rule'" class="col s6 offset-s6">
+                <p>Don't forget to fill in <span class="green-hi">l_passed := </span> with a true/false constraint after</p>
             </div>
             <!-- End -->
         </div>
